@@ -58,6 +58,20 @@ button:focus-visible{outline:3px solid #E8A33D;outline-offset:2px}
       </div>
     </section>
 
+    <section style="max-width: 1200px; margin: 0 auto; padding: 32px 20px 0;">
+      <div style="background: #E8A33D; color: #111C1C; border: 2px solid #111C1C; border-radius: 28px; box-shadow: 6px 6px 0 #111C1C; padding: 20px 24px; display: flex; flex-wrap: wrap; gap: 20px; align-items: center;">
+        <img src="{{fun.img}}" alt="{{fun.name}}" style="width: 112px; height: 112px; border-radius: 20px; border: 2px solid #111C1C; object-fit: cover; object-position: {{fun.pos}}; flex: none;">
+        <div style="flex: 1 1 320px; min-width: 0;">
+          <p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">Fun fact · {{fun.name}}</p>
+          <p style="margin: 6px 0 0; font-family: 'Lilita One', system-ui, sans-serif; font-size: 23px; line-height: 1.3; letter-spacing: 0.2px;">{{fun.text}}</p>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+          <button onClick="{{fun.next}}" style="background: #111C1C; color: #FFFFFF; border: 2px solid #111C1C; border-radius: 999px; padding: 10px 18px; min-height: 44px; font-size: 15px; font-weight: 700;">Encore un !</button>
+          <button onClick="{{fun.open}}" style="background: #FFFFFF; color: #111C1C; border: 2px solid #111C1C; border-radius: 999px; padding: 10px 18px; min-height: 44px; font-size: 15px; font-weight: 700;">Voir la fiche</button>
+        </div>
+      </div>
+    </section>
+
     <section id="plan" style="max-width: 1200px; margin: 0 auto; padding: 40px 20px 8px; scroll-margin-top: 16px;">
       <h2 style="margin: 0; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 36px; letter-spacing: 0.6px; color: #202020;">Où trouver chaque animal&nbsp;?</h2>
       <p style="margin: 6px 0 20px; font-size: 16px; color: #364153;">Touche un numéro du plan pour voir qui y vit, puis ouvre sa fiche.</p>
@@ -95,7 +109,7 @@ button:focus-visible{outline:3px solid #E8A33D;outline-offset:2px}
           <sc-for list="{{spotAnimals}}" as="a" hint-placeholder-count="3">
             <sc-if value="{{a.hasFiche}}" hint-placeholder-val="{{false}}">
               <button onClick="{{a.open}}" style="display: flex; gap: 12px; align-items: center; text-align: left; background: #F6F3EA; border: 2px solid #3F7D58; border-radius: 16px; padding: 8px; color: #101828;">
-                <img src="{{a.img}}" alt="" style="width: 56px; height: 56px; border-radius: 12px; object-fit: cover; flex: none;">
+                <img src="{{a.img}}" alt="" style="width: 56px; height: 56px; border-radius: 12px; object-fit: cover; object-position: {{a.pos}}; flex: none;">
                 <span style="display: flex; flex-direction: column; min-width: 0;">
                   <span style="font-weight: 700;">{{a.name}}</span>
                   <span style="font-size: 13px; color: #2F6446; font-weight: 600;">Ouvrir la fiche →</span>
@@ -104,7 +118,7 @@ button:focus-visible{outline:3px solid #E8A33D;outline-offset:2px}
             </sc-if>
             <sc-if value="{{a.noFiche}}" hint-placeholder-val="{{true}}">
               <div style="display: flex; gap: 12px; align-items: center; padding: 8px; border-radius: 16px; border: 1px solid #EFEBE0;">
-                <img src="{{a.img}}" alt="" style="width: 56px; height: 56px; border-radius: 12px; object-fit: cover; flex: none;">
+                <img src="{{a.img}}" alt="" style="width: 56px; height: 56px; border-radius: 12px; object-fit: cover; object-position: {{a.pos}}; flex: none;">
                 <span style="display: flex; flex-direction: column; min-width: 0;">
                   <span style="font-weight: 600;">{{a.name}}</span>
                   <span style="font-size: 13px; font-style: italic; color: #5B6472;">{{a.latin}}</span>
@@ -134,7 +148,7 @@ button:focus-visible{outline:3px solid #E8A33D;outline-offset:2px}
               <sc-if value="{{a.hasFiche}}" hint-placeholder-val="{{false}}">
                 <button onClick="{{a.open}}" style="text-align: left; background: #FFFFFF; border: 2px solid #3F7D58; border-radius: 20px; padding: 0; overflow: hidden; display: flex; flex-direction: column; color: #101828; box-shadow: 0 6px 0 #3F7D58;">
                   <div style="height: 150px; background: #DDE9E0; position: relative; overflow: hidden;">
-                    <img src="{{a.img}}" alt="{{a.name}} à La Garenne" style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.36); transform-origin: 28% 72%; display: block;">
+                    <img src="{{a.img}}" alt="{{a.name}} à La Garenne" style="width: 100%; height: 100%; object-fit: cover; object-position: {{a.pos}}; display: block;">
                     <span style="position: absolute; top: 10px; left: 10px; font-size: 12px; font-weight: 600; color: #364153; background: #FFFFFF; padding: 3px 10px; border-radius: 999px;">{{a.cls}}</span>
                   </div>
                   <div style="padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 2px;">
@@ -149,7 +163,7 @@ button:focus-visible{outline:3px solid #E8A33D;outline-offset:2px}
               <sc-if value="{{a.noFiche}}" hint-placeholder-val="{{true}}">
                 <div style="background: #FFFFFF; border: 1px solid #E3DFD3; border-radius: 20px; overflow: hidden; display: flex; flex-direction: column;">
                   <div style="height: 150px; background: #DDE9E0; position: relative; overflow: hidden;">
-                    <img src="{{a.img}}" alt="{{a.name}} à La Garenne" style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.36); transform-origin: 28% 72%; display: block;">
+                    <img src="{{a.img}}" alt="{{a.name}} à La Garenne" style="width: 100%; height: 100%; object-fit: cover; object-position: {{a.pos}}; display: block;">
                     <span style="position: absolute; top: 10px; left: 10px; font-size: 12px; font-weight: 600; color: #364153; background: #FFFFFF; padding: 3px 10px; border-radius: 999px;">{{a.cls}}</span>
                   </div>
                   <div style="padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 2px;">
@@ -194,7 +208,7 @@ button:focus-visible{outline:3px solid #E8A33D;outline-offset:2px}
             </sc-if>
           </div>
           <div style="flex: 1 1 360px; min-width: 0; height: 320px; border-radius: 28px; background: #2A3B3B; overflow: hidden;">
-            <img src="{{f.img}}" alt="{{f.imgAlt}}" style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.36); transform-origin: 28% 72%; display: block;">
+            <img src="{{f.img}}" alt="{{f.imgAlt}}" style="width: 100%; height: 100%; object-fit: cover; object-position: {{f.pos}}; display: block;">
           </div>
         </div>
       </div>
@@ -215,6 +229,20 @@ button:focus-visible{outline:3px solid #E8A33D;outline-offset:2px}
           </sc-for>
         </div>
       </section>
+
+      <sc-if value="{{f.hasFun}}" hint-placeholder-val="{{true}}">
+      <section style="background: #E8A33D; color: #111C1C; border-radius: 28px; padding: 24px;">
+        <h2 style="margin: 0 0 14px; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 30px; letter-spacing: 0.6px;">Fun facts</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px;">
+          <sc-for list="{{f.fun}}" as="x" hint-placeholder-count="2">
+            <div style="background: #FFFFFF; border: 2px solid #111C1C; border-radius: 18px; padding: 16px; display: flex; gap: 12px; align-items: flex-start;">
+              <span aria-hidden="true" style="font-family: 'Lilita One', system-ui, sans-serif; font-size: 30px; line-height: 1; color: #3F7D58;">!</span>
+              <p style="margin: 0; font-size: 16px; color: #101828;">{{x}}</p>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+      </sc-if>
 
       <!-- PUBLIC -->
       <sc-if value="{{isPublic}}" hint-placeholder-val="{{true}}">
@@ -351,45 +379,45 @@ button:focus-visible{outline:3px solid #E8A33D;outline-offset:2px}
 </template>
 <script type="text/x-dc" id="dc-logic">
 var ANIMALS = [
-  { id: "sanglier", name: "Sanglier", latin: "Sus scrofa", sector: "lynx", cls: "Mammifère", img: "assets/sanglier-card.png" },
-  { id: "lynx", name: "Lynx d'Europe", latin: "Lynx lynx · sous-espèce des Carpates", sector: "lynx", cls: "Mammifère", nick: "Igor et Rimava (Ava)", img: "assets/lynx-card.png" },
-  { id: "loup", name: "Loup gris", latin: "Canis lupus", sector: "lynx", cls: "Mammifère", nick: "River et Rhéa", img: "assets/loup.png" },
-  { id: "oie", name: "Oie de Diepholz", latin: "Anser anser f. domestica", sector: "ferme", cls: "Race domestique", img: "assets/oie.png" },
-  { id: "poule-appenzelloise", name: "Poule appenzelloise huppée", latin: "Gallus gallus f. domestica", sector: "ferme", cls: "Race domestique", img: "assets/poule-app.png" },
-  { id: "poule-suisse", name: "Poule suisse", latin: "Gallus gallus f. domestica", sector: "ferme", cls: "Race domestique", img: "assets/poule-suisse.png" },
-  { id: "chevre-appenzell", name: "Chèvre d'Appenzell", latin: "Capra aegagrus hircus", sector: "ferme", cls: "Race domestique", nick: "Maman, Cracotte et Biscotte", img: "assets/chevre-app.png" },
-  { id: "cochon-laineux", name: "Cochon laineux", latin: "Sus scrofa f. domestica", sector: "ferme", cls: "Race domestique", img: "assets/cochon.png" },
-  { id: "mouton-saas", name: "Mouton de Saas", latin: "Ovis aries", sector: "ferme", cls: "Race domestique", img: "assets/mouton.png" },
-  { id: "chevre-grigia", name: "Grande chèvre (Grigia)", latin: "Capra hircus", sector: "ferme", cls: "Race domestique", img: "assets/grande-chevre.png" },
-  { id: "vautour", name: "Vautour fauve", latin: "Gyps fulvus", sector: "voliere", cls: "Oiseau", img: "assets/vautour.png" },
-  { id: "bouquetin", name: "Bouquetin des Alpes", latin: "Capra ibex", sector: "voliere", cls: "Mammifère", img: "assets/bouquetin.png" },
-  { id: "marmotte", name: "Marmotte des Alpes", latin: "Marmota marmota", sector: "voliere", cls: "Mammifère", img: "assets/marmotte.png" },
-  { id: "ibis", name: "Ibis chauve", latin: "Geronticus eremita", sector: "voliere", cls: "Oiseau", img: "assets/ibis.png" },
-  { id: "pigeon", name: "Pigeon ramier", latin: "Columba palumbus", sector: "autres", cls: "Oiseau", img: "assets/pigeon.png" },
-  { id: "etourneau", name: "Étourneau sansonnet", latin: "Sturnus vulgaris", sector: "autres", cls: "Oiseau", img: "assets/etourneau.png" },
-  { id: "merle", name: "Merle noir", latin: "Turdus merula", sector: "autres", cls: "Oiseau", img: "assets/merle.png" },
-  { id: "effraie", name: "Effraie des clochers", latin: "Tyto alba", sector: "autres", cls: "Oiseau", img: "assets/effraie.png" },
-  { id: "buse", name: "Buse variable", latin: "Buteo buteo", sector: "autres", cls: "Oiseau", img: "assets/buse.png" },
-  { id: "milan-royal", name: "Milan royal", latin: "Milvus milvus", sector: "autres", cls: "Oiseau", img: "assets/milan.png" },
-  { id: "milan-noir", name: "Milan noir", latin: "Milvus migrans", sector: "autres", cls: "Oiseau", img: "assets/milan.png" },
-  { id: "grand-duc", name: "Hibou grand-duc", latin: "Bubo bubo", sector: "autres", cls: "Oiseau", img: "assets/grandduc.png" },
-  { id: "gypaete", name: "Gypaète barbu", latin: "Gypaetus barbatus", sector: "autres", cls: "Oiseau", img: "assets/gypaete.png" },
-  { id: "cigogne", name: "Cigogne blanche", latin: "Ciconia ciconia", sector: "autres", cls: "Oiseau", nick: "Rick et Morty", img: "assets/cigogne.png" },
-  { id: "lievre", name: "Lièvre brun", latin: "Lepus europaeus", sector: "autres", cls: "Mammifère", img: "assets/lievre.png" },
-  { id: "ecureuil", name: "Écureuil roux", latin: "Sciurus vulgaris", sector: "autres", cls: "Mammifère", nick: "Scrat", img: "assets/ecureuil.png" },
-  { id: "renard", name: "Renard roux", latin: "Vulpes vulpes", sector: "autres", cls: "Mammifère", img: "assets/renard.png" },
-  { id: "fouine", name: "Fouine", latin: "Martes foina", sector: "autres", cls: "Mammifère", img: "assets/fouine.png" },
-  { id: "loutre", name: "Loutre d'Europe", latin: "Lutra lutra", sector: "autres", cls: "Mammifère", nick: "Imane", img: "assets/loutre.png" },
-  { id: "herisson", name: "Hérisson d'Europe", latin: "Erinaceus europaeus", sector: "autres", cls: "Mammifère", img: "assets/herisson.png" },
-  { id: "castor", name: "Castor d'Europe", latin: "Castor fiber", sector: "autres", cls: "Mammifère", img: "assets/castor.png" },
-  { id: "raton", name: "Raton laveur", latin: "Procyon lotor", sector: "autres", cls: "Mammifère", img: "assets/raton.png" },
-  { id: "chat-forestier", name: "Chat forestier", latin: "Felis silvestris", sector: "autres", cls: "Mammifère", img: "assets/chat.png" },
-  { id: "cerf", name: "Cerf élaphe", latin: "Cervus elaphus", sector: "autres", cls: "Mammifère", img: "assets/cerf.png" },
-  { id: "tortue", name: "Tortue d'Hermann", latin: "Testudo hermanni", sector: "autres", cls: "Reptile", img: "assets/tortue.png" },
-  { id: "cistude", name: "Cistude d'Europe", latin: "Emys orbicularis", sector: "autres", cls: "Reptile", img: "assets/cistude.png" },
-  { id: "salamandre", name: "Salamandre tachetée", latin: "Salamandra salamandra", sector: "autres", cls: "Amphibien", img: "assets/salamandre.png" },
-  { id: "sonneur", name: "Sonneur à ventre jaune", latin: "Bombina variegata", sector: "autres", cls: "Amphibien", img: "assets/sonneur.png" },
-  { id: "crapaud", name: "Crapaud commun", latin: "Bufo bufo", sector: "autres", cls: "Amphibien", img: "assets/crapaud.png" }
+  { id: "sanglier", name: "Sanglier", latin: "Sus scrofa", sector: "lynx", cls: "Mammifère", img: "assets/sanglier-card.jpg" },
+  { id: "lynx", name: "Lynx d'Europe", latin: "Lynx lynx · sous-espèce des Carpates", sector: "lynx", cls: "Mammifère", nick: "Igor et Rimava (Ava)", img: "assets/lynx-card.jpg" },
+  { id: "loup", name: "Loup gris", latin: "Canis lupus", sector: "lynx", cls: "Mammifère", nick: "River et Rhéa", img: "assets/loup.jpg" },
+  { id: "oie", name: "Oie de Diepholz", latin: "Anser anser f. domestica", sector: "ferme", cls: "Race domestique", img: "assets/oie.jpg" },
+  { id: "poule-appenzelloise", name: "Poule appenzelloise huppée", latin: "Gallus gallus f. domestica", sector: "ferme", cls: "Race domestique", img: "assets/poule-app.jpg" },
+  { id: "poule-suisse", name: "Poule suisse", latin: "Gallus gallus f. domestica", sector: "ferme", cls: "Race domestique", img: "assets/poule-suisse.jpg" },
+  { id: "chevre-appenzell", name: "Chèvre d'Appenzell", latin: "Capra aegagrus hircus", sector: "ferme", cls: "Race domestique", nick: "Maman, Cracotte et Biscotte", img: "assets/chevre-app.jpg" },
+  { id: "cochon-laineux", name: "Cochon laineux", latin: "Sus scrofa f. domestica", sector: "ferme", cls: "Race domestique", img: "assets/cochon.jpg" },
+  { id: "mouton-saas", name: "Mouton de Saas", latin: "Ovis aries", sector: "ferme", cls: "Race domestique", img: "assets/mouton.jpg" },
+  { id: "chevre-grigia", name: "Grande chèvre (Grigia)", latin: "Capra hircus", sector: "ferme", cls: "Race domestique", img: "assets/grande-chevre.jpg" },
+  { id: "vautour", name: "Vautour fauve", latin: "Gyps fulvus", sector: "voliere", cls: "Oiseau", img: "assets/vautour.jpg" },
+  { id: "bouquetin", name: "Bouquetin des Alpes", latin: "Capra ibex", sector: "voliere", cls: "Mammifère", img: "assets/bouquetin.jpg" },
+  { id: "marmotte", name: "Marmotte des Alpes", latin: "Marmota marmota", sector: "voliere", cls: "Mammifère", img: "assets/marmotte.jpg" },
+  { id: "ibis", name: "Ibis chauve", latin: "Geronticus eremita", sector: "voliere", cls: "Oiseau", img: "assets/ibis.jpg" },
+  { id: "pigeon", name: "Pigeon ramier", latin: "Columba palumbus", sector: "autres", cls: "Oiseau", img: "assets/pigeon.jpg" },
+  { id: "etourneau", name: "Étourneau sansonnet", latin: "Sturnus vulgaris", sector: "autres", cls: "Oiseau", img: "assets/etourneau.jpg" },
+  { id: "merle", name: "Merle noir", latin: "Turdus merula", sector: "autres", cls: "Oiseau", img: "assets/merle.jpg" },
+  { id: "effraie", name: "Effraie des clochers", latin: "Tyto alba", sector: "autres", cls: "Oiseau", img: "assets/effraie.jpg" },
+  { id: "buse", name: "Buse variable", latin: "Buteo buteo", sector: "autres", cls: "Oiseau", img: "assets/buse.jpg" },
+  { id: "milan-royal", name: "Milan royal", latin: "Milvus milvus", sector: "autres", cls: "Oiseau", img: "assets/milan.jpg" },
+  { id: "milan-noir", name: "Milan noir", latin: "Milvus migrans", sector: "autres", cls: "Oiseau", img: "assets/milan.jpg" },
+  { id: "grand-duc", name: "Hibou grand-duc", latin: "Bubo bubo", sector: "autres", cls: "Oiseau", img: "assets/grandduc.jpg" },
+  { id: "gypaete", name: "Gypaète barbu", latin: "Gypaetus barbatus", sector: "autres", cls: "Oiseau", img: "assets/gypaete.jpg" },
+  { id: "cigogne", name: "Cigogne blanche", latin: "Ciconia ciconia", sector: "autres", cls: "Oiseau", nick: "Rick et Morty", img: "assets/cigogne.jpg" },
+  { id: "lievre", name: "Lièvre brun", latin: "Lepus europaeus", sector: "autres", cls: "Mammifère", img: "assets/lievre.jpg" },
+  { id: "ecureuil", name: "Écureuil roux", latin: "Sciurus vulgaris", sector: "autres", cls: "Mammifère", nick: "Scrat", img: "assets/ecureuil.jpg" },
+  { id: "renard", name: "Renard roux", latin: "Vulpes vulpes", sector: "autres", cls: "Mammifère", img: "assets/renard.jpg" },
+  { id: "fouine", name: "Fouine", latin: "Martes foina", sector: "autres", cls: "Mammifère", img: "assets/fouine.jpg" },
+  { id: "loutre", name: "Loutre d'Europe", latin: "Lutra lutra", sector: "autres", cls: "Mammifère", nick: "Imane", img: "assets/loutre.jpg" },
+  { id: "herisson", name: "Hérisson d'Europe", latin: "Erinaceus europaeus", sector: "autres", cls: "Mammifère", img: "assets/herisson.jpg" },
+  { id: "castor", name: "Castor d'Europe", latin: "Castor fiber", sector: "autres", cls: "Mammifère", img: "assets/castor.jpg" },
+  { id: "raton", name: "Raton laveur", latin: "Procyon lotor", sector: "autres", cls: "Mammifère", img: "assets/raton.jpg" },
+  { id: "chat-forestier", name: "Chat forestier", latin: "Felis silvestris", sector: "autres", cls: "Mammifère", img: "assets/chat.jpg" },
+  { id: "cerf", name: "Cerf élaphe", latin: "Cervus elaphus", sector: "autres", cls: "Mammifère", img: "assets/cerf.jpg" },
+  { id: "tortue", name: "Tortue d'Hermann", latin: "Testudo hermanni", sector: "autres", cls: "Reptile", img: "assets/tortue.jpg" },
+  { id: "cistude", name: "Cistude d'Europe", latin: "Emys orbicularis", sector: "autres", cls: "Reptile", img: "assets/cistude.jpg" },
+  { id: "salamandre", name: "Salamandre tachetée", latin: "Salamandra salamandra", sector: "autres", cls: "Amphibien", img: "assets/salamandre.jpg" },
+  { id: "sonneur", name: "Sonneur à ventre jaune", latin: "Bombina variegata", sector: "autres", cls: "Amphibien", img: "assets/sonneur.jpg" },
+  { id: "crapaud", name: "Crapaud commun", latin: "Bufo bufo", sector: "autres", cls: "Amphibien", img: "assets/crapaud.jpg" }
 ];
 
 var SECTORS = [
@@ -449,7 +477,7 @@ var FICHES = {
     sector: "Secteur loups et lynx",
     tagline: "Le plus grand félin d'Europe, discret au point qu'on le croise rarement. Mais lui t'a sans doute déjà vu…",
     meet: "À La Garenne : Igor et Rimava (Ava), secteur loups et lynx",
-    img: "assets/lynx-card.png",
+    img: "assets/lynx-card.jpg",
     imgAlt: "Lynx d'Europe (sous-espèce des Carpates) couché sur les feuilles mortes, regard vers l'objectif",
     spot: 24,
     id: [
@@ -504,7 +532,7 @@ var FICHES = {
     sector: "Secteur loups et lynx",
     tagline: "Un nez surpuissant, une famille très organisée et un goût prononcé pour les bains de boue.",
     meet: "À La Garenne : secteur loups et lynx",
-    img: "assets/sanglier-card.png",
+    img: "assets/sanglier-card.jpg",
     imgAlt: "Sanglier couché dans la boue, à La Garenne",
     spot: 22,
     id: [
@@ -2223,10 +2251,175 @@ Object.assign(FICHES, {
   }
 });
 
+// Cadrage des photos (object-position) quand l'animal n'est pas centré.
+var POS = {
+  "lynx": "70% 50%", "bouquetin": "35% 50%", "cigogne": "65% 40%", "loup": "55% 40%", "renard": "65% 50%",
+  "oie": "70% 50%", "pigeon": "40% 50%", "merle": "35% 50%", "poule-appenzelloise": "40% 50%",
+  "salamandre": "55% 50%", "milan-royal": "30% 50%", "milan-noir": "30% 50%", "chat-forestier": "60% 50%",
+  "cerf": "50% 30%", "herisson": "60% 50%", "raton": "60% 50%", "gypaete": "40% 40%", "vautour": "40% 40%"
+};
+
+// Fun facts : courts, surprenants, vérifiables.
+var FUN = {
+  "lynx": [
+    "« Œil de lynx » ? L'expression vient de Lyncée, un héros grec à la vue perçante, pas de l'animal. Le lynx voit bien au crépuscule, mais il compte au moins autant sur ses oreilles.",
+    "Garde-manger : après la chasse, il recouvre sa proie de feuilles ou de neige pour la cacher aux charognards et la garder au frais. Il revient la manger plusieurs nuits de suite.",
+    "Pas un sprinteur : il chasse par surprise, en quelques grands bonds, et abandonne vite si la proie lui échappe."
+  ],
+  "sanglier": [
+    "Ses défenses du bas s'aiguisent en frottant contre celles du haut : un taille-crayon intégré !",
+    "Sanglier et cochon domestique appartiennent à la même espèce : ce sont des cousins très proches."
+  ],
+  "loup": [
+    "Le loup ne hurle pas à la lune : il hurle pour garder le contact avec sa meute et signaler son territoire, de jour comme de nuit.",
+    "Le grand méchant loup des contes est surtout très méfiant : il évite l'humain le plus souvent possible."
+  ],
+  "renard": [
+    "Pour attraper un campagnol sous la neige, il bondit et plonge la tête la première : c'est le « mulotage ».",
+    "Il fait des réserves : il enterre ses surplus de nourriture dans plusieurs cachettes."
+  ],
+  "fouine": [
+    "Si elle s'attaque aux câbles d'une voiture, c'est souvent parce qu'elle y sent l'odeur d'une autre fouine passée avant elle.",
+    "Excellente grimpeuse, elle escalade les façades et se glisse sous les toits."
+  ],
+  "loutre": [
+    "Sous l'eau, elle ferme ses oreilles et ses narines.",
+    "Ses crottes s'appellent des « épreintes » : beaucoup de naturalistes leur trouvent une odeur… de miel !"
+  ],
+  "castor": [
+    "Ses dents sont orange : leur émail contient du fer, ce qui les rend plus solides.",
+    "Il ne mange pas le bois : il se régale de l'écorce et des jeunes rameaux."
+  ],
+  "raton": [
+    "Il ne « lave » pas sa nourriture : il la tripote dans l'eau, ce qui rend ses mains encore plus sensibles au toucher.",
+    "Loquets, poubelles, couvercles : ses mains agiles ouvrent presque tout."
+  ],
+  "chat-forestier": [
+    "Pour le distinguer d'un chat tigré : sa queue est épaisse, avec des anneaux noirs bien nets et un bout noir arrondi, comme coupé.",
+    "Sa plus grande menace ? Se croiser avec les chats domestiques."
+  ],
+  "cerf": [
+    "Seul le mâle porte des bois, et il les perd chaque fin d'hiver.",
+    "Les bois tombés au sol sont grignotés par des rongeurs : une vraie source de calcium."
+  ],
+  "herisson": [
+    "Ne lui donne jamais de lait : il ne le digère pas ! De l'eau, c'est parfait.",
+    "Il peut parcourir 1 à 3 km en une seule nuit pour trouver à manger."
+  ],
+  "ecureuil": [
+    "Il n'hiberne pas : il dort beaucoup en hiver, mais sort pour retrouver ses cachettes.",
+    "Les pinceaux de poils de ses oreilles poussent en hiver et disparaissent en été."
+  ],
+  "lievre": [
+    "Ce n'est pas un lapin : le levraut naît couvert de poils, les yeux ouverts, presque prêt à courir.",
+    "Pas de terrier : il se cache dans un simple creux d'herbe, le « gîte »."
+  ],
+  "vautour": [
+    "Il ne tue pas : il nettoie la nature en mangeant les animaux morts. Son estomac très acide détruit beaucoup de microbes.",
+    "Son cou presque sans plumes l'aide à rester propre quand il plonge la tête dans une carcasse."
+  ],
+  "gypaete": [
+    "Son plumage orange est du maquillage : il se baigne dans de la boue riche en fer pour se colorer.",
+    "Son menu est fait surtout d'os : jusqu'à 70 à 90 % de ce qu'il mange."
+  ],
+  "bouquetin": [
+    "Tous les bouquetins de Suisse descendent d'animaux ramenés en contrebande d'Italie au début du XXe siècle.",
+    "On peut estimer l'âge d'un mâle en comptant les bourrelets de ses cornes, qui approchent le mètre."
+  ],
+  "marmotte": [
+    "Elle ne siffle pas avec la bouche : son « sifflement » est un cri poussé avec la gorge.",
+    "Pendant l'hibernation, son cœur ralentit jusqu'à quelques battements par minute."
+  ],
+  "ibis": [
+    "Il figure dans les hiéroglyphes de l'Égypte ancienne.",
+    "Des humains en ULM ont appris à de jeunes ibis le chemin de la migration vers l'Italie."
+  ],
+  "effraie": [
+    "Elle avale ses proies entières, puis recrache poils et os en « pelotes » : en les décortiquant, on sait ce qu'elle a mangé.",
+    "On la surnomme la « dame blanche »."
+  ],
+  "buse": [
+    "Son plumage change énormément d'un oiseau à l'autre, du presque blanc au brun foncé : d'où son nom de buse « variable ».",
+    "À son menu, des campagnols… et parfois même des vers de terre !"
+  ],
+  "milan-royal": [
+    "Il décore son nid d'objets trouvés : chiffons, papiers, morceaux de plastique.",
+    "Sa queue fourchue lui sert de gouvernail pour tourner en vol."
+  ],
+  "milan-noir": [
+    "Il ramasse volontiers les poissons morts qui flottent à la surface de l'eau.",
+    "Petit voleur : il chipe parfois la nourriture d'autres oiseaux en plein vol."
+  ],
+  "grand-duc": [
+    "Ses « oreilles » sont des plumes, les aigrettes : ses vraies oreilles sont cachées sur les côtés de la tête.",
+    "Il mange de tout, même des hérissons, piquants compris, et parfois d'autres rapaces."
+  ],
+  "pigeon": [
+    "Les pigeons nourrissent leurs petits avec un « lait » fabriqué dans leur jabot.",
+    "Quand il s'envole, il claque des ailes bruyamment."
+  ],
+  "etourneau": [
+    "Imitateur de génie : il copie d'autres oiseaux, des sonneries de téléphone, voire des alarmes de voiture.",
+    "Ses ballets de milliers d'oiseaux s'appellent des « murmurations »."
+  ],
+  "merle": [
+    "Seul le mâle est noir à bec jaune : la femelle est brune.",
+    "Il fouille les feuilles mortes en les envoyant valser à grands coups de bec."
+  ],
+  "cigogne": [
+    "Elle n'a presque pas de voix : elle communique en claquant du bec, c'est le « craquettement ».",
+    "Ses pattes rouges paraissent parfois blanches : elle fait ses besoins dessus pour se rafraîchir !"
+  ],
+  "tortue": [
+    "Le sexe des bébés tortues dépend de la température à laquelle les œufs ont incubé.",
+    "Elle peut vivre plus de 50 ans : adopter une tortue, c'est un engagement pour la vie."
+  ],
+  "cistude": [
+    "Elle se chauffe au soleil sur un tronc, puis plonge au moindre bruit.",
+    "Elle chasse sous l'eau : insectes aquatiques, escargots, têtards."
+  ],
+  "salamandre": [
+    "La légende dit qu'elle résiste au feu. C'est faux !",
+    "La femelle ne pond pas d'œufs : elle dépose directement des larves dans l'eau des ruisseaux."
+  ],
+  "sonneur": [
+    "Quand il a peur, il se cambre pour montrer son ventre jaune : un « attention, je suis toxique ».",
+    "Il adore les flaques temporaires, comme les ornières laissées par les tracteurs."
+  ],
+  "crapaud": [
+    "Non, toucher un crapaud ne donne pas de verrues !",
+    "Grand mangeur de limaces et d'insectes : le meilleur ami du jardinier."
+  ],
+  "oie": [
+    "Les oies font d'excellents gardiens : elles cacardent très fort à l'arrivée d'un inconnu."
+  ],
+  "poule-appenzelloise": [
+    "Plutôt bonne voleuse pour une poule, elle aime se percher en hauteur."
+  ],
+  "poule-suisse": [
+    "Une poule n'a pas besoin de coq pour pondre : le coq ne sert que si l'on veut des poussins."
+  ],
+  "chevre-appenzell": [
+    "Les chèvres ne mangent pas « n'importe quoi » : elles sont au contraire très difficiles et choisissent les meilleures feuilles."
+  ],
+  "cochon-laineux": [
+    "Les cochons ne sont pas sales : ils se roulent dans la boue pour se rafraîchir, car ils ne transpirent presque pas."
+  ],
+  "mouton-saas": [
+    "Les moutons reconnaissent les visages, ceux de leurs congénères comme ceux des humains."
+  ],
+  "chevre-grigia": [
+    "Ses pupilles rectangulaires lui permettent de voir presque tout autour d'elle sans tourner la tête."
+  ]
+};
+
+var FUN_LIST = [];
+Object.keys(FUN).forEach(function (id) { FUN[id].forEach(function (t) { FUN_LIST.push({ id: id, text: t }); }); });
+
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { view: "home", mode: "public", sector: "all", spot: 24, answers: {} };
+    this.state = { view: "home", mode: "public", sector: "all", spot: 24, answers: {}, funIdx: Math.floor(Math.random() * FUN_LIST.length) };
   }
   go(view, anchor) {
     this.setState({ view: view });
@@ -2264,7 +2457,7 @@ class Component extends DCLogic {
     var toItem = function (a) {
       var has = !!FICHES[a.id];
       return {
-        name: a.name, latin: a.latin, cls: a.cls, nick: a.nick || "", img: a.img,
+        name: a.name, latin: a.latin, cls: a.cls, nick: a.nick || "", img: a.img, pos: POS[a.id] || "50% 50%",
         zone: SPOT_OF[a.name] ? "n° " + SPOT_OF[a.name] + " sur le plan · " + sectorLabel(a.sector) : sectorLabel(a.sector) + " (emplacement à préciser)",
         hasFiche: has, noFiche: !has,
         open: function () { self.go(a.id); }
@@ -2306,7 +2499,8 @@ class Component extends DCLogic {
       name: raw.name, latin: raw.latin, tagline: raw.tagline,
       sector: raw.sector || sectorLabel(animal.sector),
       meet: raw.meet || ("À La Garenne : " + (animal.nick ? animal.nick + ", " : "") + (spotInfo ? "n° " + spotN + " sur le plan (" + spotInfo.label + ")" : "emplacement à préciser")),
-      img: raw.img || animal.img, imgAlt: raw.imgAlt || (animal.name + " à La Garenne"),
+      img: raw.img || animal.img, imgAlt: raw.imgAlt || (animal.name + " à La Garenne"), pos: POS[fid] || "50% 50%",
+      fun: FUN[fid] || [], hasFun: !!(FUN[fid] && FUN[fid].length),
       hasSpot: !!spotInfo, noSpot: !spotInfo,
       showOnMap: function () { self.setState({ spot: spotN }); self.go("home", "plan"); },
       id: raw.id, facts: raw.facts, taxo: raw.taxo, nat: raw.nat, track: raw.track, sources: raw.sources,
@@ -2354,7 +2548,20 @@ class Component extends DCLogic {
       };
     });
 
+    var fItem = FUN_LIST[(st.funIdx || 0) % FUN_LIST.length];
+    var fAnimal = animalById(fItem.id) || {};
+    var fun = {
+      text: fItem.text, name: (FICHES[fItem.id] && FICHES[fItem.id].name) || fAnimal.name, img: fAnimal.img, pos: POS[fItem.id] || "50% 50%",
+      next: function () {
+        var n = st.funIdx, len = FUN_LIST.length;
+        while (len > 1 && n === st.funIdx) n = Math.floor(Math.random() * len);
+        self.setState({ funIdx: n });
+      },
+      open: function () { self.go(fItem.id); }
+    };
+
     return {
+      fun: fun,
       isHome: st.view === "home", isFiche: isFiche,
       navHome: st.view === "home" ? "page" : "false", navMap: "false",
       navHomeStyle: navBtn(st.view === "home"), navMapStyle: navBtn(false),
