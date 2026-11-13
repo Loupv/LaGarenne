@@ -54,10 +54,6 @@ button:focus-visible{outline:3px solid #E8A33D;outline-offset:2px}
             <div style="font-family: 'Lilita One', system-ui, sans-serif; font-size: 40px; line-height: 1;">{{totalCount}}</div>
             <div style="font-size: 14px; color: #364153;">espèces recensées</div>
           </div>
-          <div style="background: #E8A33D; color: #111C1C; border-radius: 20px; padding: 16px 22px; min-width: 120px;">
-            <div style="font-family: 'Lilita One', system-ui, sans-serif; font-size: 40px; line-height: 1;">{{ficheCount}}</div>
-            <div style="font-size: 14px; color: #2B2112;">fiches à découvrir</div>
-          </div>
         </div>
       </div>
     </section>
@@ -139,7 +135,7 @@ button:focus-visible{outline:3px solid #E8A33D;outline-offset:2px}
                 <button onClick="{{a.open}}" style="text-align: left; background: #FFFFFF; border: 2px solid #3F7D58; border-radius: 20px; padding: 0; overflow: hidden; display: flex; flex-direction: column; color: #101828; box-shadow: 0 6px 0 #3F7D58;">
                   <div style="height: 150px; background: #DDE9E0; position: relative; overflow: hidden;">
                     <img src="{{a.img}}" alt="{{a.name}} à La Garenne" style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.36); transform-origin: 28% 72%; display: block;">
-                    <span style="position: absolute; top: 10px; left: 10px; background: #E8A33D; color: #111C1C; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px;">Fiche disponible</span>
+                    <span style="position: absolute; top: 10px; left: 10px; font-size: 12px; font-weight: 600; color: #364153; background: #FFFFFF; padding: 3px 10px; border-radius: 999px;">{{a.cls}}</span>
                   </div>
                   <div style="padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 2px;">
                     <span style="font-family: 'Lilita One', system-ui, sans-serif; font-size: 22px; letter-spacing: 0.4px;">{{a.name}}</span>
@@ -2371,7 +2367,6 @@ class Component extends DCLogic {
       setNat: function () { self.setState({ mode: "nat" }); },
       goHome: function () { self.go("home"); },
       totalCount: ANIMALS.length,
-      ficheCount: ANIMALS.filter(function (a) { return !!FICHES[a.id]; }).length,
       sectors: sectors, groups: groups, months: MONTHS,
       f: f, quiz: quiz, score: score, quizTotal: raw.quiz.length,
       resetQuiz: function () {
