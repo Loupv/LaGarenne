@@ -40,12 +40,14 @@ button:focus-visible{outline:3px solid #E8A33D;outline-offset:2px}
 
   <!-- ===================== CATALOGUE ===================== -->
   <sc-if value="{{isHome}}" hint-placeholder-val="{{true}}">
-    <section style="background: #3F7D58; color: #FFFFFF;">
-      <div style="max-width: 1200px; margin: 0 auto; padding: 48px 20px 56px; display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-end; justify-content: space-between;">
+    <section style="position: relative; color: #FFFFFF; min-height: 460px; display: flex; align-items: flex-end; overflow: hidden; background: #111C1C;">
+      <img src="assets/accueil.jpg" alt="La grande volière de La Garenne au milieu des arbres d'automne" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;">
+      <div style="position: absolute; inset: 0; background: rgba(17, 28, 28, 0.5);"></div>
+      <div style="position: relative; width: 100%; max-width: 1200px; margin: 0 auto; padding: 120px 20px 48px; display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-end; justify-content: space-between; box-sizing: border-box;">
         <div style="flex: 1 1 420px; min-width: 0;">
           <p style="margin: 0 0 8px; font-size: 14px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #D7EBDD;">Parc animalier · Le Vaud</p>
-          <h1 style="margin: 0; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 52px; line-height: 1.05; letter-spacing: 0.8px;">Qui vit à La Garenne&nbsp;?</h1>
-          <p style="margin: 16px 0 0; font-size: 18px; max-width: 560px; color: #EAF4EE;">Les ambassadeurs de la faune sauvage de Suisse, presque tous passés par notre centre de soins. Choisis un animal pour ouvrir sa fiche.</p>
+          <h1 style="margin: 0; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 56px; line-height: 1.05; letter-spacing: 0.8px;">Qui vit à La Garenne&nbsp;?</h1>
+          <p style="margin: 16px 0 0; font-size: 18px; max-width: 560px; color: #F1F6F3;">Les ambassadeurs de la faune sauvage de Suisse, presque tous passés par notre centre de soins. Trouve-les sur le plan, puis ouvre leur fiche.</p>
         </div>
         <div style="display: flex; gap: 12px; flex-wrap: wrap;">
           <div style="background: #FFFFFF; color: #111C1C; border-radius: 20px; padding: 16px 22px; min-width: 120px;">
@@ -54,71 +56,16 @@ button:focus-visible{outline:3px solid #E8A33D;outline-offset:2px}
           </div>
           <div style="background: #E8A33D; color: #111C1C; border-radius: 20px; padding: 16px 22px; min-width: 120px;">
             <div style="font-family: 'Lilita One', system-ui, sans-serif; font-size: 40px; line-height: 1;">{{ficheCount}}</div>
-            <div style="font-size: 14px; color: #2B2112;">fiches ouvertes</div>
+            <div style="font-size: 14px; color: #2B2112;">fiches à découvrir</div>
           </div>
         </div>
       </div>
     </section>
 
-    <main style="max-width: 1200px; margin: 0 auto; padding: 32px 20px 64px;">
-      <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 24px;">
-        <span style="font-size: 14px; font-weight: 600; color: #364153; margin-right: 4px;">Secteur :</span>
-        <sc-for list="{{sectors}}" as="s" hint-placeholder-count="5">
-          <button onClick="{{s.pick}}" aria-pressed="{{s.active}}" style="{{s.style}}">{{s.label}}</button>
-        </sc-for>
-      </div>
-
-      <sc-for list="{{groups}}" as="g" hint-placeholder-count="4">
-        <section style="margin-bottom: 40px;">
-          <h2 style="margin: 0 0 16px; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 30px; letter-spacing: 0.6px; color: #202020;">{{g.label}} <span style="font-family: Inter, system-ui, sans-serif; font-size: 15px; color: #5B6472;">· {{g.count}}</span></h2>
-          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 16px;">
-            <sc-for list="{{g.items}}" as="a" hint-placeholder-count="6">
-              <sc-if value="{{a.hasFiche}}" hint-placeholder-val="{{false}}">
-                <button onClick="{{a.open}}" style="text-align: left; background: #FFFFFF; border: 2px solid #3F7D58; border-radius: 20px; padding: 0; overflow: hidden; display: flex; flex-direction: column; color: #101828; box-shadow: 0 6px 0 #3F7D58;">
-                  <div style="height: 150px; background: #DDE9E0; position: relative; overflow: hidden;">
-                    <img src="{{a.img}}" alt="{{a.name}} à La Garenne" style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.36); transform-origin: 28% 72%; display: block;">
-                    <span style="position: absolute; top: 10px; left: 10px; background: #E8A33D; color: #111C1C; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px;">Fiche disponible</span>
-                  </div>
-                  <div style="padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 2px;">
-                    <span style="font-family: 'Lilita One', system-ui, sans-serif; font-size: 22px; letter-spacing: 0.4px;">{{a.name}}</span>
-                    <span style="font-style: italic; font-size: 14px; color: #5B6472;">{{a.latin}}</span>
-                    <span style="font-size: 13px; color: #2F6446; font-weight: 600; margin-top: 6px;">{{a.nick}}</span>
-                    <span style="font-size: 13px; color: #5B6472; margin-top: 6px;">Où : {{a.zone}}</span>
-                    <span style="font-size: 14px; font-weight: 700; color: #2F6446; margin-top: 8px;">Ouvrir la fiche →</span>
-                  </div>
-                </button>
-              </sc-if>
-              <sc-if value="{{a.noFiche}}" hint-placeholder-val="{{true}}">
-                <div style="background: #FFFFFF; border: 1px solid #E3DFD3; border-radius: 20px; overflow: hidden; display: flex; flex-direction: column;">
-                  <div style="height: 150px; background: #DDE9E0; position: relative; overflow: hidden;">
-                    <img src="{{a.img}}" alt="{{a.name}} à La Garenne" style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.36); transform-origin: 28% 72%; display: block;">
-                    <span style="position: absolute; top: 10px; left: 10px; font-size: 12px; font-weight: 600; color: #364153; background: #FFFFFF; padding: 3px 10px; border-radius: 999px;">{{a.cls}}</span>
-                  </div>
-                  <div style="padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 2px;">
-                    <span style="font-family: 'Lilita One', system-ui, sans-serif; font-size: 20px; letter-spacing: 0.4px;">{{a.name}}</span>
-                    <span style="font-style: italic; font-size: 14px; color: #5B6472;">{{a.latin}}</span>
-                    <span style="font-size: 13px; color: #2F6446; font-weight: 600;">{{a.nick}}</span>
-                    <span style="font-size: 13px; color: #5B6472; margin-top: 6px;">Où : {{a.zone}}</span>
-                    <span style="font-size: 13px; color: #5B6472;">Fiche bientôt disponible</span>
-                  </div>
-                </div>
-              </sc-if>
-            </sc-for>
-          </div>
-        </section>
-      </sc-for>
-    </main>
-  </sc-if>
-
-  <!-- ===================== PLAN ===================== -->
-  <sc-if value="{{isMap}}" hint-placeholder-val="{{false}}">
-    <section style="background: #3F7D58; color: #FFFFFF;">
-      <div style="max-width: 1200px; margin: 0 auto; padding: 40px 20px 44px;">
-        <h1 style="margin: 0; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 48px; line-height: 1.05; letter-spacing: 0.8px;">Où trouver chaque animal&nbsp;?</h1>
-        <p style="margin: 12px 0 0; font-size: 18px; max-width: 620px; color: #EAF4EE;">Touche un numéro du plan pour voir qui y vit, puis ouvre sa fiche.</p>
-      </div>
-    </section>
-    <main style="max-width: 1200px; margin: 0 auto; padding: 32px 20px 64px; display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+    <section id="plan" style="max-width: 1200px; margin: 0 auto; padding: 40px 20px 8px; scroll-margin-top: 16px;">
+      <h2 style="margin: 0; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 36px; letter-spacing: 0.6px; color: #202020;">Où trouver chaque animal&nbsp;?</h2>
+      <p style="margin: 6px 0 20px; font-size: 16px; color: #364153;">Touche un numéro du plan pour voir qui y vit, puis ouvre sa fiche.</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
       <div style="flex: 999 1 720px; min-width: 0;">
         <div style="overflow-x: auto; border-radius: 28px; border: 2px solid #111C1C; background: #EEF3E8;">
         <div style="position: relative; min-width: 680px; aspect-ratio: 1500 / 770;">
@@ -171,8 +118,60 @@ button:focus-visible{outline:3px solid #E8A33D;outline-offset:2px}
           </sc-for>
         </div>
       </aside>
+      </div>
+    </section>
+
+    <main style="max-width: 1200px; margin: 0 auto; padding: 32px 20px 64px;">
+      <h2 style="margin: 0 0 16px; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 36px; letter-spacing: 0.6px; color: #202020;">Les animaux par zone</h2>
+      <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 24px;">
+        <span style="font-size: 14px; font-weight: 600; color: #364153; margin-right: 4px;">Secteur :</span>
+        <sc-for list="{{sectors}}" as="s" hint-placeholder-count="5">
+          <button onClick="{{s.pick}}" aria-pressed="{{s.active}}" style="{{s.style}}">{{s.label}}</button>
+        </sc-for>
+      </div>
+
+      <sc-for list="{{groups}}" as="g" hint-placeholder-count="4">
+        <section style="margin-bottom: 40px;">
+          <h2 style="margin: 0 0 16px; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 30px; letter-spacing: 0.6px; color: #202020;">{{g.label}} <span style="font-family: Inter, system-ui, sans-serif; font-size: 15px; color: #5B6472;">· {{g.count}}</span></h2>
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 16px;">
+            <sc-for list="{{g.items}}" as="a" hint-placeholder-count="6">
+              <sc-if value="{{a.hasFiche}}" hint-placeholder-val="{{false}}">
+                <button onClick="{{a.open}}" style="text-align: left; background: #FFFFFF; border: 2px solid #3F7D58; border-radius: 20px; padding: 0; overflow: hidden; display: flex; flex-direction: column; color: #101828; box-shadow: 0 6px 0 #3F7D58;">
+                  <div style="height: 150px; background: #DDE9E0; position: relative; overflow: hidden;">
+                    <img src="{{a.img}}" alt="{{a.name}} à La Garenne" style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.36); transform-origin: 28% 72%; display: block;">
+                    <span style="position: absolute; top: 10px; left: 10px; background: #E8A33D; color: #111C1C; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px;">Fiche disponible</span>
+                  </div>
+                  <div style="padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 2px;">
+                    <span style="font-family: 'Lilita One', system-ui, sans-serif; font-size: 22px; letter-spacing: 0.4px;">{{a.name}}</span>
+                    <span style="font-style: italic; font-size: 14px; color: #5B6472;">{{a.latin}}</span>
+                    <span style="font-size: 13px; color: #2F6446; font-weight: 600; margin-top: 6px;">{{a.nick}}</span>
+                    <span style="font-size: 13px; color: #5B6472; margin-top: 6px;">Où : {{a.zone}}</span>
+                    <span style="font-size: 14px; font-weight: 700; color: #2F6446; margin-top: 8px;">Ouvrir la fiche →</span>
+                  </div>
+                </button>
+              </sc-if>
+              <sc-if value="{{a.noFiche}}" hint-placeholder-val="{{true}}">
+                <div style="background: #FFFFFF; border: 1px solid #E3DFD3; border-radius: 20px; overflow: hidden; display: flex; flex-direction: column;">
+                  <div style="height: 150px; background: #DDE9E0; position: relative; overflow: hidden;">
+                    <img src="{{a.img}}" alt="{{a.name}} à La Garenne" style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.36); transform-origin: 28% 72%; display: block;">
+                    <span style="position: absolute; top: 10px; left: 10px; font-size: 12px; font-weight: 600; color: #364153; background: #FFFFFF; padding: 3px 10px; border-radius: 999px;">{{a.cls}}</span>
+                  </div>
+                  <div style="padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 2px;">
+                    <span style="font-family: 'Lilita One', system-ui, sans-serif; font-size: 20px; letter-spacing: 0.4px;">{{a.name}}</span>
+                    <span style="font-style: italic; font-size: 14px; color: #5B6472;">{{a.latin}}</span>
+                    <span style="font-size: 13px; color: #2F6446; font-weight: 600;">{{a.nick}}</span>
+                    <span style="font-size: 13px; color: #5B6472; margin-top: 6px;">Où : {{a.zone}}</span>
+                    <span style="font-size: 13px; color: #5B6472;">Fiche bientôt disponible</span>
+                  </div>
+                </div>
+              </sc-if>
+            </sc-for>
+          </div>
+        </section>
+      </sc-for>
     </main>
   </sc-if>
+
 
   <!-- ===================== FICHE ===================== -->
   <sc-if value="{{isFiche}}" hint-placeholder-val="{{false}}">
@@ -185,10 +184,18 @@ button:focus-visible{outline:3px solid #E8A33D;outline-offset:2px}
             <h1 style="margin: 0; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 56px; line-height: 1.02; letter-spacing: 0.8px;">{{f.name}}</h1>
             <p style="margin: 6px 0 0; font-style: italic; font-size: 18px; color: #C9D6CF;">{{f.latin}}</p>
             <p style="margin: 18px 0 0; font-size: 20px; color: #FFFFFF; max-width: 520px;">{{f.tagline}}</p>
+            <sc-if value="{{f.hasSpot}}" hint-placeholder-val="{{true}}">
             <button onClick="{{f.showOnMap}}" style="margin-top: 20px; display: inline-flex; gap: 10px; align-items: center; background: #1F2E2E; border: 1px solid #3A4A4A; color: #E7EEEA; border-radius: 16px; padding: 10px 14px; min-height: 44px; text-align: left;">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E8A33D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>
               <span style="font-size: 14px;">{{f.meet}} · <strong style="color: #FFFFFF;">voir sur le plan</strong></span>
             </button>
+            </sc-if>
+            <sc-if value="{{f.noSpot}}" hint-placeholder-val="{{false}}">
+            <div style="margin-top: 20px; display: inline-flex; gap: 10px; align-items: center; background: #1F2E2E; color: #E7EEEA; border-radius: 16px; padding: 10px 14px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E8A33D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>
+              <span style="font-size: 14px;">{{f.meet}}</span>
+            </div>
+            </sc-if>
           </div>
           <div style="flex: 1 1 360px; min-width: 0; height: 320px; border-radius: 28px; background: #2A3B3B; overflow: hidden;">
             <img src="{{f.img}}" alt="{{f.imgAlt}}" style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.36); transform-origin: 28% 72%; display: block;">
@@ -227,9 +234,10 @@ button:focus-visible{outline:3px solid #E8A33D;outline-offset:2px}
               </sc-for>
             </div>
           </section>
+          <sc-if value="{{f.hasSizes}}" hint-placeholder-val="{{true}}">
           <section style="flex: 1 1 300px; min-width: 0; background: #FFFFFF; border-radius: 24px; padding: 20px; border: 1px solid #E3DFD3;">
             <h2 style="margin: 0 0 4px; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 24px; letter-spacing: 0.5px; color: #202020;">À côté de toi</h2>
-            <p style="margin: 0 0 16px; font-size: 14px; color: #5B6472;">Hauteur au garrot, comparée à un enfant de 6 ans.</p>
+            <p style="margin: 0 0 16px; font-size: 14px; color: #5B6472;">Sa taille debout (au garrot pour les mammifères), comparée à un enfant de 6 ans.</p>
             <div style="height: 200px; display: flex; align-items: flex-end; justify-content: space-around; gap: 12px; border-bottom: 2px solid #111C1C;">
               <sc-for list="{{f.sizes}}" as="z" hint-placeholder-count="2">
                 <div style="display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1 1 0;">
@@ -244,6 +252,7 @@ button:focus-visible{outline:3px solid #E8A33D;outline-offset:2px}
               </sc-for>
             </div>
           </section>
+          </sc-if>
         </div>
       </sc-if>
 
@@ -289,6 +298,7 @@ button:focus-visible{outline:3px solid #E8A33D;outline-offset:2px}
         </section>
 
         <section style="display: flex; flex-wrap: wrap; gap: 24px; align-items: center; background: #111C1C; color: #FFFFFF; border-radius: 24px; padding: 24px;">
+          <sc-if value="{{hasTrackArt}}" hint-placeholder-val="{{true}}">
           <div style="width: 140px; height: 140px; background: #F6F3EA; border-radius: 20px; display: flex; align-items: center; justify-content: center;">
             <sc-if value="{{isLynx}}" hint-placeholder-val="{{true}}">
               <svg width="110" height="110" viewBox="0 0 100 100" role="img" aria-label="Empreinte de lynx : quatre doigts ronds, sans marque de griffes"><g fill="#111C1C"><ellipse cx="27" cy="38" rx="9" ry="11"></ellipse><ellipse cx="42" cy="22" rx="9" ry="11"></ellipse><ellipse cx="58" cy="22" rx="9" ry="11"></ellipse><ellipse cx="73" cy="38" rx="9" ry="11"></ellipse><path d="M30 72 Q30 52 50 52 Q70 52 70 72 Q70 86 60 84 Q50 80 40 84 Q30 86 30 72Z"></path></g></svg>
@@ -297,8 +307,9 @@ button:focus-visible{outline:3px solid #E8A33D;outline-offset:2px}
               <svg width="110" height="110" viewBox="0 0 100 100" role="img" aria-label="Empreinte de sanglier : deux sabots et deux gardes bien marquées"><g fill="#111C1C"><path d="M38 14 Q28 44 32 70 Q38 78 46 72 L48 18 Q44 8 38 14Z"></path><path d="M62 14 Q72 44 68 70 Q62 78 54 72 L52 18 Q56 8 62 14Z"></path><ellipse cx="24" cy="88" rx="6" ry="8"></ellipse><ellipse cx="76" cy="88" rx="6" ry="8"></ellipse></g></svg>
             </sc-if>
           </div>
+          </sc-if>
           <div style="flex: 1 1 320px; min-width: 0;">
-            <h2 style="margin: 0; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 24px; letter-spacing: 0.5px;">Empreinte &amp; indices de présence</h2>
+            <h2 style="margin: 0; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 24px; letter-spacing: 0.5px;">Sur le terrain : indices de présence</h2>
             <p style="margin: 6px 0 0; font-size: 15px; color: #DCE6E1;">{{f.track}}</p>
           </div>
         </section>
@@ -344,45 +355,45 @@ button:focus-visible{outline:3px solid #E8A33D;outline-offset:2px}
 </template>
 <script type="text/x-dc" id="dc-logic">
 var ANIMALS = [
-  { id: "sanglier", name: "Sanglier", latin: "Sus scrofa", sector: "lynx", cls: "Mammifère", fiche: true, img: "assets/sanglier-card.png" },
-  { id: "lynx", name: "Lynx des Carpates", latin: "Lynx lynx carpathicus", sector: "lynx", cls: "Mammifère", nick: "Igor et Rimava (Ava)", fiche: true, img: "assets/lynx-card.png" },
-  { name: "Loup gris", latin: "Canis lupus", sector: "lynx", cls: "Mammifère", nick: "River et Rhéa", img: "assets/loup.png" },
-  { name: "Oie de Diepholz", latin: "Anser anser f. domestica", sector: "ferme", cls: "Race domestique", img: "assets/oie.png" },
-  { name: "Poule appenzelloise huppée", latin: "Gallus gallus f. domestica", sector: "ferme", cls: "Race domestique", img: "assets/poule-app.png" },
-  { name: "Poule suisse", latin: "Gallus gallus f. domestica", sector: "ferme", cls: "Race domestique", img: "assets/poule-suisse.png" },
-  { name: "Chèvre d'Appenzell", latin: "Capra aegagrus hircus", sector: "ferme", cls: "Race domestique", nick: "Maman, Cracotte et Biscotte", img: "assets/chevre-app.png" },
-  { name: "Cochon laineux", latin: "Sus scrofa f. domestica", sector: "ferme", cls: "Race domestique", img: "assets/cochon.png" },
-  { name: "Mouton de Saas", latin: "Ovis aries", sector: "ferme", cls: "Race domestique", img: "assets/mouton.png" },
-  { name: "Grande chèvre (Grigia)", latin: "Capra hircus", sector: "ferme", cls: "Race domestique", img: "assets/grande-chevre.png" },
-  { name: "Vautour fauve", latin: "Gyps fulvus", sector: "voliere", cls: "Oiseau", img: "assets/vautour.png" },
-  { name: "Bouquetin des Alpes", latin: "Capra ibex", sector: "voliere", cls: "Mammifère", img: "assets/bouquetin.png" },
-  { name: "Marmotte des Alpes", latin: "Marmota marmota", sector: "voliere", cls: "Mammifère", img: "assets/marmotte.png" },
-  { name: "Ibis chauve", latin: "Geronticus eremita", sector: "voliere", cls: "Oiseau", img: "assets/ibis.png" },
-  { name: "Pigeon ramier", latin: "Columba palumbus", sector: "autres", cls: "Oiseau", img: "assets/pigeon.png" },
-  { name: "Étourneau sansonnet", latin: "Sturnus vulgaris", sector: "autres", cls: "Oiseau", img: "assets/etourneau.png" },
-  { name: "Merle noir", latin: "Turdus merula", sector: "autres", cls: "Oiseau", img: "assets/merle.png" },
-  { name: "Effraie des clochers", latin: "Tyto alba", sector: "autres", cls: "Oiseau", img: "assets/effraie.png" },
-  { name: "Buse variable", latin: "Buteo buteo", sector: "autres", cls: "Oiseau", img: "assets/buse.png" },
-  { name: "Milan royal", latin: "Milvus milvus", sector: "autres", cls: "Oiseau", img: "assets/milan.png" },
-  { name: "Milan noir", latin: "Milvus migrans", sector: "autres", cls: "Oiseau", img: "assets/milan.png" },
-  { name: "Hibou grand-duc", latin: "Bubo bubo", sector: "autres", cls: "Oiseau", img: "assets/grandduc.png" },
-  { name: "Gypaète barbu", latin: "Gypaetus barbatus", sector: "autres", cls: "Oiseau", img: "assets/gypaete.png" },
-  { name: "Cigogne blanche", latin: "Ciconia ciconia", sector: "autres", cls: "Oiseau", nick: "Rick et Morty", img: "assets/cigogne.png" },
-  { name: "Lièvre brun", latin: "Lepus europaeus", sector: "autres", cls: "Mammifère", img: "assets/lievre.png" },
-  { name: "Écureuil roux", latin: "Sciurus vulgaris", sector: "autres", cls: "Mammifère", nick: "Scrat", img: "assets/ecureuil.png" },
-  { name: "Renard roux", latin: "Vulpes vulpes", sector: "autres", cls: "Mammifère", img: "assets/renard.png" },
-  { name: "Fouine", latin: "Martes foina", sector: "autres", cls: "Mammifère", img: "assets/fouine.png" },
-  { name: "Loutre d'Europe", latin: "Lutra lutra", sector: "autres", cls: "Mammifère", nick: "Imane", img: "assets/loutre.png" },
-  { name: "Hérisson d'Europe", latin: "Erinaceus europaeus", sector: "autres", cls: "Mammifère", img: "assets/herisson.png" },
-  { name: "Castor d'Europe", latin: "Castor fiber", sector: "autres", cls: "Mammifère", img: "assets/castor.png" },
-  { name: "Raton laveur", latin: "Procyon lotor", sector: "autres", cls: "Mammifère", img: "assets/raton.png" },
-  { name: "Chat forestier", latin: "Felis silvestris", sector: "autres", cls: "Mammifère", img: "assets/chat.png" },
-  { name: "Cerf élaphe", latin: "Cervus elaphus", sector: "autres", cls: "Mammifère", img: "assets/cerf.png" },
-  { name: "Tortue d'Hermann", latin: "Testudo hermanni", sector: "autres", cls: "Reptile", img: "assets/tortue.png" },
-  { name: "Cistude d'Europe", latin: "Emys orbicularis", sector: "autres", cls: "Reptile", img: "assets/cistude.png" },
-  { name: "Salamandre tachetée", latin: "Salamandra salamandra", sector: "autres", cls: "Amphibien", img: "assets/salamandre.png" },
-  { name: "Sonneur à ventre jaune", latin: "Bombina variegata", sector: "autres", cls: "Amphibien", img: "assets/sonneur.png" },
-  { name: "Crapaud commun", latin: "Bufo bufo", sector: "autres", cls: "Amphibien", img: "assets/crapaud.png" }
+  { id: "sanglier", name: "Sanglier", latin: "Sus scrofa", sector: "lynx", cls: "Mammifère", img: "assets/sanglier-card.png" },
+  { id: "lynx", name: "Lynx des Carpates", latin: "Lynx lynx carpathicus", sector: "lynx", cls: "Mammifère", nick: "Igor et Rimava (Ava)", img: "assets/lynx-card.png" },
+  { id: "loup", name: "Loup gris", latin: "Canis lupus", sector: "lynx", cls: "Mammifère", nick: "River et Rhéa", img: "assets/loup.png" },
+  { id: "oie", name: "Oie de Diepholz", latin: "Anser anser f. domestica", sector: "ferme", cls: "Race domestique", img: "assets/oie.png" },
+  { id: "poule-appenzelloise", name: "Poule appenzelloise huppée", latin: "Gallus gallus f. domestica", sector: "ferme", cls: "Race domestique", img: "assets/poule-app.png" },
+  { id: "poule-suisse", name: "Poule suisse", latin: "Gallus gallus f. domestica", sector: "ferme", cls: "Race domestique", img: "assets/poule-suisse.png" },
+  { id: "chevre-appenzell", name: "Chèvre d'Appenzell", latin: "Capra aegagrus hircus", sector: "ferme", cls: "Race domestique", nick: "Maman, Cracotte et Biscotte", img: "assets/chevre-app.png" },
+  { id: "cochon-laineux", name: "Cochon laineux", latin: "Sus scrofa f. domestica", sector: "ferme", cls: "Race domestique", img: "assets/cochon.png" },
+  { id: "mouton-saas", name: "Mouton de Saas", latin: "Ovis aries", sector: "ferme", cls: "Race domestique", img: "assets/mouton.png" },
+  { id: "chevre-grigia", name: "Grande chèvre (Grigia)", latin: "Capra hircus", sector: "ferme", cls: "Race domestique", img: "assets/grande-chevre.png" },
+  { id: "vautour", name: "Vautour fauve", latin: "Gyps fulvus", sector: "voliere", cls: "Oiseau", img: "assets/vautour.png" },
+  { id: "bouquetin", name: "Bouquetin des Alpes", latin: "Capra ibex", sector: "voliere", cls: "Mammifère", img: "assets/bouquetin.png" },
+  { id: "marmotte", name: "Marmotte des Alpes", latin: "Marmota marmota", sector: "voliere", cls: "Mammifère", img: "assets/marmotte.png" },
+  { id: "ibis", name: "Ibis chauve", latin: "Geronticus eremita", sector: "voliere", cls: "Oiseau", img: "assets/ibis.png" },
+  { id: "pigeon", name: "Pigeon ramier", latin: "Columba palumbus", sector: "autres", cls: "Oiseau", img: "assets/pigeon.png" },
+  { id: "etourneau", name: "Étourneau sansonnet", latin: "Sturnus vulgaris", sector: "autres", cls: "Oiseau", img: "assets/etourneau.png" },
+  { id: "merle", name: "Merle noir", latin: "Turdus merula", sector: "autres", cls: "Oiseau", img: "assets/merle.png" },
+  { id: "effraie", name: "Effraie des clochers", latin: "Tyto alba", sector: "autres", cls: "Oiseau", img: "assets/effraie.png" },
+  { id: "buse", name: "Buse variable", latin: "Buteo buteo", sector: "autres", cls: "Oiseau", img: "assets/buse.png" },
+  { id: "milan-royal", name: "Milan royal", latin: "Milvus milvus", sector: "autres", cls: "Oiseau", img: "assets/milan.png" },
+  { id: "milan-noir", name: "Milan noir", latin: "Milvus migrans", sector: "autres", cls: "Oiseau", img: "assets/milan.png" },
+  { id: "grand-duc", name: "Hibou grand-duc", latin: "Bubo bubo", sector: "autres", cls: "Oiseau", img: "assets/grandduc.png" },
+  { id: "gypaete", name: "Gypaète barbu", latin: "Gypaetus barbatus", sector: "autres", cls: "Oiseau", img: "assets/gypaete.png" },
+  { id: "cigogne", name: "Cigogne blanche", latin: "Ciconia ciconia", sector: "autres", cls: "Oiseau", nick: "Rick et Morty", img: "assets/cigogne.png" },
+  { id: "lievre", name: "Lièvre brun", latin: "Lepus europaeus", sector: "autres", cls: "Mammifère", img: "assets/lievre.png" },
+  { id: "ecureuil", name: "Écureuil roux", latin: "Sciurus vulgaris", sector: "autres", cls: "Mammifère", nick: "Scrat", img: "assets/ecureuil.png" },
+  { id: "renard", name: "Renard roux", latin: "Vulpes vulpes", sector: "autres", cls: "Mammifère", img: "assets/renard.png" },
+  { id: "fouine", name: "Fouine", latin: "Martes foina", sector: "autres", cls: "Mammifère", img: "assets/fouine.png" },
+  { id: "loutre", name: "Loutre d'Europe", latin: "Lutra lutra", sector: "autres", cls: "Mammifère", nick: "Imane", img: "assets/loutre.png" },
+  { id: "herisson", name: "Hérisson d'Europe", latin: "Erinaceus europaeus", sector: "autres", cls: "Mammifère", img: "assets/herisson.png" },
+  { id: "castor", name: "Castor d'Europe", latin: "Castor fiber", sector: "autres", cls: "Mammifère", img: "assets/castor.png" },
+  { id: "raton", name: "Raton laveur", latin: "Procyon lotor", sector: "autres", cls: "Mammifère", img: "assets/raton.png" },
+  { id: "chat-forestier", name: "Chat forestier", latin: "Felis silvestris", sector: "autres", cls: "Mammifère", img: "assets/chat.png" },
+  { id: "cerf", name: "Cerf élaphe", latin: "Cervus elaphus", sector: "autres", cls: "Mammifère", img: "assets/cerf.png" },
+  { id: "tortue", name: "Tortue d'Hermann", latin: "Testudo hermanni", sector: "autres", cls: "Reptile", img: "assets/tortue.png" },
+  { id: "cistude", name: "Cistude d'Europe", latin: "Emys orbicularis", sector: "autres", cls: "Reptile", img: "assets/cistude.png" },
+  { id: "salamandre", name: "Salamandre tachetée", latin: "Salamandra salamandra", sector: "autres", cls: "Amphibien", img: "assets/salamandre.png" },
+  { id: "sonneur", name: "Sonneur à ventre jaune", latin: "Bombina variegata", sector: "autres", cls: "Amphibien", img: "assets/sonneur.png" },
+  { id: "crapaud", name: "Crapaud commun", latin: "Bufo bufo", sector: "autres", cls: "Amphibien", img: "assets/crapaud.png" }
 ];
 
 var SECTORS = [
@@ -547,14 +558,1689 @@ var FICHES = {
   }
 };
 
+Object.assign(FICHES, {
+  "loup": {
+    name: "Loup gris",
+    latin: "Canis lupus",
+    tagline: "Il vit en famille, voyage sur des centaines de kilomètres et est revenu tout seul en Suisse. Un vrai champion de l'endurance.",
+    id: [
+      { k: "Au garrot", v: "60 à 80 cm", note: "comme un grand berger allemand" },
+      { k: "Longueur", v: "100 à 140 cm", note: "+ une queue de 30 à 45 cm" },
+      { k: "Poids", v: "25 à 45 kg", note: "les mâles sont plus lourds" },
+      { k: "Longévité", v: "8 à 10 ans", note: "jusqu'à 15 ans en captivité" },
+      { k: "Régime", v: "Carnivore", note: "surtout cerfs, chevreuils, chamois" },
+      { k: "En Suisse", v: "Vulnérable", note: "Liste rouge · protégé, régulation possible" }
+    ],
+    facts: [
+      { t: "Meute = famille", d: "La meute, c'est le plus souvent un couple de parents et leurs petits des dernières années." },
+      { t: "Grand voyageur", d: "Les jeunes quittent leur famille et peuvent parcourir des centaines de kilomètres pour fonder la leur." },
+      { t: "Revenu tout seul", d: "Personne ne l'a réintroduit : il est revenu d'Italie à pied, dans les années 1990." },
+      { t: "Hurler pour se parler", d: "Le hurlement sert à retrouver les membres de la famille et à dire aux voisins : ici, c'est chez nous !" }
+    ],
+    sizes: [
+      { label: "Enfant de 6 ans", cm: 115, color: "#E8A33D" },
+      { label: "Loup", cm: 70, color: "#3F7D58" }
+    ],
+    taxo: [
+      { k: "Classe", v: "Mammifères" }, { k: "Ordre", v: "Carnivores" }, { k: "Famille", v: "Canidés" },
+      { k: "Espèce", v: "Canis lupus (L., 1758)" },
+      { k: "UICN mondiale", v: "Préoccupation mineure" }, { k: "Liste rouge CH", v: "Vulnérable (VU)" }
+    ],
+    nat: [
+      { t: "Écologie", d: "Vit en meute familiale sur un territoire de plusieurs centaines de km², défendu par marquages olfactifs et hurlements. En Suisse, il se nourrit surtout d'ongulés sauvages (cerf, chevreuil, chamois, sanglier) ; les ovins et caprins non protégés constituent des proies opportunistes." },
+      { t: "Reproduction", d: "Seul le couple reproducteur se reproduit en général. Rut en fin d'hiver, gestation d'environ 63 jours, 4 à 6 louveteaux nés en tanière au printemps. Les jeunes se dispersent vers 1 à 2 ans." },
+      { t: "Statut et menaces en Suisse", d: "Disparu au XIXe siècle, il recolonise le pays naturellement depuis 1995 à partir de la population italienne ; première meute établie au Calanda (GR) en 2012. Classé VU dans la Liste rouge 2022, il fait l'objet d'un monitoring national (KORA) et d'une régulation encadrée par la loi sur la chasse ; les conflits avec l'élevage sont l'enjeu principal." },
+      { t: "Identification", d: "Plus haut sur pattes et plus élancé qu'un chien de taille comparable, poitrail étroit, oreilles courtes, masque facial clair et queue tombante à extrémité sombre. Pelage gris-fauve avec une bande sombre sur le dos et souvent sur l'avant des pattes antérieures." }
+    ],
+    cal: [
+      { label: "Rut", months: [1, 2, 3], color: "#3F7D58" },
+      { label: "Naissances", months: [4, 5], color: "#E8A33D" },
+      { label: "Louveteaux au site de rendez-vous", months: [6, 7, 8, 9], color: "#9FCCB0" }
+    ],
+    track: "Empreinte ovale d'environ 10 × 8 cm, quatre doigts avec griffes, les deux doigts médians bien en avant ; au trot, les traces s'alignent en ligne droite sur de longues distances. Crottes épaisses contenant poils et esquilles d'os, déposées bien en vue aux croisements de chemins.",
+    sources: "KORA (suivi des carnivores en Suisse), info fauna (CSCF), OFEV — Liste rouge des mammifères 2022.",
+    quiz: [
+      { q: "Qui forme une meute de loups ?", o: ["Des loups inconnus qui se rencontrent", "Une famille : les parents et leurs petits", "Uniquement des mâles"], a: 1, e: "Une meute est le plus souvent une famille, avec un seul couple reproducteur." },
+      { q: "Comment le loup est-il revenu en Suisse ?", o: ["En train depuis Paris", "Il a été relâché par des gardes", "Tout seul, depuis l'Italie"], a: 2, e: "Il a recolonisé la Suisse naturellement à partir de 1995." },
+      { q: "Pourquoi le loup hurle-t-il ?", o: ["Pour communiquer avec sa famille et ses voisins", "Parce qu'il a peur de la Lune", "Pour faire fuir les moustiques"], a: 0, e: "Le hurlement rassemble la meute et signale son territoire." }
+    ]
+  },
+
+  "renard": {
+    name: "Renard roux",
+    latin: "Vulpes vulpes",
+    tagline: "Rusé, curieux et adaptable, il vit aussi bien en forêt qu'en ville. Tu l'as peut-être déjà croisé dans ton quartier !",
+    id: [
+      { k: "Au garrot", v: "35 à 40 cm", note: "à peu près un chien moyen" },
+      { k: "Longueur", v: "60 à 75 cm", note: "+ une queue touffue de 35 à 45 cm" },
+      { k: "Poids", v: "4 à 8 kg", note: "plus léger qu'il n'en a l'air" },
+      { k: "Longévité", v: "3 à 5 ans", note: "dans la nature ; plus de 10 ans en captivité" },
+      { k: "Régime", v: "Omnivore", note: "campagnols, fruits, vers, déchets" },
+      { k: "En Suisse", v: "Non menacé", note: "Liste rouge · espèce chassable" }
+    ],
+    facts: [
+      { t: "Le saut du mulot", d: "Il entend un campagnol sous l'herbe ou la neige, bondit en l'air et retombe pattes en avant dessus." },
+      { t: "Renard des villes", d: "Beaucoup de renards vivent aujourd'hui en ville, jusque dans les parcs et les jardins." },
+      { t: "Bye bye la rage", d: "Grâce à des appâts-vaccins distribués aux renards, la Suisse est libérée de la rage depuis 1999." },
+      { t: "Une queue-couverture", d: "Quand il dort en hiver, il s'enroule et cache son museau dans sa grosse queue pour avoir chaud." }
+    ],
+    sizes: [
+      { label: "Enfant de 6 ans", cm: 115, color: "#E8A33D" },
+      { label: "Renard", cm: 38, color: "#3F7D58" }
+    ],
+    taxo: [
+      { k: "Classe", v: "Mammifères" }, { k: "Ordre", v: "Carnivores" }, { k: "Famille", v: "Canidés" },
+      { k: "Espèce", v: "Vulpes vulpes (L., 1758)" },
+      { k: "UICN mondiale", v: "Préoccupation mineure" }, { k: "Liste rouge CH", v: "Non menacé (LC)" }
+    ],
+    nat: [
+      { t: "Écologie", d: "Carnivore opportuniste, très plastique, présent de la plaine jusqu'au-dessus de la limite des arbres et de plus en plus en milieu urbain. Le régime est dominé par les petits rongeurs (campagnols), complété de fruits, invertébrés, charognes et déchets. Actif surtout au crépuscule et la nuit." },
+      { t: "Reproduction", d: "Rut en plein hiver, gestation d'environ 52 jours, 4 à 6 renardeaux nés au terrier au début du printemps. Les jeunes sortent vers 4 semaines et se dispersent en automne." },
+      { t: "Statut et menaces en Suisse", d: "Espèce commune et non menacée, chassée selon les réglementations cantonales. La Suisse a été pionnière de la vaccination orale des renards contre la rage (dès 1978) et est indemne depuis 1999. Le renard est l'hôte principal du ténia Echinococcus multilocularis : se laver les mains et laver les baies cueillies au ras du sol." },
+      { t: "Identification", d: "Pelage roux, gorge et ventre blancs, arrière des oreilles et avant des pattes noirs, queue touffue souvent terminée de blanc. Pupille verticale en fente. Glapissements et aboiements rauques audibles en hiver." }
+    ],
+    cal: [
+      { label: "Rut", months: [12, 1, 2], color: "#3F7D58" },
+      { label: "Naissances", months: [3, 4], color: "#E8A33D" },
+      { label: "Jeunes au terrier", months: [4, 5, 6, 7], color: "#9FCCB0" }
+    ],
+    track: "Empreinte ovale d'environ 5 × 4 cm, quatre doigts griffus ; on peut tracer une croix entre les pelotes sans les toucher, ce qui la distingue de celle d'un chien. Crottes torsadées et effilées, déposées en hauteur sur une pierre ou une touffe ; odeur musquée caractéristique.",
+    sources: "info fauna (CSCF), KORA, OFEV — Liste rouge des mammifères 2022.",
+    quiz: [
+      { q: "Que mange surtout le renard ?", o: ["Des petits rongeurs comme les campagnols", "Uniquement des poules", "Des cailloux"], a: 0, e: "Les campagnols sont sa proie principale, complétée de fruits et d'insectes." },
+      { q: "Que fait le renard de sa grosse queue en hiver ?", o: ["Il balaie la neige devant son terrier", "Il s'en sert comme couverture", "Il la range au fond du terrier"], a: 1, e: "Enroulé en boule, il y cache son museau pour garder la chaleur." },
+      { q: "Comment la Suisse a-t-elle éliminé la rage chez le renard ?", o: ["En construisant des barrières", "En les faisant déménager", "Avec des appâts contenant un vaccin"], a: 2, e: "La vaccination orale, testée en Suisse dès 1978, a permis d'éradiquer la rage." }
+    ]
+  },
+
+  "fouine": {
+    name: "Fouine",
+    latin: "Martes foina",
+    tagline: "Agile grimpeuse aux pattes de velours, elle squatte parfois les greniers… et grignote les câbles des voitures !",
+    id: [
+      { k: "Longueur", v: "40 à 55 cm", note: "+ une queue touffue de 22 à 30 cm" },
+      { k: "Poids", v: "1 à 2,5 kg", note: "à peu près un chat léger" },
+      { k: "Longévité", v: "3 à 10 ans", note: "rarement plus dans la nature" },
+      { k: "Activité", v: "Nocturne", note: "se cache le jour" },
+      { k: "Régime", v: "Omnivore", note: "petits mammifères, oiseaux, œufs, fruits" },
+      { k: "En Suisse", v: "Non menacé", note: "Liste rouge · espèce chassable" }
+    ],
+    facts: [
+      { t: "Une bavette blanche", d: "Sa tache blanche sur la gorge se sépare en deux et descend sur les pattes avant." },
+      { t: "Voisine discrète", d: "Elle aime vivre près des humains : granges, greniers, tas de bois…" },
+      { t: "Mécanicienne malgré elle", d: "Elle explore les moteurs de voitures et mordille parfois les câbles et durites." },
+      { t: "Une grossesse en pause", d: "Après l'accouplement en été, l'embryon attend des mois avant de se développer : les petits naissent au printemps." }
+    ],
+    taxo: [
+      { k: "Classe", v: "Mammifères" }, { k: "Ordre", v: "Carnivores" }, { k: "Famille", v: "Mustélidés" },
+      { k: "Espèce", v: "Martes foina (Erxleben, 1777)" },
+      { k: "UICN mondiale", v: "Préoccupation mineure" }, { k: "Liste rouge CH", v: "Non menacé (LC)" }
+    ],
+    nat: [
+      { t: "Écologie", d: "Mustélidé ubiquiste, plus lié aux milieux ouverts et anthropisés que la martre. Gîte diurne dans les bâtiments, tas de bois ou cavités rocheuses. Régime opportuniste : micromammifères, oiseaux et œufs, insectes, et une forte part de fruits en été et en automne." },
+      { t: "Reproduction", d: "Accouplement en été, suivi d'une ovo-implantation différée de plusieurs mois. Mise bas en mars–avril de 2 à 4 jeunes, indépendants à la fin de l'été." },
+      { t: "Statut et menaces en Suisse", d: "Espèce commune et largement répandue en plaine et en moyenne altitude, classée non menacée (LC) et chassable. Elle cause des conflits ponctuels (dégâts dans les combles, câbles de véhicules, prédation sur les poulaillers)." },
+      { t: "Identification", d: "Se distingue de la martre (Martes martes) par sa bavette blanche, bifurquée et prolongée sur les pattes antérieures (jaunâtre et arrondie chez la martre), sa truffe plus claire et ses pattes non velues sous les coussinets. Pelage gris-brun." }
+    ],
+    cal: [
+      { label: "Accouplement", months: [6, 7, 8], color: "#3F7D58" },
+      { label: "Naissances", months: [3, 4], color: "#E8A33D" },
+      { label: "Jeunes avec la mère", months: [4, 5, 6, 7, 8], color: "#9FCCB0" }
+    ],
+    track: "Empreinte de 3,5 à 4,5 cm à cinq doigts, souvent par paires lors du déplacement en bonds. Crottes torsadées et effilées, riches en poils, plumes ou noyaux de fruits, déposées en latrines dans les greniers ; bruits de course nocturnes sous les toits.",
+    sources: "info fauna (CSCF), OFEV — Liste rouge des mammifères 2022.",
+    quiz: [
+      { q: "Où la fouine aime-t-elle se cacher ?", o: ["Dans les greniers et les granges", "Au fond des lacs", "Dans les nids de cigogne"], a: 0, e: "Elle vit volontiers près des humains, dans les bâtiments." },
+      { q: "Quelle bêtise fait parfois la fouine dans les voitures ?", o: ["Elle klaxonne la nuit", "Elle mordille les câbles du moteur", "Elle vole les clés"], a: 1, e: "Elle explore les moteurs et peut abîmer câbles et tuyaux." },
+      { q: "Comment reconnaître la fouine de la martre ?", o: ["La fouine a une queue rayée", "La fouine est verte", "La fouine a une bavette blanche qui descend sur les pattes"], a: 2, e: "La martre a une bavette jaunâtre et arrondie." }
+    ]
+  },
+
+  "loutre": {
+    name: "Loutre d'Europe",
+    latin: "Lutra lutra",
+    tagline: "Nageuse hors pair au pelage ultra-dense, la loutre avait disparu de Suisse. Aujourd'hui, elle revient doucement le long de nos rivières.",
+    id: [
+      { k: "Longueur", v: "60 à 90 cm", note: "+ une queue épaisse de 30 à 45 cm" },
+      { k: "Poids", v: "5 à 10 kg", note: "les mâles sont plus lourds" },
+      { k: "Longévité", v: "≈ 10 ans", note: "souvent moins dans la nature" },
+      { k: "Apnée", v: "jusqu'à 1 min", note: "souvent bien moins" },
+      { k: "Régime", v: "Piscivore", note: "poissons, écrevisses, amphibiens" },
+      { k: "En Suisse", v: "En danger critique", note: "Liste rouge · espèce protégée" }
+    ],
+    facts: [
+      { t: "Une fourrure imperméable", d: "Elle a des dizaines de milliers de poils sur chaque cm² de peau : l'eau n'atteint jamais sa peau." },
+      { t: "Pattes palmées", d: "Ses doigts sont reliés par une membrane, comme des palmes de plongée." },
+      { t: "Des crottes parfumées", d: "Ses crottes, appelées épreintes, ont une odeur de miel ou de poisson frais, selon les gens !" },
+      { t: "Ambassadrice", d: "À La Garenne, Imane représente son espèce, qui revient tout juste dans les rivières suisses." }
+    ],
+    taxo: [
+      { k: "Classe", v: "Mammifères" }, { k: "Ordre", v: "Carnivores" }, { k: "Famille", v: "Mustélidés" },
+      { k: "Espèce", v: "Lutra lutra (L., 1758)" },
+      { k: "UICN mondiale", v: "Quasi menacée" }, { k: "Liste rouge CH", v: "En danger critique (CR)" }
+    ],
+    nat: [
+      { t: "Écologie", d: "Mustélidé semi-aquatique des cours d'eau, lacs et zones humides à berges riches en végétation et en caches. Principalement nocturne et solitaire, sur de longs domaines linéaires le long des rivières. Régime dominé par les poissons, complété d'écrevisses, d'amphibiens et occasionnellement d'oiseaux." },
+      { t: "Reproduction", d: "Pas de saison de reproduction fixe : les naissances peuvent avoir lieu toute l'année. Gestation d'environ 2 mois, 1 à 3 jeunes nés dans une catiche, qui restent près d'un an avec leur mère." },
+      { t: "Statut et menaces en Suisse", d: "Disparue de Suisse à la fin du XXe siècle (chasse, pollution aux PCB, correction des cours d'eau), elle est revenue naturellement au XXIe siècle depuis les pays voisins. La population reste très petite, d'où son classement CR (Liste rouge 2022) ; la qualité des eaux, la continuité des rivières et le trafic routier sont les enjeux clés." },
+      { t: "Identification", d: "Corps fuselé brun foncé, gorge plus claire, tête plate aux petites oreilles, queue épaisse à la base et effilée. Nage le corps bas dans l'eau, seule la tête dépassant, contrairement au ragondin ou au castor dont la silhouette diffère nettement (queue)." }
+    ],
+    cal: [
+      { label: "Accouplements possibles", months: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], color: "#3F7D58" },
+      { label: "Naissances possibles", months: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], color: "#E8A33D" }
+    ],
+    track: "Empreinte arrondie de 6 à 7 cm à cinq doigts, la palmure n'étant visible que dans la vase fine. Épreintes noirâtres contenant écailles et arêtes, déposées sur des points saillants des berges (pierres, souches, sous les ponts), à l'odeur caractéristique.",
+    sources: "info fauna (CSCF), Fondation Pro Lutra, OFEV — Liste rouge des mammifères 2022.",
+    quiz: [
+      { q: "Pourquoi la loutre n'a-t-elle pas froid dans l'eau ?", o: ["Elle porte un pull en laine", "Son pelage très dense garde une couche d'air isolante", "Elle ne nage qu'en été"], a: 1, e: "Ses poils extrêmement serrés empêchent l'eau d'atteindre la peau." },
+      { q: "Comment s'appellent les crottes de la loutre ?", o: ["Des épreintes", "Des moquettes", "Des pelotes"], a: 0, e: "Les épreintes servent aussi à marquer son territoire." },
+      { q: "La loutre est-elle commune en Suisse ?", o: ["Oui, il y en a partout", "Elle n'a jamais vécu en Suisse", "Non, elle revient à peine et reste très rare"], a: 2, e: "Disparue au XXe siècle, elle est classée en danger critique." }
+    ]
+  },
+
+  "castor": {
+    name: "Castor d'Europe",
+    latin: "Castor fiber",
+    tagline: "Bûcheron, architecte et jardinier des rivières : le plus grand rongeur d'Europe transforme tout un paysage autour de lui.",
+    id: [
+      { k: "Longueur", v: "75 à 100 cm", note: "+ une queue plate de 25 à 35 cm" },
+      { k: "Poids", v: "15 à 30 kg", note: "le plus grand rongeur d'Europe" },
+      { k: "Longévité", v: "10 à 15 ans", note: "un peu plus en captivité" },
+      { k: "Apnée", v: "jusqu'à 15 min", note: "en général bien moins" },
+      { k: "Régime", v: "Herbivore", note: "écorce, rameaux, plantes aquatiques" },
+      { k: "En Suisse", v: "Non menacé", note: "Liste rouge · espèce protégée" }
+    ],
+    facts: [
+      { t: "Des dents orange", d: "Ses incisives contiennent du fer, qui les rend orange et très dures. Elles poussent toute sa vie !" },
+      { t: "Pas de poisson", d: "Le castor est végétarien : il mange de l'écorce, des feuilles et des plantes d'eau." },
+      { t: "Une porte sous-marine", d: "L'entrée de sa hutte ou de son terrier est sous l'eau, pour échapper aux prédateurs." },
+      { t: "Coup de queue", d: "En cas de danger, il frappe l'eau avec sa queue plate : un grand « plouf » d'alarme." }
+    ],
+    taxo: [
+      { k: "Classe", v: "Mammifères" }, { k: "Ordre", v: "Rongeurs" }, { k: "Famille", v: "Castoridés" },
+      { k: "Espèce", v: "Castor fiber (L., 1758)" },
+      { k: "UICN mondiale", v: "Préoccupation mineure" }, { k: "Liste rouge CH", v: "Non menacé (LC)" }
+    ],
+    nat: [
+      { t: "Écologie", d: "Rongeur semi-aquatique vivant en famille (couple et jeunes des deux dernières années) sur un territoire de rive défendu. Strictement herbivore : écorce et rameaux de feuillus (saules, peupliers) en hiver, végétation herbacée et aquatique en été. Ses barrages relèvent le niveau d'eau et créent des zones humides favorables à de nombreuses espèces." },
+      { t: "Reproduction", d: "Monogame. Accouplement en fin d'hiver, gestation d'environ 105 jours, 2 à 4 jeunes nés en mai–juin dans le terrier ou la hutte. Les subadultes quittent la famille vers 2 ans." },
+      { t: "Statut et menaces en Suisse", d: "Exterminé au début du XIXe siècle, il a été réintroduit entre 1956 et 1977. Avec près de 4000 individus en 2020, il n'est plus considéré comme menacé (LC dans la Liste rouge 2022) mais reste protégé ; les conflits (inondations, galeries sous les digues, arbres abattus) sont suivis par le Service Conseil Castor." },
+      { t: "Identification", d: "Gros rongeur brun à queue plate, ovale et écailleuse ; pattes postérieures palmées. Dans l'eau, se distingue du ragondin et du rat musqué par sa taille et sa queue, et de la loutre par sa nage lente, le dos visible." }
+    ],
+    cal: [
+      { label: "Accouplement", months: [1, 2, 3], color: "#3F7D58" },
+      { label: "Naissances", months: [5, 6], color: "#E8A33D" },
+      { label: "Stockage de branches", months: [9, 10, 11], color: "#9FCCB0" }
+    ],
+    track: "Arbres rongés en « crayon » avec copeaux au pied, branches écorcées flottantes, barrages et huttes, coulées glissant des berges vers l'eau. Empreinte postérieure palmée jusqu'à 15 cm ; petits monticules de boue marqués au castoréum.",
+    sources: "info fauna (CSCF) — Service Conseil Castor, OFEV — Liste rouge des mammifères 2022.",
+    quiz: [
+      { q: "Pourquoi les dents du castor sont-elles orange ?", o: ["Il mange trop de carottes", "Elles contiennent du fer", "Il ne se brosse jamais les dents"], a: 1, e: "Le fer rend l'émail orange et plus résistant." },
+      { q: "Que mange le castor ?", o: ["Des poissons", "Des insectes", "De l'écorce et des plantes"], a: 2, e: "Le castor est strictement végétarien." },
+      { q: "Que fait le castor quand il sent un danger ?", o: ["Il frappe l'eau avec sa queue", "Il grimpe dans un arbre", "Il fait le mort sur la berge"], a: 0, e: "Ce grand « plouf » prévient toute la famille." }
+    ]
+  },
+
+  "raton": {
+    name: "Raton laveur",
+    latin: "Procyon lotor",
+    tagline: "Masque de bandit et mains d'artiste : venu d'Amérique du Nord, ce visiteur malin n'a pas sa place dans la nature européenne.",
+    id: [
+      { k: "Longueur", v: "40 à 70 cm", note: "+ une queue annelée de 20 à 25 cm" },
+      { k: "Poids", v: "4 à 9 kg", note: "plus lourd en automne" },
+      { k: "Longévité", v: "2 à 5 ans", note: "dans la nature ; bien plus en captivité" },
+      { k: "Origine", v: "Amérique du N.", note: "introduit en Europe au XXe siècle" },
+      { k: "Régime", v: "Omnivore", note: "fruits, invertébrés, œufs, déchets" },
+      { k: "En Suisse", v: "Espèce exotique", note: "non indigène · envahissante en Europe" }
+    ],
+    facts: [
+      { t: "Il ne lave rien", d: "Il trempe et tripote sa nourriture dans l'eau : ses doigts mouillés deviennent encore plus sensibles." },
+      { t: "Des mains d'acrobate", d: "Avec ses cinq doigts agiles, il ouvre des poubelles, des loquets et même des bocaux." },
+      { t: "Masque de bandit", d: "Son masque noir autour des yeux et sa queue rayée le rendent impossible à confondre." },
+      { t: "Un invité indésirable", d: "Relâché ou échappé d'élevages en Europe, il s'y est répandu et menace des espèces locales." }
+    ],
+    taxo: [
+      { k: "Classe", v: "Mammifères" }, { k: "Ordre", v: "Carnivores" }, { k: "Famille", v: "Procyonidés" },
+      { k: "Espèce", v: "Procyon lotor (L., 1758)" },
+      { k: "UICN mondiale", v: "Préoccupation mineure" }, { k: "Liste rouge CH", v: "Non évalué (NA) · exotique" }
+    ],
+    nat: [
+      { t: "Origine et invasion", d: "Originaire d'Amérique du Nord, introduit en Allemagne dans les années 1930 (lâchers et évasions d'élevages à fourrure), il s'est répandu dans une grande partie de l'Europe centrale. Il figure sur la liste des espèces exotiques envahissantes préoccupantes de l'Union européenne ; en Suisse, il est présent régulièrement surtout dans le nord-est du pays." },
+      { t: "Écologie", d: "Omnivore opportuniste, nocturne, lié aux forêts riches en eau mais aussi aux zones habitées. Il exploite fruits, invertébrés, amphibiens, œufs et oisillons ainsi que les déchets. Pas d'hibernation vraie mais un repos hivernal avec baisse d'activité par grand froid." },
+      { t: "Reproduction", d: "Accouplement en fin d'hiver, gestation d'environ 63 jours, 2 à 5 jeunes nés au printemps dans une cavité d'arbre ou un bâtiment. Les jeunes restent avec la mère jusqu'à l'automne." },
+      { t: "Impacts", d: "Prédateur potentiel d'amphibiens, de reptiles et de nids d'oiseaux, il peut peser sur des populations locales déjà fragiles. Il est porteur du nématode Baylisascaris procyonis, transmissible à l'humain : ne jamais le nourrir ni le garder." }
+    ],
+    cal: [
+      { label: "Accouplement", months: [1, 2, 3], color: "#3F7D58" },
+      { label: "Naissances", months: [4, 5], color: "#E8A33D" },
+      { label: "Repos hivernal", months: [12, 1, 2], color: "#9FCCB0" }
+    ],
+    track: "Empreintes très reconnaissables, en forme de petite main humaine à cinq longs doigts, 6 à 8 cm, souvent au bord de l'eau ; les postérieures plus allongées. Latrines communes au pied des arbres ou sur les toits, poubelles renversées.",
+    sources: "info fauna (CSCF), OFEV — Liste rouge des mammifères 2022 (espèces non indigènes), règlement UE 1143/2014.",
+    quiz: [
+      { q: "D'où vient le raton laveur ?", o: ["Du Jura", "D'Amérique du Nord", "De la Lune"], a: 1, e: "Il a été introduit en Europe au XXe siècle." },
+      { q: "Pourquoi trempe-t-il sa nourriture dans l'eau ?", o: ["Pour mieux la sentir avec ses doigts", "Parce qu'il est très maniaque", "Pour la saler"], a: 0, e: "L'eau rend ses doigts encore plus sensibles au toucher." },
+      { q: "Que faire si tu vois un raton laveur en Suisse ?", o: ["Le nourrir avec des biscuits", "L'emmener à la maison", "Ne pas l'approcher et signaler l'observation"], a: 2, e: "Espèce exotique envahissante, il ne doit ni être nourri ni être gardé ; les observations intéressent info fauna." }
+    ]
+  },
+
+  "chat-forestier": {
+    name: "Chat forestier",
+    latin: "Felis silvestris — aussi appelé chat sauvage d'Europe",
+    tagline: "Il ressemble à un gros chat tigré, mais c'est un vrai sauvage : impossible à apprivoiser, discret comme une ombre.",
+    id: [
+      { k: "Au garrot", v: "≈ 35 cm", note: "un peu plus grand qu'un chat domestique" },
+      { k: "Longueur", v: "45 à 65 cm", note: "+ une queue touffue de 25 à 35 cm" },
+      { k: "Poids", v: "3 à 7 kg", note: "les mâles sont plus lourds" },
+      { k: "Longévité", v: "≈ 10 ans", note: "jusqu'à 15 ans en captivité" },
+      { k: "Régime", v: "Carnivore", note: "surtout campagnols et mulots" },
+      { k: "En Suisse", v: "Quasi menacé", note: "Liste rouge (NT) · espèce protégée" }
+    ],
+    facts: [
+      { t: "Pas l'ancêtre du minou", d: "Nos chats domestiques ne descendent pas de lui, mais d'un cousin africain, le chat ganté." },
+      { t: "Une queue révélatrice", d: "Sa queue est épaisse, avec des anneaux noirs bien nets et un bout noir tout rond." },
+      { t: "Chasseur de souris", d: "Il passe des heures à l'affût dans les prairies pour attraper des campagnols." },
+      { t: "Piégé par la valériane", d: "Pour le recenser, on installe des piquets parfumés à la valériane : il vient s'y frotter et laisse des poils à analyser." }
+    ],
+    sizes: [
+      { label: "Enfant de 6 ans", cm: 115, color: "#E8A33D" },
+      { label: "Chat forestier", cm: 35, color: "#3F7D58" }
+    ],
+    taxo: [
+      { k: "Classe", v: "Mammifères" }, { k: "Ordre", v: "Carnivores" }, { k: "Famille", v: "Félidés" },
+      { k: "Espèce", v: "Felis silvestris (Schreber, 1777)" },
+      { k: "UICN mondiale", v: "Préoccupation mineure" }, { k: "Liste rouge CH", v: "Potentiellement menacé (NT)" }
+    ],
+    nat: [
+      { t: "Écologie", d: "Solitaire et territorial, lié aux forêts de feuillus et mixtes riches en lisières, haies et prairies où il chasse principalement les petits rongeurs. Actif surtout au crépuscule et la nuit. En Suisse, présent surtout dans la chaîne du Jura, avec une expansion vers le Plateau." },
+      { t: "Reproduction", d: "Rut en fin d'hiver, gestation d'environ 65 jours, 2 à 4 chatons nés au printemps dans une cavité, un terrier abandonné ou un tas de bois. Les jeunes deviennent indépendants vers 5 mois." },
+      { t: "Statut et menaces en Suisse", d: "Quasi disparu au XXe siècle, il est aujourd'hui estimé à environ 2500 individus, en augmentation (Liste rouge 2022 : NT). Les principales menaces sont l'hybridation avec le chat domestique et le trafic routier ; l'identification fiable passe souvent par la génétique." },
+      { t: "Identification", d: "Plus massif qu'un chat domestique tigré, pelage gris-brun aux rayures peu contrastées, raie dorsale noire s'arrêtant à la base de la queue. Queue épaisse, à 3 à 5 anneaux noirs nets et extrémité noire arrondie (non effilée). Truffe rosée." }
+    ],
+    cal: [
+      { label: "Rut", months: [1, 2, 3], color: "#3F7D58" },
+      { label: "Naissances", months: [4, 5], color: "#E8A33D" },
+      { label: "Jeunes avec la mère", months: [5, 6, 7, 8, 9], color: "#9FCCB0" }
+    ],
+    track: "Empreinte ronde de 4 à 5 cm, quatre doigts sans marque de griffes, impossible à distinguer à coup sûr de celle d'un chat domestique. La présence est le plus souvent confirmée par pièges photographiques ou poils récoltés sur des piquets à valériane, analysés génétiquement.",
+    sources: "KORA, info fauna (CSCF), OFEV — Liste rouge des mammifères 2022.",
+    quiz: [
+      { q: "Le chat forestier est-il l'ancêtre de nos chats domestiques ?", o: ["Oui, bien sûr", "Non, c'est un cousin africain", "Non, ce sont les lions"], a: 1, e: "Les chats domestiques descendent du chat sauvage d'Afrique (chat ganté)." },
+      { q: "Comment reconnaître sa queue ?", o: ["Elle est longue et toute fine", "Il n'a pas de queue", "Épaisse, avec des anneaux noirs et un bout noir arrondi"], a: 2, e: "Le bout noir arrondi est un bon critère d'identification." },
+      { q: "Quel parfum attire le chat forestier ?", o: ["La valériane", "La lavande", "Le chocolat"], a: 0, e: "Les chercheurs l'utilisent pour récolter ses poils." }
+    ]
+  },
+
+  "cerf": {
+    name: "Cerf élaphe",
+    latin: "Cervus elaphus",
+    tagline: "Le roi de la forêt porte une couronne qui repousse chaque année. En automne, son brame résonne dans toute la montagne !",
+    id: [
+      { k: "Au garrot", v: "100 à 150 cm", note: "les mâles sont nettement plus grands" },
+      { k: "Poids", v: "80 à 200 kg", note: "biches 80–120 kg, cerfs plus lourds" },
+      { k: "Bois", v: "jusqu'à 1 m", note: "seulement chez le mâle" },
+      { k: "Longévité", v: "15 à 20 ans", note: "rarement atteint dans la nature" },
+      { k: "Régime", v: "Herbivore", note: "herbes, rameaux, écorce, fruits" },
+      { k: "En Suisse", v: "Non menacé", note: "Liste rouge · espèce chassable" }
+    ],
+    facts: [
+      { t: "Des bois tout neufs", d: "Chaque fin d'hiver, le cerf perd ses bois. Ils repoussent en quelques mois, jusqu'à 2 cm par jour !" },
+      { t: "Le brame", d: "En septembre, les mâles poussent de puissants cris rauques pour impressionner les rivaux et les biches." },
+      { t: "Faon tacheté", d: "Le jeune naît avec des taches blanches qui le camouflent dans la lumière du sous-bois." },
+      { t: "Bois ≠ cornes", d: "Les bois sont en os et tombent chaque année ; les cornes des chèvres, elles, restent toute la vie." }
+    ],
+    sizes: [
+      { label: "Enfant de 6 ans", cm: 115, color: "#E8A33D" },
+      { label: "Cerf", cm: 120, color: "#3F7D58" }
+    ],
+    taxo: [
+      { k: "Classe", v: "Mammifères" }, { k: "Ordre", v: "Artiodactyles" }, { k: "Famille", v: "Cervidés" },
+      { k: "Espèce", v: "Cervus elaphus (L., 1758)" },
+      { k: "UICN mondiale", v: "Préoccupation mineure" }, { k: "Liste rouge CH", v: "Non menacé (LC)" }
+    ],
+    nat: [
+      { t: "Écologie", d: "Grand ruminant grégaire ; hardes de biches et jeunes séparées des mâles hors du rut. Fréquente forêts, lisières et pâturages jusqu'à l'étage subalpin, avec des migrations saisonnières entre quartiers d'été en altitude et quartiers d'hiver plus bas. Peut causer des dégâts d'abroutissement et d'écorçage en forêt." },
+      { t: "Reproduction", d: "Rut (brame) de mi-septembre à mi-octobre, les mâles dominants défendant un harem. Gestation d'environ 8 mois, un seul faon (rarement deux) né en mai–juin. Les bois tombent en fin d'hiver et repoussent sous un velours jusqu'à l'été." },
+      { t: "Statut et menaces en Suisse", d: "Disparu de Suisse au XIXe siècle, il a recolonisé le pays depuis l'Autriche et le Liechtenstein vers la fin du XIXe siècle, d'abord dans les Grisons. Aujourd'hui répandu et en expansion vers l'ouest et le Plateau, il est classé non menacé (LC) et régulé par la chasse ; la fragmentation par les autoroutes reste un enjeu de connectivité." },
+      { t: "Identification", d: "Pelage brun-roux en été, gris-brun en hiver, grand miroir fessier clair à bord sombre, courte queue. Le mâle adulte porte des bois ramifiés et une crinière en hiver. Beaucoup plus grand que le chevreuil." }
+    ],
+    cal: [
+      { label: "Brame", months: [9, 10], color: "#3F7D58" },
+      { label: "Naissances", months: [5, 6], color: "#E8A33D" },
+      { label: "Chute des bois", months: [2, 3, 4], color: "#9FCCB0" }
+    ],
+    track: "Empreinte en deux onglons allongés de 8 à 9 cm, plus large et plus arrondie que celle du chevreuil. Crottes en grappes de pelotes oblongues, écorçage des troncs, frottis sur les jeunes arbres et souilles boueuses ; en automne, brame audible à grande distance.",
+    sources: "info fauna (CSCF), OFEV — Liste rouge des mammifères 2022.",
+    quiz: [
+      { q: "Que se passe-t-il chaque année avec les bois du cerf ?", o: ["Ils tombent puis repoussent", "Ils changent de couleur", "Ils restent toute la vie"], a: 0, e: "Ils tombent en fin d'hiver et repoussent jusqu'à l'été." },
+      { q: "Comment s'appelle le cri du cerf en automne ?", o: ["Le hululement", "Le brame", "Le chant du coq"], a: 1, e: "Le brame accompagne la période de reproduction, en septembre–octobre." },
+      { q: "Combien de petits la biche a-t-elle en général ?", o: ["Une dizaine", "Trois", "Un seul faon"], a: 2, e: "Elle met bas un seul faon, rarement deux." }
+    ]
+  },
+
+  "herisson": {
+    name: "Hérisson d'Europe",
+    latin: "Erinaceus europaeus",
+    tagline: "Une boule de piquants qui chasse les limaces dans ton jardin la nuit. Un ami à protéger !",
+    id: [
+      { k: "Longueur", v: "20 à 30 cm", note: "queue minuscule" },
+      { k: "Poids", v: "0,8 à 1,5 kg", note: "au plus lourd avant l'hiver" },
+      { k: "Piquants", v: "5000 à 7000", note: "des poils transformés" },
+      { k: "Longévité", v: "2 à 5 ans", note: "jusqu'à 8–10 ans exceptionnellement" },
+      { k: "Régime", v: "Insectivore", note: "coléoptères, vers, chenilles, limaces" },
+      { k: "En Suisse", v: "Quasi menacé", note: "Liste rouge (NT) · espèce protégée" }
+    ],
+    facts: [
+      { t: "Jamais de lait !", d: "Le lait de vache le rend malade. S'il a besoin d'aide, une coupelle d'eau suffit." },
+      { t: "Grand dormeur", d: "Il hiberne plusieurs mois : son cœur ralentit énormément et sa température baisse fortement." },
+      { t: "Des piquants en poils", d: "Ses piquants sont des poils durcis. En danger, il se roule en boule grâce à un muscle spécial." },
+      { t: "Un vrai marcheur", d: "La nuit, il peut parcourir 1 à 2 km pour trouver à manger : laisse un passage dans ta clôture !" }
+    ],
+    taxo: [
+      { k: "Classe", v: "Mammifères" }, { k: "Ordre", v: "Eulipotyphles" }, { k: "Famille", v: "Érinacéidés" },
+      { k: "Espèce", v: "Erinaceus europaeus (L., 1758)" },
+      { k: "UICN mondiale", v: "Quasi menacé" }, { k: "Liste rouge CH", v: "Potentiellement menacé (NT)" }
+    ],
+    nat: [
+      { t: "Écologie", d: "Nocturne et solitaire, il fréquente lisières, haies, prairies et surtout jardins et parcs des zones habitées. Il se nourrit d'invertébrés du sol (coléoptères, larves, vers de terre, chenilles, limaces). Hibernation vraie de novembre à mars environ, dans un nid de feuilles." },
+      { t: "Reproduction", d: "Accouplement du printemps à l'été, précédé d'une parade bruyante où le mâle tourne autour de la femelle. Gestation d'environ 5 semaines, 4 à 6 jeunes nés aveugles, aux piquants mous. Les portées tardives ont peu de chances de survivre à l'hiver." },
+      { t: "Statut et menaces en Suisse", d: "Encore répandu en basse et moyenne altitude mais en régression, il est classé NT dans la Liste rouge 2022. Menaces : trafic routier, appauvrissement du paysage, pesticides, tondeuses-robots et débroussailleuses, clôtures infranchissables." },
+      { t: "Identification", d: "Seul mammifère indigène de Suisse couvert de piquants. Dos brun hérissé de piquants annelés, face et ventre couverts de poils bruns, museau pointu et petits yeux noirs." }
+    ],
+    cal: [
+      { label: "Hibernation", months: [11, 12, 1, 2, 3], color: "#3F7D58" },
+      { label: "Accouplement", months: [4, 5, 6, 7], color: "#E8A33D" },
+      { label: "Naissances", months: [6, 7, 8, 9], color: "#9FCCB0" }
+    ],
+    track: "Crottes noires cylindriques de 3 à 4 cm, brillantes de fragments de carapaces d'insectes, sur les pelouses. Empreintes de 2,5 cm à cinq doigts ; la nuit, reniflements et grognements bruyants dans les feuilles mortes.",
+    sources: "info fauna (CSCF), Pro Igel, OFEV — Liste rouge des mammifères 2022.",
+    quiz: [
+      { q: "Que peut-on donner à un hérisson assoiffé ?", o: ["Du lait de vache", "Une coupelle d'eau", "Du jus d'orange"], a: 1, e: "Le lait le rend malade ; l'eau est sans danger." },
+      { q: "De quoi sont faits les piquants du hérisson ?", o: ["De poils durcis", "D'épines de rosier", "De petits os"], a: 0, e: "Ce sont des poils transformés, creux et très rigides." },
+      { q: "Que fait le hérisson en hiver ?", o: ["Il part en Afrique", "Il construit un igloo", "Il hiberne dans un nid de feuilles"], a: 2, e: "Il hiberne de novembre à mars environ." }
+    ]
+  },
+
+  "ecureuil": {
+    name: "Écureuil roux",
+    latin: "Sciurus vulgaris",
+    tagline: "Acrobate des cimes, il cache des noisettes partout… et en oublie assez pour planter des forêts !",
+    id: [
+      { k: "Longueur", v: "18 à 25 cm", note: "+ une queue de 15 à 20 cm" },
+      { k: "Poids", v: "250 à 400 g", note: "le poids d'une pomme ou deux" },
+      { k: "Longévité", v: "3 à 7 ans", note: "rarement plus de 10 ans" },
+      { k: "Activité", v: "Diurne", note: "surtout le matin" },
+      { k: "Régime", v: "Granivore", note: "graines de conifères, noisettes, faînes" },
+      { k: "En Suisse", v: "Non menacé", note: "Liste rouge · espèce protégée" }
+    ],
+    facts: [
+      { t: "Roux… ou noir !", d: "Malgré son nom, il peut être roux, brun ou presque noir. Les foncés sont fréquents en montagne." },
+      { t: "Jardinier distrait", d: "Il enterre des graines pour l'hiver et en oublie une partie, qui germent et deviennent des arbres." },
+      { t: "Pas d'hibernation", d: "Il ne dort pas tout l'hiver : il reste au chaud dans son nid les jours de grand froid et sort manger ses réserves." },
+      { t: "Pinceaux d'oreilles", d: "En hiver, il porte de longues touffes de poils sur les oreilles. Comme Scrat, l'écureuil de La Garenne ?" }
+    ],
+    taxo: [
+      { k: "Classe", v: "Mammifères" }, { k: "Ordre", v: "Rongeurs" }, { k: "Famille", v: "Sciuridés" },
+      { k: "Espèce", v: "Sciurus vulgaris (L., 1758)" },
+      { k: "UICN mondiale", v: "Préoccupation mineure" }, { k: "Liste rouge CH", v: "Non menacé (LC)" }
+    ],
+    nat: [
+      { t: "Écologie", d: "Rongeur arboricole et diurne des forêts de conifères et mixtes, des parcs et des jardins arborés, jusqu'à la limite des arbres. Se nourrit de graines de conifères, noisettes, faînes, bourgeons, champignons et parfois d'œufs. Constitue des réserves dispersées et joue un rôle dans la dissémination des arbres." },
+      { t: "Reproduction", d: "Une à deux portées par an, au printemps et en été. Gestation d'environ 38 jours, 3 à 5 jeunes nés nus et aveugles dans un nid sphérique de branches et de mousse (la hotte) ou une cavité d'arbre." },
+      { t: "Statut et menaces en Suisse", d: "Commun et non menacé (LC), il est protégé en Suisse. Menaces locales : trafic routier, prédation par les chats. L'écureuil gris américain (Sciurus carolinensis), introduit en Italie du Nord, est une menace potentielle s'il atteignait le sud de la Suisse." },
+      { t: "Identification", d: "Pelage du roux vif au brun-noir, ventre blanc, longue queue touffue, pinceaux auriculaires marqués en hiver. Se distingue de l'écureuil gris par sa taille plus petite, ses pinceaux et l'absence de reflets gris sur les flancs." }
+    ],
+    cal: [
+      { label: "Accouplement", months: [1, 2, 3, 5, 6], color: "#3F7D58" },
+      { label: "Naissances", months: [3, 4, 6, 7, 8], color: "#E8A33D" },
+      { label: "Constitution de réserves", months: [9, 10, 11], color: "#9FCCB0" }
+    ],
+    track: "Cônes d'épicéa ou de pin rongés en « trognons » aux écailles arrachées et à la base effilochée, noisettes fendues proprement en deux moitiés. Nids sphériques (hottes) dans les fourches des arbres ; empreintes aux longs doigts, postérieures devant les antérieures.",
+    sources: "info fauna (CSCF), OFEV — Liste rouge des mammifères 2022.",
+    quiz: [
+      { q: "L'écureuil roux est-il toujours roux ?", o: ["Oui, toujours", "Non, il peut aussi être brun ou presque noir", "Non, il est bleu en hiver"], a: 1, e: "Sa couleur varie beaucoup ; les sombres sont fréquents en montagne." },
+      { q: "Que deviennent les graines que l'écureuil oublie ?", o: ["Elles germent et deviennent des arbres", "Elles se transforment en cailloux", "Elles disparaissent"], a: 0, e: "L'écureuil aide ainsi la forêt à se renouveler." },
+      { q: "Comment s'appelle le nid de l'écureuil ?", o: ["Un terrier", "Une catiche", "Une hotte"], a: 2, e: "C'est une boule de branches et de mousse dans un arbre." }
+    ]
+  },
+
+  "lievre": {
+    name: "Lièvre brun",
+    latin: "Lepus europaeus",
+    tagline: "Sprinteur des champs aux longues oreilles, il peut filer à 70 km/h. Mais dans nos campagnes, il a de plus en plus de mal.",
+    id: [
+      { k: "Longueur", v: "50 à 70 cm", note: "oreilles de 10 à 14 cm à pointe noire" },
+      { k: "Poids", v: "3 à 5 kg", note: "bien plus gros qu'un lapin de garenne" },
+      { k: "Vitesse", v: "jusqu'à 70 km/h", note: "en course zigzaguante" },
+      { k: "Longévité", v: "1 à 5 ans", note: "la plupart meurent jeunes" },
+      { k: "Régime", v: "Herbivore", note: "herbes, trèfles, céréales, bourgeons" },
+      { k: "En Suisse", v: "Vulnérable", note: "Liste rouge · chassable selon cantons" }
+    ],
+    facts: [
+      { t: "Pas un lapin", d: "Le lièvre ne creuse pas de terrier : il se cache dans un creux au sol, appelé le gîte." },
+      { t: "Né prêt à courir", d: "Les levrauts naissent avec leur fourrure et les yeux ouverts, contrairement aux lapereaux." },
+      { t: "Seul, mais pas abandonné", d: "La mère ne vient allaiter qu'une fois par jour. Un levraut seul dans un champ n'a pas besoin d'aide : ne le touche pas !" },
+      { t: "Combats de boxe", d: "Au printemps, on voit des lièvres « boxer » : souvent une femelle qui repousse un mâle trop insistant." }
+    ],
+    taxo: [
+      { k: "Classe", v: "Mammifères" }, { k: "Ordre", v: "Lagomorphes" }, { k: "Famille", v: "Léporidés" },
+      { k: "Espèce", v: "Lepus europaeus (Pallas, 1778)" },
+      { k: "UICN mondiale", v: "Préoccupation mineure" }, { k: "Liste rouge CH", v: "Vulnérable (VU)" }
+    ],
+    nat: [
+      { t: "Écologie", d: "Espèce des milieux ouverts (champs, prairies, friches) richement structurés, de la plaine jusqu'à l'étage alpin. Crépusculaire et nocturne, il passe la journée tapi dans son gîte. Herbivore pratiquant la cæcotrophie (réingestion de crottes molles)." },
+      { t: "Reproduction", d: "Longue saison de reproduction de la fin de l'hiver à l'automne, avec 3 à 4 portées par an de 1 à 4 levrauts nidifuges après environ 42 jours de gestation. La superfétation (nouvelle gestation avant la mise bas) est possible. La mortalité des jeunes est très élevée." },
+      { t: "Statut et menaces en Suisse", d: "Maintenu dans la catégorie VU dans la Liste rouge 2022 en raison du déclin continu de ses populations. Principales causes : intensification agricole, fauche précoce, disparition des structures (haies, jachères, bandes fleuries), prédation et trafic routier. Plusieurs cantons suivent ses effectifs par comptages nocturnes au phare." },
+      { t: "Identification", d: "Plus grand et plus élancé que le lapin de garenne, longues pattes postérieures, oreilles plus longues que la tête et terminées de noir, queue noire dessus et blanche dessous. Iris jaune-orangé." }
+    ],
+    cal: [
+      { label: "Accouplements (« boxe »)", months: [2, 3, 4], color: "#3F7D58" },
+      { label: "Naissances", months: [3, 4, 5, 6, 7, 8, 9], color: "#E8A33D" }
+    ],
+    track: "Traces en Y : les longues empreintes postérieures se posent devant les antérieures, l'une derrière l'autre. Crottes rondes et légèrement aplaties d'environ 1,5 cm, gîte ovale creusé dans l'herbe ou la terre labourée.",
+    sources: "info fauna (CSCF), OFEV — Liste rouge des mammifères 2022.",
+    quiz: [
+      { q: "Où dort le lièvre brun ?", o: ["Dans un terrier profond", "Dans un creux au sol, le gîte", "Dans les arbres"], a: 1, e: "Contrairement au lapin, le lièvre ne creuse pas de terrier." },
+      { q: "Tu trouves un levraut seul dans un champ. Que fais-tu ?", o: ["Je l'emmène chez moi", "Je lui donne une carotte", "Je le laisse tranquille sans le toucher"], a: 2, e: "Sa mère revient l'allaiter : il n'est pas abandonné." },
+      { q: "Pourquoi le lièvre devient-il rare en Suisse ?", o: ["Les campagnes offrent moins d'abris et de nourriture variée", "Il est parti vivre en ville", "Il a peur des vaches"], a: 0, e: "L'agriculture intensive et la disparition des haies et jachères lui nuisent." }
+    ]
+  }
+});
+Object.assign(FICHES, {
+  "vautour": {
+    name: "Vautour fauve",
+    latin: "Gyps fulvus",
+    tagline: "Un planeur géant qui peut rester des heures en l'air presque sans battre des ailes : l'éboueur des montagnes, c'est lui !",
+    id: [
+      { k: "Taille", v: "95 à 110 cm", note: "du bec au bout de la queue" },
+      { k: "Envergure", v: "2,3 à 2,8 m", note: "plus large qu'un lit double" },
+      { k: "Poids", v: "6 à 11 kg", note: "l'un des plus lourds oiseaux d'Europe" },
+      { k: "Longévité", v: "≈ 30 ans", note: "davantage en captivité" },
+      { k: "Régime", v: "Nécrophage", note: "carcasses d'ongulés sauvages et domestiques" },
+      { k: "En Suisse", v: "Visiteur d'été", note: "ne niche pas · espèce protégée" }
+    ],
+    facts: [
+      { t: "Nettoyeur de la nature", d: "En mangeant les animaux morts, les vautours limitent la propagation de maladies. Ils ne tuent pas pour se nourrir." },
+      { t: "Un cou presque nu", d: "Son cou couvert d'un fin duvet se salit moins quand il plonge la tête dans une carcasse." },
+      { t: "Pilote de thermiques", d: "Il monte en spirale dans les courants d'air chaud, puis plane sur des dizaines de kilomètres." },
+      { t: "Un repas XXL", d: "Il peut avaler plus d'un kilo de viande d'un coup, puis jeûner plusieurs jours." }
+    ],
+    sizes: [
+      { label: "Enfant de 6 ans", cm: 115, color: "#E8A33D" },
+      { label: "Vautour fauve", cm: 75, color: "#3F7D58" }
+    ],
+    taxo: [
+      { k: "Classe", v: "Oiseaux" }, { k: "Ordre", v: "Accipitriformes" }, { k: "Famille", v: "Accipitridés" },
+      { k: "Espèce", v: "Gyps fulvus (Hablizl, 1783)" },
+      { k: "UICN mondiale", v: "Préoccupation mineure" }, { k: "Liste rouge CH", v: "Non évalué (non nicheur)" }
+    ],
+    nat: [
+      { t: "Écologie", d: "Espèce grégaire des régions montagneuses et des grands plateaux ouverts, qui niche en colonies sur des falaises. Il prospecte de vastes surfaces en vol plané et repère les carcasses en partie grâce au comportement des autres charognards." },
+      { t: "Reproduction", d: "Monogame et fidèle à son site, il pond un seul œuf en hiver (décembre–février). L'incubation dure environ 55 jours et le jeune reste près de quatre mois au nid ; la maturité sexuelle n'est atteinte que vers 4 à 6 ans." },
+      { t: "Statut et menaces en Suisse", d: "L'espèce ne niche pas en Suisse, mais des groupes d'immatures, venus surtout d'Espagne et de France, y estivent de plus en plus régulièrement depuis les années 2000. Les principales menaces en Europe sont les empoisonnements, les collisions avec les éoliennes et lignes électriques et le manque de nourriture." },
+      { t: "Identification", d: "Très grand rapace brun-roux aux rémiges sombres, tête et cou clairs avec une collerette de plumes à la base du cou. En vol : ailes très larges et digitées, queue courte, silhouette en « planche »." }
+    ],
+    cal: [
+      { label: "Ponte / couvaison", months: [12, 1, 2, 3], color: "#3F7D58" },
+      { label: "Jeunes au nid", months: [3, 4, 5, 6, 7], color: "#E8A33D" },
+      { label: "Présence en Suisse", months: [5, 6, 7, 8, 9], color: "#9FCCB0" }
+    ],
+    track: "Groupes planant haut en cercles au-dessus des alpages, souvent posés ensemble près d'une carcasse ; falaises de nidification blanchies de fientes dans son aire d'origine.",
+    sources: "Station ornithologique suisse (Vogelwarte), Vulture Conservation Foundation, OFEV — Liste rouge des oiseaux nicheurs.",
+    quiz: [
+      { q: "Que mange le vautour fauve ?", o: ["Des animaux déjà morts", "Des lapins qu'il chasse", "Des glaces à la vanille"], a: 0, e: "C'est un nécrophage : il se nourrit de carcasses et ne chasse pas." },
+      { q: "Comment le vautour vole-t-il si longtemps sans se fatiguer ?", o: ["Il bat des ailes très vite", "Il utilise les courants d'air chaud", "Il se fait porter par le vent du nord"], a: 1, e: "Il monte dans les ascendances thermiques puis plane sans presque battre des ailes." },
+      { q: "Le vautour fauve niche-t-il en Suisse ?", o: ["Oui, dans toutes les Alpes", "Seulement dans le Jura", "Non, il y vient surtout en été"], a: 2, e: "Des groupes d'immatures estivent en Suisse, mais l'espèce n'y niche pas." }
+    ]
+  },
+
+  "gypaete": {
+    name: "Gypaète barbu",
+    latin: "Gypaetus barbatus",
+    tagline: "Il lâche des os du haut du ciel pour les casser sur les rochers, puis les avale : bienvenue chez le roi des Alpes !",
+    id: [
+      { k: "Taille", v: "100 à 115 cm", note: "longue queue en losange" },
+      { k: "Envergure", v: "2,6 à 2,9 m", note: "le plus grand rapace des Alpes" },
+      { k: "Poids", v: "5 à 7 kg", note: "femelle un peu plus lourde" },
+      { k: "Longévité", v: "≈ 30 ans", note: "plus de 40 ans en captivité" },
+      { k: "Régime", v: "Ostéophage", note: "os et moelle à près de 80 %" },
+      { k: "En Suisse", v: "Rare, en hausse", note: "réintroduit · espèce protégée" }
+    ],
+    facts: [
+      { t: "Mangeur d'os", d: "Son estomac très acide digère les os. Il avale des morceaux de la taille d'une vertèbre de chamois !" },
+      { t: "Le casse-os", d: "Les os trop gros, il les lâche d'une cinquantaine de mètres sur des dalles rocheuses pour les briser." },
+      { t: "Maquillage à la boue", d: "Sa poitrine orange vient de bains dans des sources riches en fer : sans cela, ses plumes seraient blanches." },
+      { t: "Une injuste réputation", d: "On l'accusait d'enlever des agneaux et même des enfants. C'était faux, mais il a été exterminé des Alpes." }
+    ],
+    sizes: [
+      { label: "Enfant de 6 ans", cm: 115, color: "#E8A33D" },
+      { label: "Gypaète barbu", cm: 65, color: "#3F7D58" }
+    ],
+    taxo: [
+      { k: "Classe", v: "Oiseaux" }, { k: "Ordre", v: "Accipitriformes" }, { k: "Famille", v: "Accipitridés" },
+      { k: "Espèce", v: "Gypaetus barbatus (L., 1758)" }, { k: "Sous-espèce", v: "G. b. barbatus" },
+      { k: "UICN mondiale", v: "Quasi menacé" }, { k: "Liste rouge CH", v: "Vulnérable (VU)" }
+    ],
+    nat: [
+      { t: "Écologie", d: "Hôte des massifs montagneux riches en ongulés et en falaises, il exploite surtout les restes de carcasses délaissés par les autres charognards. Il patrouille les versants à basse altitude en vol plané, sur des domaines vitaux de plusieurs centaines de km²." },
+      { t: "Reproduction", d: "Couples territoriaux et fidèles ; le nid est installé dans une cavité ou une vire de falaise. Ponte de 1 à 2 œufs en hiver (décembre–février), mais un seul jeune est généralement élevé ; incubation d'environ 53 jours et envol après 110 à 130 jours." },
+      { t: "Statut et menaces en Suisse", d: "Exterminé des Alpes au début du XXe siècle (dernier oiseau suisse à la fin du XIXe siècle), il fait l'objet d'un programme international de réintroduction depuis 1986, dont les premiers lâchers en Suisse en 1991. Les jeunes lâchés proviennent d'un réseau européen d'élevage en captivité auquel participent des parcs zoologiques ; les menaces restent le plomb des munitions, les collisions et le dérangement des sites de nid." },
+      { t: "Identification", d: "Adulte : tête blanchâtre avec un masque noir et une « barbe » de soies sous le bec, œil cerclé de rouge, dessous orangé, dos gris ardoise. En vol : ailes longues et pointues, longue queue cunéiforme. Les jeunes sont brun foncé et n'acquièrent le plumage adulte que vers 5 à 7 ans." }
+    ],
+    cal: [
+      { label: "Parade", months: [10, 11, 12], color: "#3F7D58" },
+      { label: "Ponte / couvaison", months: [12, 1, 2, 3], color: "#E8A33D" },
+      { label: "Jeunes au nid", months: [3, 4, 5, 6, 7], color: "#9FCCB0" }
+    ],
+    track: "Dalles rocheuses jonchées d'os brisés (« casse-os ») sous les falaises ; silhouette à longue queue en losange patrouillant les versants.",
+    sources: "Stiftung Pro Bartgeier, Vulture Conservation Foundation, Station ornithologique suisse (Vogelwarte), OFEV — Liste rouge des oiseaux nicheurs.",
+    quiz: [
+      { q: "Quelle est la nourriture préférée du gypaète ?", o: ["Les os", "Les marmottes vivantes", "Les fondues"], a: 0, e: "Les os et leur moelle forment l'essentiel de son régime." },
+      { q: "D'où vient la couleur orange de sa poitrine ?", o: ["De sa nourriture", "De bains de boue riche en fer", "D'une maladie"], a: 1, e: "Il se colore volontairement en se baignant dans des eaux et boues ferrugineuses." },
+      { q: "Depuis quand des gypaètes sont-ils relâchés en Suisse ?", o: ["Depuis 1850", "Depuis 2015", "Depuis 1991"], a: 2, e: "Les premiers lâchers suisses ont eu lieu en 1991, dans le cadre d'un programme alpin lancé en 1986." }
+    ]
+  },
+
+  "bouquetin": {
+    name: "Bouquetin des Alpes",
+    latin: "Capra ibex",
+    tagline: "Grimpeur de génie, il se promène sur des falaises où toi tu aurais besoin d'une corde. Et il a failli disparaître !",
+    id: [
+      { k: "Au garrot", v: "65 à 95 cm", note: "le mâle est nettement plus grand" },
+      { k: "Poids", v: "40 à 110 kg", note: "femelle 40–50 kg, mâle jusqu'à 100 kg et plus" },
+      { k: "Cornes", v: "Jusqu'à 1 m", note: "chez les vieux mâles" },
+      { k: "Longévité", v: "15 à 20 ans", note: "les femelles vivent plus longtemps" },
+      { k: "Régime", v: "Herbivore", note: "graminées, herbes, rameaux" },
+      { k: "En Suisse", v: "Non menacé", note: "Liste rouge · protégé, régulé" }
+    ],
+    facts: [
+      { t: "Des sabots-ventouses", d: "Le bord dur et le centre souple de ses sabots agrippent la roche comme des chaussures d'escalade." },
+      { t: "L'âge sur les cornes", d: "Chaque hiver laisse un anneau de croissance sur les cornes : on peut ainsi compter son âge." },
+      { t: "Sauvé de justesse", d: "Au XIXe siècle, il ne restait plus qu'une petite population dans le Grand Paradis, en Italie." },
+      { t: "Des combats sonores", d: "En hiver, les mâles se dressent sur leurs pattes arrière et entrechoquent leurs cornes avec fracas." }
+    ],
+    sizes: [
+      { label: "Enfant de 6 ans", cm: 115, color: "#E8A33D" },
+      { label: "Bouquetin", cm: 85, color: "#3F7D58" }
+    ],
+    taxo: [
+      { k: "Classe", v: "Mammifères" }, { k: "Ordre", v: "Artiodactyles" }, { k: "Famille", v: "Bovidés" },
+      { k: "Espèce", v: "Capra ibex (L., 1758)" },
+      { k: "UICN mondiale", v: "Préoccupation mineure" }, { k: "Liste rouge CH", v: "Non menacé (LC)" }
+    ],
+    nat: [
+      { t: "Écologie", d: "Ongulé des étages alpin et subalpin, lié aux pentes rocheuses ensoleillées entre la limite des forêts et les crêtes. Mâles et femelles vivent en groupes séparés une bonne partie de l'année ; en hiver ils recherchent les versants raides et exposés au sud où la neige tient peu." },
+      { t: "Reproduction", d: "Rut en décembre–janvier, dominé par les vieux mâles. Gestation d'environ 5 mois et demi ; la femelle met bas un seul cabri (rarement deux) en mai–juin, dans un endroit escarpé." },
+      { t: "Statut et suivi en Suisse", d: "Disparu de Suisse au début du XIXe siècle, il a été réintroduit dès 1906 à partir d'animaux issus du Grand Paradis, élevés notamment au parc Peter und Paul de Saint-Gall. La population suisse dépasse aujourd'hui 15 000 individus ; l'espèce est protégée mais régulée par des tirs encadrés par les cantons et la Confédération. Sa faible diversité génétique, héritée du goulet d'étranglement, reste un point de vigilance." },
+      { t: "Identification", d: "Mâle trapu, brun-gris, avec de grandes cornes recourbées vers l'arrière portant des bourrelets transversaux saillants. Femelle plus petite, aux cornes courtes et fines, rappelant une chèvre ; à distinguer du chamois, aux petits crochets noirs et au masque facial contrasté." }
+    ],
+    cal: [
+      { label: "Rut", months: [12, 1], color: "#3F7D58" },
+      { label: "Naissances", months: [5, 6], color: "#E8A33D" },
+      { label: "Mue", months: [5, 6, 7], color: "#9FCCB0" }
+    ],
+    track: "Empreinte de 6 à 9 cm, deux onglons aux bords arrondis ; crottes en petites billes noires. Sur les vires rocheuses, poils clairs laissés au printemps lors de la mue.",
+    sources: "info fauna (CSCF), OFEV — Liste rouge des mammifères et Concept Bouquetin Suisse, CHASSESUISSE.",
+    quiz: [
+      { q: "Comment connaître l'âge d'un bouquetin mâle ?", o: ["En comptant ses dents de lait", "En comptant les anneaux de ses cornes", "En lui demandant poliment"], a: 1, e: "Chaque hiver, la croissance des cornes ralentit et laisse un anneau visible." },
+      { q: "D'où viennent les bouquetins réintroduits en Suisse ?", o: ["D'Autriche", "De Norvège", "Du Grand Paradis, en Italie"], a: 2, e: "Les animaux réintroduits dès 1906 descendaient de la population du Grand Paradis." },
+      { q: "Quand les bouquetins se battent-ils pour les femelles ?", o: ["En plein hiver", "Au printemps", "En été"], a: 0, e: "Le rut a lieu en décembre–janvier, dans la neige." }
+    ]
+  },
+
+  "marmotte": {
+    name: "Marmotte des Alpes",
+    latin: "Marmota marmota",
+    tagline: "Elle siffle pour prévenir sa famille d'un danger et dort près de six mois par an : la championne suisse de la sieste !",
+    id: [
+      { k: "Longueur", v: "45 à 60 cm", note: "+ une queue de 13 à 20 cm" },
+      { k: "Poids", v: "3 à 7 kg", note: "maigre au printemps, dodue en automne" },
+      { k: "Longévité", v: "≈ 15 ans", note: "davantage en captivité" },
+      { k: "Régime", v: "Herbivore", note: "herbes, fleurs, racines, quelques insectes" },
+      { k: "Habitat", v: "Pelouses alpines", note: "entre environ 1200 et 3000 m" },
+      { k: "En Suisse", v: "Non menacé", note: "Liste rouge · espèce chassable" }
+    ],
+    facts: [
+      { t: "Le sifflet d'alarme", d: "Le cri aigu que l'on entend en montagne, c'est la marmotte qui crie pour avertir les siens d'un danger." },
+      { t: "Super-dormeuse", d: "Pendant l'hibernation, son cœur ne bat plus que quelques fois par minute et sa température chute à moins de 10 °C." },
+      { t: "Une couette d'herbe", d: "En fin d'été, elle tapisse son terrier de foin sec pour l'hiver." },
+      { t: "Sieste en famille", d: "Toute la famille hiberne serrée dans le même terrier, ce qui aide les plus jeunes à ne pas avoir froid." }
+    ],
+    taxo: [
+      { k: "Classe", v: "Mammifères" }, { k: "Ordre", v: "Rongeurs" }, { k: "Famille", v: "Sciuridés" },
+      { k: "Espèce", v: "Marmota marmota (L., 1758)" },
+      { k: "UICN mondiale", v: "Préoccupation mineure" }, { k: "Liste rouge CH", v: "Non menacé (LC)" }
+    ],
+    nat: [
+      { t: "Écologie", d: "Rongeur diurne et social des pelouses alpines et éboulis végétalisés, vivant en groupes familiaux autour d'un couple dominant. Les terriers comprennent des galeries de fuite, d'été et d'hibernation. Ses principaux prédateurs sont l'aigle royal et le renard." },
+      { t: "Reproduction", d: "L'accouplement a lieu au printemps, peu après le réveil, souvent encore dans le terrier. Après environ 33 jours de gestation naissent 2 à 6 petits, qui sortent pour la première fois vers fin juin–juillet." },
+      { t: "Hibernation", d: "Elle hiberne d'octobre à avril environ, avec des phases de torpeur entrecoupées de brefs réveils. Le groupe se refroidit et se réchauffe de façon synchronisée ; les réserves de graisse accumulées en été sont décisives pour la survie hivernale." },
+      { t: "Statut en Suisse", d: "Répandue dans les Alpes, introduite localement dans le Jura. Espèce non menacée, chassable dans plusieurs cantons alpins ; le réchauffement climatique pourrait à terme réduire la qualité de ses habitats." }
+    ],
+    cal: [
+      { label: "Hibernation", months: [10, 11, 12, 1, 2, 3, 4], color: "#3F7D58" },
+      { label: "Naissances", months: [5, 6], color: "#E8A33D" },
+      { label: "Jeunes hors du terrier", months: [7, 8, 9], color: "#9FCCB0" }
+    ],
+    track: "Entrées de terriers d'environ 15 à 20 cm avec un déblai de terre devant ; sifflements d'alarme ; empreintes à quatre doigts devant et cinq derrière.",
+    sources: "info fauna (CSCF), OFEV — Liste rouge des mammifères, Parc national suisse.",
+    quiz: [
+      { q: "Pourquoi la marmotte siffle-t-elle ?", o: ["Pour avertir d'un danger", "Pour appeler son chien", "Parce qu'elle s'ennuie"], a: 0, e: "Son cri d'alarme prévient les autres membres de la colonie." },
+      { q: "Combien de temps dure environ son hibernation ?", o: ["Deux semaines", "Un mois", "Près de six mois"], a: 2, e: "Elle hiberne d'octobre à avril environ." },
+      { q: "Avec qui la marmotte hiberne-t-elle ?", o: ["Seule", "Avec toute sa famille", "Avec des hérissons"], a: 1, e: "Le groupe familial hiberne ensemble dans le même terrier." }
+    ]
+  },
+
+  "ibis": {
+    name: "Ibis chauve",
+    latin: "Geronticus eremita",
+    tagline: "Avec sa tête chauve et sa crinière en bataille, il n'est pas le plus beau, mais l'un des oiseaux les plus rares du monde !",
+    id: [
+      { k: "Taille", v: "70 à 80 cm", note: "dont un long bec courbé" },
+      { k: "Envergure", v: "1,2 à 1,35 m", note: "" },
+      { k: "Poids", v: "1 à 1,5 kg", note: "" },
+      { k: "Longévité", v: "≈ 20 à 25 ans", note: "surtout connu en captivité" },
+      { k: "Régime", v: "Insectivore", note: "larves, vers, petits animaux du sol" },
+      { k: "En Suisse", v: "Disparu", note: "nichait autrefois · protégé" }
+    ],
+    facts: [
+      { t: "Disparu d'Europe", d: "Il nichait en Suisse il y a environ 400 ans, avant de disparaître d'Europe centrale, sans doute à cause de la chasse." },
+      { t: "Migrer derrière un ULM", d: "Pour réapprendre la migration à de jeunes ibis, des humains les ont guidés en ULM jusqu'en Italie." },
+      { t: "Un bec-détecteur", d: "Il fouille le sol avec son long bec sensible pour y dénicher larves et vers de terre." },
+      { t: "Chauve, pas vieux", d: "Sa tête nue et rouge est normale chez l'adulte ; les jeunes, eux, ont la tête emplumée." }
+    ],
+    sizes: [
+      { label: "Enfant de 6 ans", cm: 115, color: "#E8A33D" },
+      { label: "Ibis chauve", cm: 45, color: "#3F7D58" }
+    ],
+    taxo: [
+      { k: "Classe", v: "Oiseaux" }, { k: "Ordre", v: "Pélécaniformes" }, { k: "Famille", v: "Threskiornithidés" },
+      { k: "Espèce", v: "Geronticus eremita (L., 1758)" },
+      { k: "UICN mondiale", v: "En danger" }, { k: "Liste rouge CH", v: "Éteint en Suisse (RE)" }
+    ],
+    nat: [
+      { t: "Écologie", d: "Espèce coloniale qui niche sur des falaises et se nourrit dans des milieux ouverts à végétation rase : steppes, pâturages, champs. Elle recherche au sol des invertébrés (larves de coléoptères, vers de terre, insectes) et occasionnellement de petits vertébrés." },
+      { t: "Reproduction", d: "Couples monogames nichant en colonies sur des vires rocheuses. Ponte de 2 à 4 œufs au printemps, incubation d'environ 4 semaines ; les jeunes quittent le nid vers 6 à 7 semaines." },
+      { t: "Statut et conservation", d: "Autrefois répandu en Europe centrale, y compris en Suisse (décrit par Conrad Gessner au XVIe siècle), il en a disparu au XVIIe siècle. À l'état sauvage, la principale population subsiste au Maroc ; l'espèce, longtemps classée « En danger critique », a été déclassée « En danger » par l'UICN grâce aux efforts de conservation. Des projets de réintroduction d'une population migratrice en Europe, comme celui du Waldrappteam (Autriche/Allemagne), s'appuient sur des oiseaux nés en captivité." },
+      { t: "Identification", d: "Plumage noir à reflets métalliques verts et pourpres, tête et face nues rouges, crête de longues plumes sur la nuque, bec rouge long et arqué. Impossible à confondre en Europe, où seuls des oiseaux issus de projets de réintroduction ou échappés de captivité peuvent être observés." }
+    ],
+    cal: [
+      { label: "Parade", months: [3, 4], color: "#3F7D58" },
+      { label: "Ponte / couvaison", months: [4, 5], color: "#E8A33D" },
+      { label: "Jeunes au nid", months: [5, 6, 7], color: "#9FCCB0" }
+    ],
+    track: "Cris gutturaux « chrup » dans les colonies ; groupes fouillant méthodiquement le sol des prairies rases. Les oiseaux réintroduits portent souvent des bagues de couleur ou des balises GPS.",
+    sources: "Waldrappteam, BirdLife International, Station ornithologique suisse (Vogelwarte).",
+    quiz: [
+      { q: "Pourquoi l'ibis chauve a-t-il disparu d'Europe centrale ?", o: ["À cause de la chasse", "À cause des téléphones portables", "Il a migré pour toujours"], a: 0, e: "Il a probablement été très chassé, notamment pour sa chair, jusqu'à disparaître au XVIIe siècle." },
+      { q: "Comment a-t-on réappris la migration à de jeunes ibis ?", o: ["Avec des cartes routières", "En les guidant avec un ULM", "En les mettant dans un train"], a: 1, e: "Des jeunes élevés par l'homme ont suivi un ULM vers leurs quartiers d'hiver en Italie." },
+      { q: "Que cherche l'ibis chauve avec son long bec ?", o: ["Des graines de tournesol", "Des petits poissons", "Des larves et des vers dans le sol"], a: 2, e: "Il sonde le sol à la recherche d'invertébrés." }
+    ]
+  },
+
+  "effraie": {
+    name: "Effraie des clochers",
+    latin: "Tyto alba",
+    tagline: "Visage en forme de cœur, vol silencieux comme un fantôme : la chouette des granges entend une souris marcher dans le noir complet.",
+    id: [
+      { k: "Taille", v: "33 à 39 cm", note: "" },
+      { k: "Envergure", v: "80 à 95 cm", note: "" },
+      { k: "Poids", v: "250 à 400 g", note: "la femelle est un peu plus lourde" },
+      { k: "Longévité", v: "2 à 4 ans", note: "en moyenne dans la nature, record > 15 ans" },
+      { k: "Régime", v: "Carnivore", note: "surtout campagnols et souris" },
+      { k: "En Suisse", v: "Potentiellement menacée", note: "Liste rouge · espèce protégée" }
+    ],
+    facts: [
+      { t: "Des oreilles décalées", d: "Une oreille est placée plus haut que l'autre : elle peut ainsi localiser une proie au son, même dans le noir total." },
+      { t: "Un visage parabole", d: "Son disque facial en forme de cœur dirige les sons vers ses oreilles, comme une antenne." },
+      { t: "Vol de velours", d: "Ses plumes aux bords frangés étouffent le bruit : sa proie ne l'entend pas arriver." },
+      { t: "Pas de « hou-hou »", d: "Elle ne hulule pas : son cri est un long chuintement rauque qui peut faire peur la nuit." }
+    ],
+    sizes: [
+      { label: "Enfant de 6 ans", cm: 115, color: "#E8A33D" },
+      { label: "Effraie", cm: 30, color: "#3F7D58" }
+    ],
+    taxo: [
+      { k: "Classe", v: "Oiseaux" }, { k: "Ordre", v: "Strigiformes" }, { k: "Famille", v: "Tytonidés" },
+      { k: "Espèce", v: "Tyto alba (Scopoli, 1769)" },
+      { k: "UICN mondiale", v: "Préoccupation mineure" }, { k: "Liste rouge CH", v: "Potentiellement menacé (NT)" }
+    ],
+    nat: [
+      { t: "Écologie", d: "Rapace nocturne des campagnes ouvertes de basse altitude, lié aux bâtiments (granges, clochers, fermes) pour nicher et aux prairies extensives, haies et bords de chemins pour chasser. Ses effectifs varient fortement avec les cycles de campagnols et chutent après les hivers enneigés." },
+      { t: "Reproduction", d: "Nid sans matériau, dans un bâtiment ou un nichoir. Ponte de 4 à 7 œufs (davantage les bonnes années à campagnols), incubation d'environ 30 jours, jeunes au nid durant 8 à 9 semaines ; deuxième ponte possible." },
+      { t: "Statut et menaces en Suisse", d: "Sensible aux hivers rigoureux, à la perte de sites de nidification (fermeture des bâtiments agricoles), à l'intensification agricole et aux collisions routières. Les programmes de nichoirs dans les fermes, menés en Suisse depuis des décennies, soutiennent fortement l'espèce." },
+      { t: "Identification", d: "Dessus beige-orangé moucheté de gris, dessous blanc à roussâtre, disque facial blanc en cœur, yeux noirs, longues pattes. En vol nocturne, paraît très claire, presque blanche." }
+    ],
+    cal: [
+      { label: "Ponte / couvaison", months: [3, 4, 5, 6, 7], color: "#3F7D58" },
+      { label: "Jeunes au nid", months: [5, 6, 7, 8, 9], color: "#E8A33D" }
+    ],
+    track: "Pelotes de réjection noires et lisses, comme vernies, sous les poutres des granges ; chuintement et chuintements d'appel des jeunes la nuit ; fientes blanches sur les murs.",
+    sources: "Station ornithologique suisse (Vogelwarte), info fauna (CSCF), OFEV — Liste rouge des oiseaux nicheurs.",
+    quiz: [
+      { q: "Comment l'effraie trouve-t-elle une souris dans le noir ?", o: ["Avec son odorat", "Grâce à son ouïe exceptionnelle", "Avec une lampe frontale"], a: 1, e: "Son disque facial et ses oreilles asymétriques lui permettent de localiser une proie au son." },
+      { q: "Quel cri fait l'effraie des clochers ?", o: ["Un long chuintement rauque", "Hou-hou", "Coucou"], a: 0, e: "Le « hou-hou » est celui de la chouette hulotte ; l'effraie chuinte." },
+      { q: "Où l'effraie aime-t-elle nicher ?", o: ["Au sommet des sapins", "Dans un terrier", "Dans les granges et les clochers"], a: 2, e: "Elle niche dans les bâtiments ou dans des nichoirs posés pour elle." }
+    ]
+  },
+
+  "buse": {
+    name: "Buse variable",
+    latin: "Buteo buteo",
+    tagline: "Le rapace que tu as le plus de chances de voir, posé sur un piquet au bord de l'autoroute, à guetter les campagnols.",
+    id: [
+      { k: "Taille", v: "48 à 56 cm", note: "" },
+      { k: "Envergure", v: "1,1 à 1,3 m", note: "" },
+      { k: "Poids", v: "0,5 à 1,2 kg", note: "la femelle est plus lourde" },
+      { k: "Longévité", v: "≈ 10 ans", note: "record de plus de 25 ans" },
+      { k: "Régime", v: "Carnivore", note: "surtout campagnols, aussi vers et charognes" },
+      { k: "En Suisse", v: "Non menacé", note: "Liste rouge · espèce protégée" }
+    ],
+    facts: [
+      { t: "Bien nommée", d: "Son plumage varie énormément : certaines buses sont presque blanches, d'autres très sombres." },
+      { t: "Le cri du cinéma", d: "Son miaulement « hiiiéé » est souvent utilisé dans les films… même pour des aigles !" },
+      { t: "Chasseuse patiente", d: "Elle reste longtemps perchée, puis se laisse tomber sur un campagnol repéré dans l'herbe." },
+      { t: "Des vers au menu", d: "Après la pluie ou un labour, on la voit marcher dans les champs pour attraper des vers de terre." }
+    ],
+    sizes: [
+      { label: "Enfant de 6 ans", cm: 115, color: "#E8A33D" },
+      { label: "Buse variable", cm: 45, color: "#3F7D58" }
+    ],
+    taxo: [
+      { k: "Classe", v: "Oiseaux" }, { k: "Ordre", v: "Accipitriformes" }, { k: "Famille", v: "Accipitridés" },
+      { k: "Espèce", v: "Buteo buteo (L., 1758)" },
+      { k: "UICN mondiale", v: "Préoccupation mineure" }, { k: "Liste rouge CH", v: "Non menacé (LC)" }
+    ],
+    nat: [
+      { t: "Écologie", d: "Rapace le plus répandu de Suisse, présent de la plaine à l'étage subalpin. Elle niche en lisière ou dans des bosquets et chasse dans les milieux ouverts, à l'affût depuis un perchoir ou en vol sur place (« vol du Saint-Esprit »)." },
+      { t: "Reproduction", d: "Nid volumineux de branches dans un arbre, souvent réutilisé et décoré de rameaux verts. Ponte de 2 à 4 œufs en mars–avril, incubation de 33 à 35 jours, envol des jeunes vers 6 à 7 semaines." },
+      { t: "Statut en Suisse", d: "Espèce commune, sédentaire, dont les effectifs hivernaux sont renforcés par des oiseaux du nord et de l'est de l'Europe. Elle est victime de collisions routières et ferroviaires, et ponctuellement d'empoisonnements." },
+      { t: "Identification", d: "Rapace trapu aux ailes larges et arrondies et à queue courte, finement barrée. Plumage très variable, du brun foncé au presque blanc, souvent avec une bande pectorale claire ; tache carpienne sombre sous l'aile. En vol plané, ailes tenues en léger V." }
+    ],
+    cal: [
+      { label: "Parade", months: [2, 3], color: "#3F7D58" },
+      { label: "Ponte / couvaison", months: [3, 4, 5], color: "#E8A33D" },
+      { label: "Jeunes au nid", months: [5, 6, 7], color: "#9FCCB0" }
+    ],
+    track: "Miaulement « hiiiéé » très caractéristique ; grandes aires de branches garnies de rameaux verts ; pelotes de réjection contenant des poils et os de campagnols sous les perchoirs.",
+    sources: "Station ornithologique suisse (Vogelwarte), info fauna (CSCF), OFEV — Liste rouge des oiseaux nicheurs.",
+    quiz: [
+      { q: "Pourquoi l'appelle-t-on « variable » ?", o: ["Parce qu'elle change d'humeur", "Parce qu'elle migre parfois", "Parce que son plumage varie beaucoup"], a: 2, e: "D'un individu à l'autre, son plumage va du très sombre au presque blanc." },
+      { q: "Quelle est sa proie principale ?", o: ["Les campagnols", "Les truites", "Les chamois"], a: 0, e: "Les petits rongeurs des champs forment l'essentiel de son régime." },
+      { q: "Où la vois-tu souvent ?", o: ["Au fond des lacs", "Sur un piquet au bord des routes", "Dans les grottes"], a: 1, e: "Elle guette ses proies depuis des perchoirs bien dégagés." }
+    ]
+  },
+
+  "milan-royal": {
+    name: "Milan royal",
+    latin: "Milvus milvus",
+    tagline: "Reconnais-le à sa longue queue rousse en forme de fourche : un rapace élégant dont la Suisse est l'un des grands bastions.",
+    id: [
+      { k: "Taille", v: "60 à 70 cm", note: "longue queue incluse" },
+      { k: "Envergure", v: "1,45 à 1,7 m", note: "" },
+      { k: "Poids", v: "0,8 à 1,3 kg", note: "léger pour sa taille" },
+      { k: "Longévité", v: "≈ 10 à 15 ans", note: "record de plus de 25 ans" },
+      { k: "Régime", v: "Omnivore", note: "petits mammifères, charognes, déchets" },
+      { k: "En Suisse", v: "Non menacé", note: "Liste rouge · espèce protégée" }
+    ],
+    facts: [
+      { t: "Une queue gouvernail", d: "Il tourne et vrille sa longue queue fourchue pour se diriger en vol, comme un gouvernail." },
+      { t: "Un européen pur", d: "Presque toute la population mondiale niche en Europe, et une part importante vit en Suisse." },
+      { t: "Décorateur de nid", d: "Il garnit parfois son nid de chiffons, de plastique ou de papier trouvés près des habitations." },
+      { t: "Dortoirs d'hiver", d: "En hiver, des dizaines de milans peuvent dormir ensemble dans les mêmes arbres." }
+    ],
+    sizes: [
+      { label: "Enfant de 6 ans", cm: 115, color: "#E8A33D" },
+      { label: "Milan royal", cm: 45, color: "#3F7D58" }
+    ],
+    taxo: [
+      { k: "Classe", v: "Oiseaux" }, { k: "Ordre", v: "Accipitriformes" }, { k: "Famille", v: "Accipitridés" },
+      { k: "Espèce", v: "Milvus milvus (L., 1758)" },
+      { k: "UICN mondiale", v: "Préoccupation mineure" }, { k: "Liste rouge CH", v: "Non menacé (LC)" }
+    ],
+    nat: [
+      { t: "Écologie", d: "Rapace des paysages agricoles diversifiés alternant prairies, cultures et bosquets, surtout sur le Plateau, dans le Jura et les Préalpes. Opportuniste, il chasse en vol lent et bas petits mammifères, oiseaux et invertébrés, et exploite volontiers charognes et déchets ; les prairies fauchées l'attirent fortement." },
+      { t: "Reproduction", d: "Nid dans un grand arbre en lisière, souvent garni de matériaux d'origine humaine. Ponte de 1 à 3 œufs en mars–avril, incubation d'environ 32 jours, envol des jeunes vers 7 à 8 semaines." },
+      { t: "Statut en Suisse", d: "Espèce endémique d'Europe dont la Suisse abrite une part importante de la population mondiale, ce qui lui confère une responsabilité internationale particulière. Les effectifs suisses ont fortement augmenté depuis les années 1990, et de plus en plus d'oiseaux y passent l'hiver. Ailleurs en Europe, il souffre d'empoisonnements, de collisions avec les éoliennes et lignes électriques et de l'intensification agricole." },
+      { t: "Identification", d: "Plumage roux, tête gris pâle, longues ailes coudées avec de grandes « fenêtres » blanchâtres sous la main, queue rousse profondément échancrée. Le milan noir, plus sombre, a une queue moins fourchue." }
+    ],
+    cal: [
+      { label: "Ponte / couvaison", months: [3, 4, 5], color: "#3F7D58" },
+      { label: "Jeunes au nid", months: [5, 6, 7], color: "#E8A33D" },
+      { label: "Migration", months: [2, 3, 9, 10, 11], color: "#9FCCB0" }
+    ],
+    track: "Silhouette inimitable tournoyant au-dessus des prairies fauchées ; cri miaulé et chevrotant ; nid orné de plastique ou de chiffons ; dortoirs hivernaux dans des bosquets.",
+    sources: "Station ornithologique suisse (Vogelwarte), BirdLife Suisse, OFEV — Liste rouge des oiseaux nicheurs.",
+    quiz: [
+      { q: "Comment reconnaître le milan royal en vol ?", o: ["À sa queue rousse en fourche", "À son bec jaune fluo", "À ses pattes palmées"], a: 0, e: "Sa longue queue rousse profondément échancrée est caractéristique." },
+      { q: "Pourquoi la Suisse a-t-elle une responsabilité pour le milan royal ?", o: ["Parce qu'il est sur le drapeau", "Parce qu'elle abrite une part importante de sa population mondiale", "Parce qu'il mange du chocolat"], a: 1, e: "Cette espèce vit presque uniquement en Europe, et la Suisse en est un bastion." },
+      { q: "Que trouve-t-on parfois dans son nid ?", o: ["Des œufs de dinosaure", "Des cailloux", "Des chiffons et du plastique"], a: 2, e: "Il décore volontiers son nid de matériaux trouvés près des humains." }
+    ]
+  },
+
+  "milan-noir": {
+    name: "Milan noir",
+    latin: "Milvus migrans",
+    tagline: "Grand voyageur, il passe l'hiver en Afrique et revient chaque printemps tournoyer au-dessus de nos lacs et rivières.",
+    id: [
+      { k: "Taille", v: "48 à 58 cm", note: "" },
+      { k: "Envergure", v: "1,3 à 1,55 m", note: "" },
+      { k: "Poids", v: "0,6 à 1 kg", note: "" },
+      { k: "Longévité", v: "≈ 10 à 15 ans", note: "record de plus de 20 ans" },
+      { k: "Régime", v: "Omnivore", note: "poissons morts, charognes, rongeurs" },
+      { k: "En Suisse", v: "Non menacé", note: "Liste rouge · espèce protégée" }
+    ],
+    facts: [
+      { t: "Migrateur africain", d: "Il passe l'hiver en Afrique au sud du Sahara et revient en Suisse dès le mois de mars." },
+      { t: "Pêcheur à la surface", d: "Il ramasse en vol les poissons morts ou malades flottant à la surface des lacs." },
+      { t: "Ami des tracteurs", d: "Lors des fauches, il suit les machines agricoles pour attraper les petits animaux dérangés." },
+      { t: "Pas vraiment noir", d: "Malgré son nom, son plumage est plutôt brun foncé." }
+    ],
+    sizes: [
+      { label: "Enfant de 6 ans", cm: 115, color: "#E8A33D" },
+      { label: "Milan noir", cm: 40, color: "#3F7D58" }
+    ],
+    taxo: [
+      { k: "Classe", v: "Oiseaux" }, { k: "Ordre", v: "Accipitriformes" }, { k: "Famille", v: "Accipitridés" },
+      { k: "Espèce", v: "Milvus migrans (Boddaert, 1783)" },
+      { k: "UICN mondiale", v: "Préoccupation mineure" }, { k: "Liste rouge CH", v: "Non menacé (LC)" }
+    ],
+    nat: [
+      { t: "Écologie", d: "Lié aux plans d'eau et grandes rivières de basse altitude, il fréquente aussi les zones agricoles et les décharges. Très opportuniste, il se nourrit de poissons morts, charognes, petits vertébrés et déchets, et vole volontiers en groupes lâches." },
+      { t: "Reproduction", d: "Nid dans un grand arbre, souvent près de l'eau, parfois en petites colonies lâches. Ponte de 2 à 3 œufs en avril–mai, incubation d'environ 32 jours, envol des jeunes vers 6 à 7 semaines." },
+      { t: "Statut en Suisse", d: "Nicheur répandu sur le Plateau, en particulier autour des lacs, et migrateur au long cours vers l'Afrique subsaharienne. Comme le milan royal, il est exposé aux électrocutions, aux collisions et aux empoisonnements le long de ses voies de migration." },
+      { t: "Identification", d: "Plumage brun sombre, tête plus pâle, ailes longues aux mains moins contrastées que chez le milan royal, queue brune légèrement échancrée, qui paraît droite quand elle est étalée. Vol souple, ailes souvent légèrement arquées." }
+    ],
+    cal: [
+      { label: "Migration", months: [3, 4, 8, 9], color: "#3F7D58" },
+      { label: "Ponte / couvaison", months: [4, 5, 6], color: "#E8A33D" },
+      { label: "Jeunes au nid", months: [6, 7], color: "#9FCCB0" }
+    ],
+    track: "Groupes tournoyant au-dessus des lacs ou des prairies fauchées ; cri hennissant et chevrotant ; nid garni de déchets et de chiffons près des berges.",
+    sources: "Station ornithologique suisse (Vogelwarte), info fauna (CSCF), OFEV — Liste rouge des oiseaux nicheurs.",
+    quiz: [
+      { q: "Où le milan noir passe-t-il l'hiver ?", o: ["En Afrique", "Dans un terrier", "Au sommet du Cervin"], a: 0, e: "C'est un migrateur qui hiverne au sud du Sahara." },
+      { q: "Comment différencier le milan noir du milan royal ?", o: ["Le milan noir est plus grand", "Le milan noir a la queue moins fourchue", "Le milan noir chante la nuit"], a: 1, e: "Sa queue est seulement légèrement échancrée et son plumage plus sombre." },
+      { q: "Que ramasse-t-il souvent à la surface des lacs ?", o: ["Des bouteilles", "Des feuilles mortes", "Des poissons morts"], a: 2, e: "Il saisit en vol les poissons morts ou affaiblis flottant à la surface." }
+    ]
+  },
+
+  "grand-duc": {
+    name: "Hibou grand-duc",
+    latin: "Bubo bubo",
+    tagline: "Le plus grand hibou d'Europe, avec ses yeux orange et ses aigrettes en forme d'oreilles : le seigneur des falaises la nuit.",
+    id: [
+      { k: "Taille", v: "60 à 75 cm", note: "la femelle est plus grande" },
+      { k: "Envergure", v: "1,5 à 1,8 m", note: "" },
+      { k: "Poids", v: "1,8 à 3,2 kg", note: "femelle nettement plus lourde" },
+      { k: "Longévité", v: "≈ 20 ans", note: "bien plus en captivité" },
+      { k: "Régime", v: "Carnivore", note: "rats, hérissons, lièvres, oiseaux" },
+      { k: "En Suisse", v: "Vulnérable", note: "Liste rouge · espèce protégée" }
+    ],
+    facts: [
+      { t: "Pas des oreilles", d: "Ses deux « cornes » sont des aigrettes de plumes : ses vraies oreilles sont cachées sur les côtés de la tête." },
+      { t: "Mangeur de hérissons", d: "C'est l'un des rares prédateurs capables de manger des hérissons, piquants compris ou presque." },
+      { t: "Un « ou-hou » grave", d: "Son chant grave et sourd porte à plusieurs kilomètres par les nuits calmes de fin d'hiver." },
+      { t: "Sans nid", d: "Il ne construit pas de nid : la femelle pond directement sur une corniche de falaise." }
+    ],
+    sizes: [
+      { label: "Enfant de 6 ans", cm: 115, color: "#E8A33D" },
+      { label: "Grand-duc", cm: 60, color: "#3F7D58" }
+    ],
+    taxo: [
+      { k: "Classe", v: "Oiseaux" }, { k: "Ordre", v: "Strigiformes" }, { k: "Famille", v: "Strigidés" },
+      { k: "Espèce", v: "Bubo bubo (L., 1758)" },
+      { k: "UICN mondiale", v: "Préoccupation mineure" }, { k: "Liste rouge CH", v: "Vulnérable (VU)" }
+    ],
+    nat: [
+      { t: "Écologie", d: "Grand prédateur nocturne des régions riches en falaises, carrières et éboulis, à proximité de milieux ouverts de chasse. Régime très varié : rats, hérissons, lièvres, corvidés, autres rapaces nocturnes ; il est au sommet de la chaîne alimentaire." },
+      { t: "Reproduction", d: "Chants territoriaux dès l'automne puis en fin d'hiver. Ponte de 2 à 4 œufs en février–mars à même le sol d'une vire ou d'une niche rocheuse ; incubation d'environ 35 jours. Les jeunes quittent l'aire à pied vers 5 semaines, avant de savoir voler." },
+      { t: "Statut et menaces en Suisse", d: "Après un fort déclin au XXe siècle, l'espèce reste rare en Suisse, surtout dans les Alpes, le Jura et le Tessin. Les électrocutions sur les poteaux de moyenne tension, les collisions avec les câbles et véhicules et le dérangement des sites de nid (escalade, parapente) sont ses principales causes de mortalité." },
+      { t: "Identification", d: "Très grand hibou brun-roux rayé et tacheté de noir, grandes aigrettes et gros yeux orange. Silhouette massive inconfondable ; le hibou moyen-duc, beaucoup plus petit, a des yeux orangés mais est deux fois moins long." }
+    ],
+    cal: [
+      { label: "Chant / parade", months: [10, 11, 1, 2, 3], color: "#3F7D58" },
+      { label: "Ponte / couvaison", months: [2, 3, 4], color: "#E8A33D" },
+      { label: "Jeunes au nid", months: [4, 5, 6], color: "#9FCCB0" }
+    ],
+    track: "Chant grave « ou-hou » au crépuscule en fin d'hiver ; grosses pelotes (jusqu'à 10 cm) avec os et piquants de hérisson au pied des falaises ; restes de proies sur les corniches.",
+    sources: "Station ornithologique suisse (Vogelwarte), info fauna (CSCF), OFEV — Liste rouge des oiseaux nicheurs.",
+    quiz: [
+      { q: "Que sont les « cornes » du grand-duc ?", o: ["Ses oreilles", "Des aigrettes de plumes", "Des antennes"], a: 1, e: "Ce sont des plumes ; ses oreilles sont cachées sur les côtés de la tête." },
+      { q: "Où le grand-duc pond-il ses œufs ?", o: ["Dans un nid de brindilles", "Dans un nichoir à mésanges", "Directement sur une corniche rocheuse"], a: 2, e: "Il ne construit pas de nid et pond dans une niche de falaise." },
+      { q: "Quelle est l'une des principales causes de mortalité du grand-duc en Suisse ?", o: ["L'électrocution sur les lignes électriques", "Les chutes de neige", "Les indigestions de pizza"], a: 0, e: "Les poteaux électriques mal sécurisés tuent de nombreux grands-ducs." }
+    ]
+  }
+});
+Object.assign(FICHES, {
+  "pigeon": {
+    name: "Pigeon ramier",
+    latin: "Columba palumbus",
+    tagline: "Le plus grand de nos pigeons sauvages : repère son collier blanc et écoute son roucoulement en cinq notes au fond des bois.",
+    id: [
+      { k: "Taille", v: "38 à 43 cm", note: "du bec au bout de la queue" },
+      { k: "Envergure", v: "68 à 77 cm", note: "bande blanche visible en vol" },
+      { k: "Poids", v: "400 à 600 g", note: "le plus lourd de nos pigeons" },
+      { k: "Longévité", v: "≈ 3 à 6 ans", note: "plus de 15 ans au maximum connu" },
+      { k: "Régime", v: "Végétarien", note: "graines, glands, faines, bourgeons" },
+      { k: "En Suisse", v: "Non menacé", note: "Liste rouge · espèce chassable" }
+    ],
+    facts: [
+      { t: "Du lait de pigeon", d: "Les deux parents nourrissent leurs petits avec un « lait » fabriqué dans leur jabot, très riche en protéines." },
+      { t: "Un nid tout léger", d: "Son nid est une simple plateforme de brindilles, si fine qu'on voit parfois les œufs à travers par en dessous." },
+      { t: "Le claquement d'ailes", d: "Au printemps, le mâle monte en flèche, claque des ailes puis redescend en vol plané pour impressionner." },
+      { t: "Des voyageurs d'automne", d: "En octobre, des nuées de ramiers venus du nord traversent les cols du Jura et des Préalpes vers le sud-ouest." }
+    ],
+    taxo: [
+      { k: "Classe", v: "Oiseaux" }, { k: "Ordre", v: "Columbiformes" }, { k: "Famille", v: "Columbidés" },
+      { k: "Espèce", v: "Columba palumbus (L., 1758)" },
+      { k: "UICN mondiale", v: "Préoccupation mineure" }, { k: "Liste rouge CH", v: "Non menacé (LC)" }
+    ],
+    nat: [
+      { t: "Écologie", d: "Espèce initialement forestière, devenue très commune dans les paysages agricoles, les parcs et jusqu'au cœur des villes. Se nourrit au sol de graines, de fruits forestiers (glands, faines) et de feuilles, ainsi que dans les champs." },
+      { t: "Reproduction", d: "Nid de branchettes dans un arbre ou un buisson, ponte de 2 œufs blancs, incubés environ 17 jours par les deux parents. Les jeunes, nourris au lait de jabot, quittent le nid vers 4 semaines ; 2 à 3 nichées par an sont possibles." },
+      { t: "Statut et menaces en Suisse", d: "Nicheur répandu en progression, non menacé. Les populations nordiques et orientales migrent en masse en automne à travers la Suisse ; une partie des oiseaux indigènes hiverne sur place. L'espèce figure parmi les oiseaux chassables." },
+      { t: "Identification", d: "Grand pigeon gris-bleu à poitrine rosée, tache blanche sur les côtés du cou (absente chez le jeune) et bande blanche transversale sur l'aile, très visible en vol. Chant : roucoulement grave en série de cinq syllabes." }
+    ],
+    cal: [
+      { label: "Ponte", months: [4, 5, 6, 7, 8, 9], color: "#3F7D58" },
+      { label: "Jeunes au nid", months: [5, 6, 7, 8, 9], color: "#E8A33D" },
+      { label: "Migration", months: [3, 10, 11], color: "#9FCCB0" }
+    ],
+    track: "Roucoulement en cinq notes « hou-hou-hou, hou-hou » et claquement d'ailes à l'envol ; plumes duveteuses gris-bleu sous les arbres où un rapace l'a plumé, et nid plat de brindilles visible par en dessous.",
+    sources: "Station ornithologique suisse (Vogelwarte), info fauna (CSCF), OFEV — Liste rouge des oiseaux nicheurs.",
+    quiz: [
+      { q: "Avec quoi le pigeon ramier nourrit-il ses petits ?", o: ["Du lait produit dans son jabot", "Des vers de terre", "De la purée de glands"], a: 0, e: "Les deux parents produisent un « lait de jabot » très nourrissant." },
+      { q: "Où repère-t-on le blanc chez le pigeon ramier adulte ?", o: ["Sur le bout de la queue", "Sur le cou et sur l'aile", "Autour des yeux"], a: 1, e: "Une tache blanche orne le cou et une bande blanche barre l'aile." },
+      { q: "Combien d'œufs pond-il en général ?", o: ["Une douzaine", "Un seul", "Deux"], a: 2, e: "La ponte compte presque toujours 2 œufs blancs." }
+    ]
+  },
+
+  "etourneau": {
+    name: "Étourneau sansonnet",
+    latin: "Sturnus vulgaris",
+    tagline: "Plumage étoilé, imitateur de génie et danseur de ballets aériens géants : l'étourneau est bien plus qu'un simple oiseau noir.",
+    id: [
+      { k: "Taille", v: "19 à 22 cm", note: "un peu plus petit qu'un merle" },
+      { k: "Envergure", v: "37 à 42 cm", note: "ailes pointues, triangulaires en vol" },
+      { k: "Poids", v: "60 à 90 g", note: "" },
+      { k: "Longévité", v: "≈ 2 à 5 ans", note: "plus de 15 ans au maximum connu" },
+      { k: "Régime", v: "Omnivore", note: "insectes, larves, vers, fruits" },
+      { k: "En Suisse", v: "Non menacé", note: "Liste rouge" }
+    ],
+    facts: [
+      { t: "Champion d'imitation", d: "Il imite d'autres oiseaux, mais aussi des sonneries de téléphone, des sifflets ou des alarmes de voiture." },
+      { t: "Des ballets géants", d: "En automne, des milliers d'étourneaux volent ensemble en formant des nuages qui changent de forme sans jamais se cogner." },
+      { t: "Un costume d'étoiles", d: "En hiver, ses plumes sombres sont piquetées de points blancs, comme un ciel étoilé." },
+      { t: "Le bec qui change", d: "Son bec est jaune au printemps et devient sombre en hiver." }
+    ],
+    taxo: [
+      { k: "Classe", v: "Oiseaux" }, { k: "Ordre", v: "Passériformes" }, { k: "Famille", v: "Sturnidés" },
+      { k: "Espèce", v: "Sturnus vulgaris (L., 1758)" },
+      { k: "UICN mondiale", v: "Préoccupation mineure" }, { k: "Liste rouge CH", v: "Non menacé (LC)" }
+    ],
+    nat: [
+      { t: "Écologie", d: "Oiseau des milieux ouverts (prairies, vergers, cultures, parcs) qui cherche sa nourriture au sol en sondant la terre avec son bec. Grégaire hors période de reproduction, il forme d'immenses dortoirs, notamment dans les roselières et les villes." },
+      { t: "Reproduction", d: "Nicheur cavernicole : trous d'arbres, anciennes loges de pics, nichoirs, cavités de bâtiments. Ponte de 4 à 6 œufs bleu pâle, incubation d'environ 12 jours, envol des jeunes à 3 semaines ; une deuxième nichée est possible." },
+      { t: "Statut et menaces en Suisse", d: "Nicheur répandu en plaine, non menacé en Suisse, mais en déclin marqué dans plusieurs pays d'Europe du Nord-Ouest en lien avec l'intensification agricole. Migrateur partiel : une partie des oiseaux hiverne en Suisse, d'autres gagnent la France et la péninsule Ibérique." },
+      { t: "Identification", d: "Plumage noir à reflets verts et violets ; en plumage frais (automne), nombreuses taches blanches qui s'usent au printemps. Queue courte, démarche sautillante et pressée au sol ; le juvénile est brun-gris uniforme." }
+    ],
+    cal: [
+      { label: "Ponte", months: [4, 5, 6], color: "#3F7D58" },
+      { label: "Jeunes au nid", months: [5, 6, 7], color: "#E8A33D" },
+      { label: "Migration", months: [3, 10, 11], color: "#9FCCB0" }
+    ],
+    track: "Chant bavard fait de sifflements, grincements et imitations ; cris aigus des jeunes affamés sortant d'un trou d'arbre ou d'un nichoir en mai-juin ; grands vols compacts et dortoirs bruyants en automne.",
+    sources: "Station ornithologique suisse (Vogelwarte), info fauna (CSCF), OFEV — Liste rouge des oiseaux nicheurs.",
+    quiz: [
+      { q: "Comment s'appellent les grands vols coordonnés d'étourneaux ?", o: ["Des embouteillages", "Des murmurations", "Des migrations éclair"], a: 1, e: "On parle de murmurations : des milliers d'oiseaux volent en parfaite coordination." },
+      { q: "Où l'étourneau construit-il son nid ?", o: ["Dans une cavité", "Sur le sol", "Au sommet d'une cheminée, à découvert"], a: 0, e: "Il niche dans des trous d'arbres, des nichoirs ou des cavités de bâtiments." },
+      { q: "Que peut imiter l'étourneau ?", o: ["Rien du tout", "Seulement le merle", "D'autres oiseaux et même des sonneries"], a: 2, e: "C'est un imitateur hors pair qui reproduit aussi des bruits humains." }
+    ]
+  },
+
+  "merle": {
+    name: "Merle noir",
+    latin: "Turdus merula",
+    tagline: "Bec jaune, plumes noires et chant flûté dès la fin de l'hiver : le merle est le voisin musicien de nos jardins.",
+    id: [
+      { k: "Taille", v: "24 à 27 cm", note: "longue queue" },
+      { k: "Envergure", v: "34 à 38 cm", note: "" },
+      { k: "Poids", v: "80 à 110 g", note: "" },
+      { k: "Longévité", v: "≈ 2 à 4 ans", note: "plus de 20 ans au maximum connu" },
+      { k: "Régime", v: "Omnivore", note: "vers de terre, insectes, baies" },
+      { k: "En Suisse", v: "Non menacé", note: "Liste rouge · espèce protégée" }
+    ],
+    facts: [
+      { t: "Madame est brune", d: "Seul le mâle est noir avec un bec jaune ; la femelle est brune, avec un bec plus terne." },
+      { t: "À l'écoute des vers", d: "Il penche la tête sur la pelouse pour repérer les vers de terre, puis tire d'un coup sec." },
+      { t: "Oiseau de la forêt", d: "Il vivait autrefois surtout en forêt ; il s'est installé dans les villes il y a environ deux siècles." },
+      { t: "Plusieurs nichées", d: "Un couple peut élever deux à trois nichées dans la même saison." }
+    ],
+    taxo: [
+      { k: "Classe", v: "Oiseaux" }, { k: "Ordre", v: "Passériformes" }, { k: "Famille", v: "Turdidés" },
+      { k: "Espèce", v: "Turdus merula (L., 1758)" },
+      { k: "UICN mondiale", v: "Préoccupation mineure" }, { k: "Liste rouge CH", v: "Non menacé (LC)" }
+    ],
+    nat: [
+      { t: "Écologie", d: "L'un des oiseaux nicheurs les plus répandus de Suisse, des forêts de plaine jusqu'à la limite des arbres et en milieu urbain. Se nourrit au sol d'invertébrés (vers de terre, larves) et, en automne-hiver, de baies et de fruits." },
+      { t: "Reproduction", d: "Nid en coupe de végétaux consolidé de boue, dans un buisson, une haie ou sur un bâtiment. Ponte de 3 à 5 œufs bleu-vert tachetés de roux, incubation d'environ 13 jours par la femelle, envol vers 2 semaines ; 2 à 3 nichées par an." },
+      { t: "Statut et menaces en Suisse", d: "Très commun et non menacé. Les principales causes de mortalité sont les chats, les collisions avec les vitres et le trafic. Le virus Usutu, transmis par les moustiques, a provoqué des mortalités de merles dans plusieurs régions d'Europe, y compris en Suisse." },
+      { t: "Identification", d: "Mâle entièrement noir, bec et cercle oculaire jaune-orangé ; femelle et jeunes bruns, gorge plus claire et poitrine plus ou moins tachetée. Attention aux individus partiellement blancs (leucisme), assez fréquents en ville." }
+    ],
+    cal: [
+      { label: "Ponte", months: [3, 4, 5, 6, 7], color: "#3F7D58" },
+      { label: "Jeunes au nid", months: [4, 5, 6, 7, 8], color: "#E8A33D" },
+      { label: "Chant", months: [2, 3, 4, 5, 6, 7], color: "#9FCCB0" }
+    ],
+    track: "Chant flûté et mélodieux, souvent au crépuscule depuis un toit ou une antenne ; cri d'alarme « tchok-tchok » et crécelle affolée à l'envol ; feuilles mortes retournées sous les haies.",
+    sources: "Station ornithologique suisse (Vogelwarte), info fauna (CSCF), OFEV — Liste rouge des oiseaux nicheurs.",
+    quiz: [
+      { q: "De quelle couleur est la femelle du merle noir ?", o: ["Noire comme le mâle", "Bleue", "Brune"], a: 2, e: "Seul le mâle est noir ; la femelle est brune." },
+      { q: "Pourquoi le merle penche-t-il la tête sur la pelouse ?", o: ["Pour repérer les vers de terre", "Parce qu'il a un torticolis", "Pour dormir"], a: 0, e: "Il guette les vers de terre avant de les tirer du sol." },
+      { q: "Combien de nichées un couple peut-il élever par an ?", o: ["Une tous les deux ans", "Deux à trois", "Dix"], a: 1, e: "Le merle peut nicher deux à trois fois entre mars et juillet." }
+    ]
+  },
+
+  "cigogne": {
+    name: "Cigogne blanche",
+    latin: "Ciconia ciconia",
+    tagline: "Disparue de Suisse au milieu du XXe siècle, elle est revenue grâce à un projet pionnier. Rick et Morty, le couple de La Garenne, en sont les ambassadeurs.",
+    id: [
+      { k: "Taille", v: "95 à 110 cm", note: "debout, environ 1 m" },
+      { k: "Envergure", v: "1,55 à 2,15 m", note: "un excellent planeur" },
+      { k: "Poids", v: "2,5 à 4,5 kg", note: "" },
+      { k: "Longévité", v: "≈ 20 à 30 ans", note: "au maximum, à l'état sauvage" },
+      { k: "Régime", v: "Carnivore", note: "vers, insectes, campagnols, grenouilles" },
+      { k: "En Suisse", v: "Protégée", note: "espèce protégée · effectifs en hausse" }
+    ],
+    facts: [
+      { t: "Elle claque du bec", d: "La cigogne ne chante pas : elle claque du bec en rejetant la tête en arrière pour saluer son partenaire." },
+      { t: "Un nid géant", d: "Réutilisé et agrandi année après année, un nid de cigogne peut peser plusieurs centaines de kilos." },
+      { t: "Pilote de planeur", d: "Elle profite des courants d'air chaud pour monter en spirale et économiser son énergie pendant la migration." },
+      { t: "Le retour en Suisse", d: "Disparue vers 1950, elle a été réintroduite dès 1948 depuis Altreu, dans le canton de Soleure." }
+    ],
+    sizes: [
+      { label: "Enfant de 6 ans", cm: 115, color: "#E8A33D" },
+      { label: "Cigogne blanche", cm: 100, color: "#3F7D58" }
+    ],
+    taxo: [
+      { k: "Classe", v: "Oiseaux" }, { k: "Ordre", v: "Ciconiiformes" }, { k: "Famille", v: "Ciconiidés" },
+      { k: "Espèce", v: "Ciconia ciconia (L., 1758)" },
+      { k: "UICN mondiale", v: "Préoccupation mineure" }
+    ],
+    nat: [
+      { t: "Écologie", d: "Fréquente les prairies humides, les zones agricoles extensives et les rives, où elle chasse à pied des vers de terre, des insectes, des petits mammifères (campagnols) et des amphibiens. Niche sur les toits, les cheminées, les arbres ou des plateformes artificielles, souvent en colonies lâches." },
+      { t: "Reproduction", d: "Retour sur les sites de nidification dès février-mars. Ponte de 3 à 5 œufs, incubation d'environ 33 jours par les deux parents ; les jeunes s'envolent vers 8 à 9 semaines. Maturité sexuelle vers 3 à 4 ans." },
+      { t: "Statut et menaces en Suisse", d: "La cigogne blanche a cessé de nicher en Suisse vers 1950. Dès 1948, Max Bloesch a lancé à Altreu (SO) un programme de réintroduction avec des oiseaux importés, notamment d'Afrique du Nord. La population nicheuse compte aujourd'hui plusieurs centaines de couples ; les principales menaces restent l'électrocution et les collisions avec les lignes électriques, ainsi que les risques sur les voies de migration." },
+      { t: "Comportement migratoire", d: "Migratrice au long cours : les cigognes suisses passent surtout par l'ouest (France, Espagne, détroit de Gibraltar) vers l'Afrique de l'Ouest. Une part croissante hiverne désormais en Espagne, notamment près des décharges, et certains individus restent même en Suisse en hiver." }
+    ],
+    cal: [
+      { label: "Ponte", months: [3, 4, 5], color: "#3F7D58" },
+      { label: "Jeunes au nid", months: [4, 5, 6, 7], color: "#E8A33D" },
+      { label: "Migration", months: [2, 3, 8, 9], color: "#9FCCB0" }
+    ],
+    track: "Claquements de bec sonores au nid ; grand nid de branches sur un toit, une cheminée ou un poteau, souvent blanchi de fientes ; pelotes de réjection contenant des restes d'insectes et de poils de campagnols ; silhouette en vol cou et pattes tendus.",
+    sources: "Station ornithologique suisse (Vogelwarte), Cigogne Suisse / Storch Schweiz, info fauna (CSCF), OFEV — Liste rouge des oiseaux nicheurs.",
+    quiz: [
+      { q: "Comment la cigogne communique-t-elle avec son partenaire au nid ?", o: ["En chantant très fort", "En claquant du bec", "En envoyant des cartes postales"], a: 1, e: "Faute de chant, elle produit un claquement de bec sonore." },
+      { q: "Où se trouve le berceau de la réintroduction de la cigogne en Suisse ?", o: ["À Genève", "À Zermatt", "À Altreu (SO)"], a: 2, e: "Le programme a démarré en 1948 à Altreu, dans le canton de Soleure." },
+      { q: "Comment la cigogne économise-t-elle son énergie en migrant ?", o: ["En planant sur les courants d'air chaud", "En voyageant de nuit sur le dos d'autres oiseaux", "En battant des ailes sans arrêt"], a: 0, e: "Elle s'élève en spirale dans les ascendances thermiques puis plane." }
+    ]
+  },
+
+  "tortue": {
+    name: "Tortue d'Hermann",
+    latin: "Testudo hermanni",
+    tagline: "Une tortue de terre méditerranéenne qui n'a rien à faire dans la nature suisse : beaucoup arrivent en refuge après avoir été abandonnées.",
+    id: [
+      { k: "Longueur", v: "12 à 20 cm", note: "carapace, femelles plus grandes" },
+      { k: "Poids", v: "0,5 à 1,5 kg", note: "selon le sexe et la sous-espèce" },
+      { k: "Longévité", v: "50 ans et plus", note: "un engagement pour la vie" },
+      { k: "Régime", v: "Herbivore", note: "herbes, fleurs, feuilles sauvages" },
+      { k: "Origine", v: "Méditerranée", note: "Espagne, France, Italie, Balkans" },
+      { k: "En Suisse", v: "Non indigène", note: "pas de population sauvage · CITES" }
+    ],
+    facts: [
+      { t: "Maison sur le dos", d: "Sa carapace est soudée à sa colonne vertébrale et à ses côtes : elle ne peut pas en sortir." },
+      { t: "La chaleur décide", d: "La température pendant l'incubation détermine si un œuf donne un mâle ou une femelle." },
+      { t: "Un ongle au bout", d: "Elle porte une sorte de griffe cornée au bout de la queue, très utile pour la reconnaître." },
+      { t: "Pas un jouet", d: "Elle peut vivre plus de 50 ans : l'adopter, c'est s'engager pour toute une vie, voire plus !" }
+    ],
+    taxo: [
+      { k: "Classe", v: "Reptiles" }, { k: "Ordre", v: "Testudines (Tortues)" }, { k: "Famille", v: "Testudinidés" },
+      { k: "Espèce", v: "Testudo hermanni Gmelin, 1789" },
+      { k: "UICN mondiale", v: "Quasi menacée" }, { k: "Liste rouge CH", v: "Non évaluée (non indigène)" }
+    ],
+    nat: [
+      { t: "Écologie", d: "Espèce des garrigues, maquis et forêts claires méditerranéennes, active surtout le matin et en fin de journée par temps chaud. Herbivore, elle consomme une grande variété de plantes herbacées, de fleurs et ponctuellement quelques invertébrés ou charognes." },
+      { t: "Reproduction", d: "Accouplements au printemps, ponte en mai-juin de 2 à 6 œufs (parfois plus) enfouis dans un sol meuble et ensoleillé. Incubation d'environ 2 à 3 mois ; le sexe des jeunes dépend de la température d'incubation." },
+      { t: "Statut et menaces", d: "L'espèce n'est pas indigène en Suisse et n'y forme pas de populations sauvages. Dans son aire d'origine, elle souffre de la destruction de son habitat, des incendies et des prélèvements pour le commerce ; elle est inscrite aux annexes de la CITES. En Suisse, les tortues abandonnées ou échappées finissent souvent en refuge : il ne faut jamais les relâcher dans la nature." },
+      { t: "Identification", d: "Carapace bombée jaune et noire, plaque supracaudale généralement divisée en deux et ongle corné au bout de la queue. Ces critères la distinguent de la tortue grecque (Testudo graeca), qui porte des ergots sur les cuisses." }
+    ],
+    cal: [
+      { label: "Ponte", months: [5, 6], color: "#3F7D58" },
+      { label: "Éclosions", months: [8, 9], color: "#E8A33D" },
+      { label: "Hibernation", months: [11, 12, 1, 2, 3], color: "#9FCCB0" }
+    ],
+    track: "En Suisse, aucun indice dans la nature : une tortue terrestre trouvée dehors est presque toujours un animal échappé ou abandonné, à signaler à un refuge ou à une association spécialisée.",
+    sources: "karch (Centre de coordination pour la protection des amphibiens et des reptiles de Suisse), info fauna (CSCF), OSAV, CITES.",
+    quiz: [
+      { q: "La tortue d'Hermann vit-elle à l'état sauvage en Suisse ?", o: ["Oui, partout dans le Jura", "Non, elle vient de Méditerranée", "Seulement dans les lacs"], a: 1, e: "C'est une espèce méditerranéenne ; en Suisse, elle n'existe qu'en captivité." },
+      { q: "Qu'est-ce qui décide si un bébé tortue sera mâle ou femelle ?", o: ["La couleur de la carapace", "Le jour de la semaine", "La température de l'œuf"], a: 2, e: "La température d'incubation détermine le sexe des jeunes." },
+      { q: "Que faire si on ne peut plus garder sa tortue ?", o: ["La confier à un refuge ou une association", "La relâcher dans la forêt", "La laisser au jardin en hiver"], a: 0, e: "Relâcher une tortue est interdit et dangereux pour elle : on la confie à des spécialistes." }
+    ]
+  },
+
+  "cistude": {
+    name: "Cistude d'Europe",
+    latin: "Emys orbicularis",
+    tagline: "La seule tortue indigène de Suisse : une discrète tortue d'eau douce devenue très rare, que l'on tente de faire revenir dans nos marais.",
+    id: [
+      { k: "Longueur", v: "12 à 20 cm", note: "carapace" },
+      { k: "Poids", v: "0,3 à 1 kg", note: "" },
+      { k: "Longévité", v: "40 ans et plus", note: "parfois bien davantage" },
+      { k: "Régime", v: "Carnivore", note: "insectes aquatiques, escargots, charognes" },
+      { k: "Habitat", v: "Étangs, marais", note: "eaux calmes et bien végétalisées" },
+      { k: "En Suisse", v: "En danger critique", note: "Liste rouge · espèce protégée" }
+    ],
+    facts: [
+      { t: "Seule tortue suisse", d: "C'est la seule tortue originaire de Suisse, et elle vit dans l'eau, pas dans les jardins." },
+      { t: "Ciel étoilé", d: "Sa carapace sombre et sa peau sont souvent constellées de petits points jaunes." },
+      { t: "Bains de soleil", d: "Elle adore se chauffer au soleil sur un tronc flottant, mais plonge au moindre bruit." },
+      { t: "Ponte sur la terre", d: "Bien qu'aquatique, la femelle sort de l'eau pour creuser un trou et pondre ses œufs au sec." }
+    ],
+    taxo: [
+      { k: "Classe", v: "Reptiles" }, { k: "Ordre", v: "Testudines (Tortues)" }, { k: "Famille", v: "Émydidés" },
+      { k: "Espèce", v: "Emys orbicularis (L., 1758)" },
+      { k: "UICN mondiale", v: "Quasi menacée" }, { k: "Liste rouge CH", v: "En danger critique (CR)" }
+    ],
+    nat: [
+      { t: "Écologie", d: "Tortue aquatique des eaux stagnantes ou lentes, riches en végétation, avec des sites d'insolation (troncs, berges) et des zones de ponte sèches et ensoleillées à proximité. Se nourrit surtout d'invertébrés aquatiques, de mollusques, de larves d'amphibiens et de charognes." },
+      { t: "Reproduction", d: "Accouplements au printemps dans l'eau. En juin, la femelle pond 5 à 15 œufs dans un trou creusé à terre, parfois à plusieurs centaines de mètres de l'eau. Les jeunes éclosent en fin d'été ou passent l'hiver dans le nid ; le sexe dépend de la température d'incubation." },
+      { t: "Statut et menaces en Suisse", d: "Considérée comme indigène, l'espèce a presque disparu de Suisse avec l'assèchement des zones humides ; les rares individus observés sont souvent d'origine incertaine. Des projets de réintroduction sont menés, notamment dans le canton de Genève. La concurrence des tortues exotiques relâchées (tortues de Floride) est une menace supplémentaire." },
+      { t: "Identification", d: "Carapace ovale assez plate, brun foncé à noire, ponctuée ou rayée de jaune ; peau sombre tachetée de jaune. Se distingue de la tortue à tempes rouges (Trachemys scripta) par l'absence de tache rouge ou jaune derrière l'œil." }
+    ],
+    cal: [
+      { label: "Ponte", months: [6], color: "#3F7D58" },
+      { label: "Éclosions", months: [8, 9], color: "#E8A33D" },
+      { label: "Hibernation", months: [10, 11, 12, 1, 2, 3], color: "#9FCCB0" }
+    ],
+    track: "Très discrète : on l'aperçoit surtout en train de se chauffer sur un bois flottant avant qu'elle ne plonge ; en juin, traces de pattes et trous de ponte rebouchés sur des talus sablonneux près de l'eau.",
+    sources: "karch (Centre de coordination pour la protection des amphibiens et des reptiles de Suisse), info fauna (CSCF), OFEV — Liste rouge des reptiles.",
+    quiz: [
+      { q: "Où vit la cistude d'Europe ?", o: ["Dans le désert", "Dans les étangs et les marais", "Dans les sapins"], a: 1, e: "C'est une tortue aquatique des eaux calmes et végétalisées." },
+      { q: "Où la cistude pond-elle ses œufs ?", o: ["Dans un trou creusé à terre", "Au fond de l'eau", "Dans un nid d'oiseau"], a: 0, e: "La femelle sort de l'eau pour pondre dans un sol ensoleillé." },
+      { q: "Quelle est la particularité de la cistude en Suisse ?", o: ["Elle vit en montagne", "Elle est arrivée avec les Romains", "C'est la seule tortue indigène"], a: 2, e: "C'est la seule espèce de tortue originaire de Suisse." }
+    ]
+  },
+
+  "salamandre": {
+    name: "Salamandre tachetée",
+    latin: "Salamandra salamandra",
+    tagline: "Noire et jaune comme un panneau « attention », elle sort les nuits de pluie dans les forêts humides. Regarde, mais ne touche pas !",
+    id: [
+      { k: "Longueur", v: "15 à 20 cm", note: "rarement un peu plus" },
+      { k: "Poids", v: "20 à 50 g", note: "" },
+      { k: "Longévité", v: "20 ans et plus", note: "étonnamment longue" },
+      { k: "Régime", v: "Carnivore", note: "limaces, vers, insectes" },
+      { k: "Habitat", v: "Forêts humides", note: "près des ruisseaux frais" },
+      { k: "En Suisse", v: "Vulnérable", note: "Liste rouge · espèce protégée" }
+    ],
+    facts: [
+      { t: "Couleurs d'avertissement", d: "Son jaune vif prévient les prédateurs : sa peau sécrète un poison irritant." },
+      { t: "Pas d'œufs dans l'eau", d: "La maman garde les œufs dans son ventre et dépose directement des larves dans le ruisseau." },
+      { t: "Fan de la pluie", d: "Elle sort surtout la nuit et par temps de pluie, pour ne pas se dessécher." },
+      { t: "Taches uniques", d: "Comme une empreinte digitale, chaque salamandre a son propre dessin de taches jaunes." }
+    ],
+    taxo: [
+      { k: "Classe", v: "Amphibiens" }, { k: "Ordre", v: "Urodèles (Caudata)" }, { k: "Famille", v: "Salamandridés" },
+      { k: "Espèce", v: "Salamandra salamandra (L., 1758)" },
+      { k: "UICN mondiale", v: "Préoccupation mineure" }, { k: "Liste rouge CH", v: "Vulnérable (VU)" }
+    ],
+    nat: [
+      { t: "Écologie", d: "Espèce terrestre des forêts de feuillus et mixtes humides, en plaine et à l'étage collinéen, liée à des ruisseaux frais et bien oxygénés pour ses larves. Nocturne, active surtout par temps humide ; elle passe la journée et l'hiver dans des cavités, sous les souches ou dans des galeries." },
+      { t: "Reproduction", d: "Accouplement à terre, principalement en été. Ovovivipare : la femelle conserve les œufs fécondés plusieurs mois et dépose au printemps quelque 20 à 40 larves munies de branchies dans les ruisseaux ou les sources. Les larves se métamorphosent après 2 à 4 mois." },
+      { t: "Statut et menaces en Suisse", d: "En recul en Suisse en raison de la dégradation des ruisseaux forestiers (canalisation, captage), de la fragmentation et du trafic routier. Une menace sérieuse est le champignon chytride Batrachochytrium salamandrivorans (Bsal), qui a décimé des populations aux Pays-Bas, en Belgique et en Allemagne." },
+      { t: "Identification", d: "Corps trapu noir brillant, taches ou bandes jaunes (parfois orangées) de motif très variable, grosses glandes parotoïdes derrière les yeux. Les larves se reconnaissent à une tache claire à la base de chaque patte." }
+    ],
+    cal: [
+      { label: "Dépôt des larves", months: [3, 4, 5], color: "#3F7D58" },
+      { label: "Accouplements", months: [6, 7, 8, 9], color: "#E8A33D" },
+      { label: "Hibernation", months: [11, 12, 1, 2], color: "#9FCCB0" }
+    ],
+    track: "Adultes visibles sur les chemins forestiers les nuits de pluie ; au printemps, larves à petite tache claire à la base des pattes dans les ruisseaux et vasques calmes des sources forestières.",
+    sources: "karch (Centre de coordination pour la protection des amphibiens et des reptiles de Suisse), info fauna (CSCF), OFEV — Liste rouge des amphibiens.",
+    quiz: [
+      { q: "Pourquoi la salamandre est-elle jaune et noire ?", o: ["Pour se cacher dans les feuilles", "Pour avertir qu'elle est toxique", "Parce qu'elle supporte une équipe de foot"], a: 1, e: "Ces couleurs vives signalent aux prédateurs que sa peau est toxique." },
+      { q: "Que dépose la femelle dans le ruisseau ?", o: ["Des œufs en chapelet", "Des petits déjà terrestres", "Des larves"], a: 2, e: "Elle met au monde des larves munies de branchies directement dans l'eau." },
+      { q: "Quand a-t-on le plus de chances d'en voir une ?", o: ["La nuit, quand il pleut", "À midi en plein soleil", "En hiver sur la neige"], a: 0, e: "Elle sort surtout la nuit par temps humide." }
+    ]
+  },
+
+  "sonneur": {
+    name: "Sonneur à ventre jaune",
+    latin: "Bombina variegata",
+    tagline: "Gris dessus, jaune vif dessous et des pupilles en forme de cœur : ce petit crapaud adore les flaques des ornières.",
+    id: [
+      { k: "Longueur", v: "4 à 5 cm", note: "pas plus grand qu'une noix" },
+      { k: "Poids", v: "5 à 15 g", note: "" },
+      { k: "Longévité", v: "10 à 15 ans", note: "parfois davantage" },
+      { k: "Régime", v: "Carnivore", note: "petits insectes, araignées, vers" },
+      { k: "Habitat", v: "Flaques, ornières", note: "gravières, chemins forestiers" },
+      { k: "En Suisse", v: "En danger", note: "Liste rouge · espèce protégée" }
+    ],
+    facts: [
+      { t: "Des yeux en cœur", d: "Ses pupilles ont la forme d'un petit cœur ou d'un triangle." },
+      { t: "Le ventre-alarme", d: "Menacé, il se cambre et lève les pattes pour montrer son ventre jaune vif : « attention, je suis toxique ! »" },
+      { t: "Roi des flaques", d: "Il pond dans de simples flaques ou des ornières de tracteur, là où il y a peu de prédateurs." },
+      { t: "Un chant tout doux", d: "Les mâles chantent un « hou… hou… » discret et mélancolique, qu'on entend surtout le soir." }
+    ],
+    taxo: [
+      { k: "Classe", v: "Amphibiens" }, { k: "Ordre", v: "Anoures" }, { k: "Famille", v: "Bombinatoridés" },
+      { k: "Espèce", v: "Bombina variegata (L., 1758)" },
+      { k: "UICN mondiale", v: "Préoccupation mineure" }, { k: "Liste rouge CH", v: "En danger (EN)" }
+    ],
+    nat: [
+      { t: "Écologie", d: "Espèce pionnière des plans d'eau temporaires, peu profonds et ensoleillés : ornières, flaques de chemins forestiers, gravières, glaisières. À l'origine, ces milieux pauvres en végétation et en prédateurs (poissons, larves de libellules) étaient créés par la dynamique naturelle des rivières dans les plaines alluviales." },
+      { t: "Reproduction", d: "Saison de reproduction étalée d'avril à août, avec plusieurs pontes successives déclenchées par les pluies. Les œufs sont déposés en petits paquets fixés à la végétation ou à des brindilles ; le développement larvaire est rapide pour échapper à l'assèchement des flaques." },
+      { t: "Statut et menaces en Suisse", d: "En fort déclin, l'espèce a perdu une grande partie de ses milieux avec la régulation des cours d'eau et le comblement des petites mares. Sa conservation repose sur la création et l'entretien régulier de plans d'eau temporaires, notamment dans les gravières et en forêt." },
+      { t: "Identification", d: "Petit anoure aplati, dos gris-brun verruqueux, face ventrale jaune à orangé marbrée de noir ou de gris-bleu (motif individuel). Pupille en forme de cœur ; position d'avertissement caractéristique (réflexe d'« Unken »)." }
+    ],
+    cal: [
+      { label: "Reproduction", months: [4, 5, 6, 7, 8], color: "#3F7D58" },
+      { label: "Jeunes métamorphosés", months: [7, 8, 9], color: "#E8A33D" },
+      { label: "Hibernation", months: [10, 11, 12, 1, 2, 3], color: "#9FCCB0" }
+    ],
+    track: "Chant doux et répété « ou… ou… ou… » au crépuscule près des flaques ; petits crapauds flottant à la surface des ornières, seuls les yeux dépassant, qui plongent au moindre mouvement.",
+    sources: "karch (Centre de coordination pour la protection des amphibiens et des reptiles de Suisse), info fauna (CSCF), OFEV — Liste rouge des amphibiens.",
+    quiz: [
+      { q: "Quelle forme ont les pupilles du sonneur ?", o: ["Rondes comme des billes", "Carrées", "En forme de cœur"], a: 2, e: "Ses pupilles ont une forme de cœur ou de triangle." },
+      { q: "Où le sonneur aime-t-il pondre ?", o: ["Dans les ornières et les flaques", "Dans les grands lacs profonds", "Dans les arrosoirs du jardinier"], a: 0, e: "Il préfère les petites eaux temporaires, pauvres en prédateurs." },
+      { q: "Pourquoi montre-t-il son ventre jaune ?", o: ["Pour bronzer", "Pour avertir qu'il est toxique", "Pour attirer les insectes"], a: 1, e: "Ce réflexe d'avertissement dissuade les prédateurs." }
+    ]
+  },
+
+  "crapaud": {
+    name: "Crapaud commun",
+    latin: "Bufo bufo",
+    tagline: "Chaque printemps, il marche des centaines de mètres pour rejoindre l'étang où il est né… et doit souvent traverser la route.",
+    id: [
+      { k: "Longueur", v: "8 à 12 cm", note: "femelles nettement plus grandes" },
+      { k: "Poids", v: "30 à 120 g", note: "selon le sexe" },
+      { k: "Longévité", v: "≈ 10 ans", note: "plus longtemps en captivité" },
+      { k: "Régime", v: "Carnivore", note: "insectes, limaces, vers, araignées" },
+      { k: "Habitat", v: "Forêts, jardins", note: "se reproduit dans les étangs" },
+      { k: "En Suisse", v: "Vulnérable", note: "Liste rouge · espèce protégée" }
+    ],
+    facts: [
+      { t: "Retour au bercail", d: "Il retourne chaque année pondre dans l'étang où il est né, même s'il doit parcourir plus d'un kilomètre." },
+      { t: "Taxi pour monsieur", d: "Le mâle, plus petit, s'accroche sur le dos de la femelle et se fait porter jusqu'à l'eau." },
+      { t: "Des cordons d'œufs", d: "La femelle pond des milliers d'œufs alignés dans de longs cordons gélatineux de plusieurs mètres." },
+      { t: "L'ami du jardinier", d: "Il dévore limaces et insectes, et ne donne pas de verrues quand on le touche !" }
+    ],
+    taxo: [
+      { k: "Classe", v: "Amphibiens" }, { k: "Ordre", v: "Anoures" }, { k: "Famille", v: "Bufonidés" },
+      { k: "Espèce", v: "Bufo bufo (L., 1758)" },
+      { k: "UICN mondiale", v: "Préoccupation mineure" }, { k: "Liste rouge CH", v: "Vulnérable (VU)" }
+    ],
+    nat: [
+      { t: "Écologie", d: "Espèce terrestre ubiquiste (forêts, haies, prairies, jardins) de la plaine jusqu'à plus de 2000 m. Nocturne, elle passe la journée enfouie ou sous un abri. Ses têtards, toxiques pour de nombreux poissons, lui permettent de se reproduire aussi dans des étangs et des lacs peuplés de poissons." },
+      { t: "Reproduction", d: "Reproduction explosive en mars-avril, concentrée sur quelques jours à quelques semaines, avec une forte fidélité au site de ponte. La femelle pond environ 3000 à 6000 œufs en cordons de plusieurs mètres enroulés autour de la végétation ; les petits crapauds quittent l'eau en masse au début de l'été." },
+      { t: "Statut et menaces en Suisse", d: "Encore répandu, mais en déclin. La mortalité routière lors des migrations printanières est un problème majeur : de nombreux passages sont équipés de barrières temporaires ou de crapauducs, avec l'aide de bénévoles. La disparition des plans d'eau et la fragmentation du paysage pèsent aussi." },
+      { t: "Identification", d: "Gros crapaud trapu à peau verruqueuse brun-roux à olive, iris cuivré à doré et pupille horizontale, glandes parotoïdes saillantes et obliques derrière les yeux. Se déplace en marchant plutôt qu'en sautant." }
+    ],
+    cal: [
+      { label: "Migration nuptiale", months: [2, 3, 4], color: "#3F7D58" },
+      { label: "Sortie des jeunes", months: [6, 7], color: "#E8A33D" },
+      { label: "Hibernation", months: [10, 11, 12, 1, 2], color: "#9FCCB0" }
+    ],
+    track: "Migrations massives les soirs doux et humides de mars sur les routes proches des étangs ; longs cordons d'œufs noirs dans l'eau ; essaims de têtards noirs en bordure d'étang ; chant faible « ouac-ouac » des mâles.",
+    sources: "karch (Centre de coordination pour la protection des amphibiens et des reptiles de Suisse), info fauna (CSCF), OFEV — Liste rouge des amphibiens.",
+    quiz: [
+      { q: "Où le crapaud commun va-t-il pondre ?", o: ["Dans l'étang où il est né", "N'importe où sur le chemin", "Dans une piscine chauffée"], a: 0, e: "Il est très fidèle à son étang de naissance." },
+      { q: "Sous quelle forme les œufs du crapaud commun sont-ils pondus ?", o: ["En gros paquets ronds", "En longs cordons", "Un par un sous une pierre"], a: 1, e: "Ils sont alignés dans des cordons gélatineux de plusieurs mètres." },
+      { q: "Toucher un crapaud donne-t-il des verrues ?", o: ["Oui, toujours", "Seulement le mercredi", "Non, c'est une légende"], a: 2, e: "C'est un mythe ; mieux vaut toutefois se laver les mains et ne pas le déranger." }
+    ]
+  }
+});
+Object.assign(FICHES, {
+  "oie": {
+    name: "Oie de Diepholz",
+    latin: "Anser anser f. domestica — forme domestique de l'oie cendrée",
+    tagline: "Toute blanche, avec des yeux bleu clair : cette oie de ferme a autrefois fourni plumes à écrire et duvet pour les édredons.",
+    id: [
+      { k: "Poids", v: "5,5 à 7 kg", note: "le jars est plus lourd que l'oie" },
+      { k: "Plumage", v: "Blanc pur", note: "bec orange, pattes rougeâtres" },
+      { k: "Ponte", v: "35 à 50 œufs/an", note: "en jusqu'à trois périodes de ponte" },
+      { k: "Longévité", v: "15 à 20 ans", note: "les oies vivent longtemps" },
+      { k: "Régime", v: "Herbivore", note: "surtout de l'herbe broutée au pré" },
+      { k: "Statut", v: "Race rare", note: "ProSpecieRara" }
+    ],
+    facts: [
+      { t: "Des plumes pour écrire", d: "Avant le stylo à bille, on taillait les grandes plumes d'oie pour en faire des plumes à écrire." },
+      { t: "Des yeux bleus", d: "L'oie de Diepholz a des yeux bleu clair, ce qui est rare chez les oiseaux de la ferme." },
+      { t: "Une alarme vivante", d: "Les oies cacardent bruyamment à l'arrivée d'un inconnu : on les utilisait comme gardiennes de la ferme." },
+      { t: "Une cousine sauvage", d: "Toutes nos oies domestiques européennes descendent de l'oie cendrée, qui vit encore à l'état sauvage." }
+    ],
+    sizes: [
+      { label: "Enfant de 6 ans", cm: 115, color: "#E8A33D" },
+      { label: "Oie de Diepholz", cm: 60, color: "#3F7D58" }
+    ],
+    taxo: [
+      { k: "Classe", v: "Oiseaux" }, { k: "Ordre", v: "Ansériformes" }, { k: "Famille", v: "Anatidés" },
+      { k: "Espèce", v: "Anser anser (L., 1758), forme domestique" }, { k: "Race", v: "Oie de Diepholz (Diepholzer Gans)" },
+      { k: "Statut", v: "Race rare soutenue par ProSpecieRara" }
+    ],
+    nat: [
+      { t: "Origine et histoire", d: "Race formée au XIXe siècle dans le comté de Diepholz, en Basse-Saxe (nord de l'Allemagne), comme oie rustique à usages multiples : œufs, chair, plumes et duvet. Elle est arrivée en Suisse vers le milieu du XXe siècle." },
+      { t: "Caractéristiques de la race", d: "Oie de format moyen, de silhouette assez élancée, au plumage entièrement blanc, bec orange, pattes rougeâtres et iris bleu clair. Les femelles pèsent environ 5,5 kg, les jars environ 7 kg." },
+      { t: "Conservation (ProSpecieRara)", d: "Le stylo à bille et les garnitures synthétiques ont fait disparaître les grands troupeaux, et la race est aujourd'hui surtout tenue en couples ou petits groupes. ProSpecieRara la soutient, en partenariat avec la ZUN (Zuchtvereinigung für ursprüngliches Nutzgeflügel) qui coordonne l'élevage." },
+      { t: "Élevage / comportement", d: "Oie robuste et bonne pâtureuse, elle se nourrit en grande partie d'herbe. Les oies sont grégaires, forment des couples durables et l'incubation dure environ 4 semaines (28 à 32 jours)." }
+    ],
+    cal: [
+      { label: "Ponte", months: [2, 3, 4, 5], color: "#3F7D58" },
+      { label: "Oisons", months: [4, 5, 6], color: "#E8A33D" },
+      { label: "Mue", months: [6, 7, 8], color: "#9FCCB0" }
+    ],
+    track: "Empreinte palmée à trois doigts reliés par une membrane, environ 10 cm ; fientes cylindriques verdâtres riches en fibres d'herbe ; cacardement sonore. Herbe broutée très ras sur le pré.",
+    sources: "ProSpecieRara, ZUN (Zuchtvereinigung für ursprüngliches Nutzgeflügel).",
+    quiz: [
+      { q: "De quelle couleur sont les yeux de l'oie de Diepholz ?", o: ["Rouges", "Bleu clair", "Jaunes"], a: 1, e: "Ses yeux bleu clair font partie des critères de la race." },
+      { q: "À quoi servaient autrefois les grandes plumes d'oie ?", o: ["À écrire", "À faire des parapluies", "À décorer les sapins"], a: 0, e: "On les taillait en plumes à écrire, avant l'arrivée du stylo à bille." },
+      { q: "De quel oiseau sauvage descend l'oie domestique européenne ?", o: ["Du cygne tuberculé", "Du canard colvert", "De l'oie cendrée"], a: 2, e: "L'oie cendrée (Anser anser) est l'ancêtre de nos oies de ferme." }
+    ]
+  },
+
+  "poule-appenzelloise": {
+    name: "Poule appenzelloise huppée",
+    latin: "Gallus gallus f. domestica — race Appenzeller Spitzhauben",
+    tagline: "Avec sa huppe pointue penchée vers l'avant, elle porte une coiffe digne du costume traditionnel appenzellois !",
+    id: [
+      { k: "Poids", v: "1,2 à 1,8 kg", note: "poule légère, le coq est plus lourd" },
+      { k: "Signe distinctif", v: "Huppe pointue", note: "inclinée vers l'avant, chez les deux sexes" },
+      { k: "Ponte", v: "≈ 130 œufs/an", note: "œufs blancs d'environ 55 g" },
+      { k: "Longévité", v: "6 à 10 ans", note: "la ponte diminue avec l'âge" },
+      { k: "Régime", v: "Omnivore", note: "graines, herbe, insectes, vers" },
+      { k: "Statut", v: "Race rare", note: "ProSpecieRara depuis 1983" }
+    ],
+    facts: [
+      { t: "Une coiffe de fête", d: "Sa huppe pointue rappelle la coiffe que portent les femmes du costume traditionnel appenzellois." },
+      { t: "Une crête en cornes", d: "Au lieu d'une crête dentelée, elle a une petite crête en forme de deux cornes, souvent cachée par la huppe." },
+      { t: "Plusieurs couleurs", d: "Il existe encore sept variétés de couleurs, du blanc pur au noir en passant par le doré et le bleu." },
+      { t: "Un surnom affectueux", d: "En Suisse orientale, on l'appelle gentiment « Tschüpperli »." }
+    ],
+    taxo: [
+      { k: "Classe", v: "Oiseaux" }, { k: "Ordre", v: "Galliformes" }, { k: "Famille", v: "Phasianidés" },
+      { k: "Espèce", v: "Gallus gallus (L., 1758), forme domestique" }, { k: "Race", v: "Appenzeller Spitzhauben" },
+      { k: "Statut", v: "Race rare soutenue par ProSpecieRara" }
+    ],
+    nat: [
+      { t: "Origine et histoire", d: "Selon la tradition, la race aurait été développée dès le XVe siècle dans des monastères de Suisse orientale, à partir de poules huppées françaises et néerlandaises. Présentée à l'exposition avicole nationale de 1935, elle est ensuite tombée dans l'oubli." },
+      { t: "Caractéristiques de la race", d: "Poule petite à moyenne, élancée, à huppe étroite dirigée vers l'avant chez les deux sexes et crête en cornes. Sept variétés de couleur subsistent (dont doré, blanc, noir, argenté pailleté noir, bleu). Poules de 1,2 à 1,5 kg, coqs de 1,5 à 1,8 kg." },
+      { t: "Conservation (ProSpecieRara)", d: "ProSpecieRara a repris la race en 1983, alors cantonnée surtout à la région d'Appenzell ; de nouveaux groupes d'élevage ont stoppé son déclin. Le livre généalogique est tenu par l'organisation partenaire ZUN." },
+      { t: "Élevage / comportement", d: "Race vive, légère et bonne voilière, adaptée aux régions de montagne et appréciant un parcours en plein air où elle fourrage activement. Les jeunes coqs se reconnaissent vers 8–9 semaines à leur crête et leurs barbillons plus développés." }
+    ],
+    cal: [
+      { label: "Ponte principale", months: [3, 4, 5, 6, 7, 8, 9], color: "#3F7D58" },
+      { label: "Couvaison, poussins", months: [4, 5, 6], color: "#E8A33D" },
+      { label: "Mue", months: [9, 10, 11], color: "#9FCCB0" }
+    ],
+    track: "Empreinte à trois doigts vers l'avant et un petit doigt arrière, environ 5–6 cm ; sol gratté et cuvettes de bain de poussière ; plumes perdues en automne pendant la mue.",
+    sources: "ProSpecieRara, ZUN (Zuchtvereinigung für ursprüngliches Nutzgeflügel).",
+    quiz: [
+      { q: "Que rappelle la huppe de la poule appenzelloise ?", o: ["Une casquette de baseball", "Une coiffe du costume appenzellois", "Un bonnet de nuit"], a: 1, e: "Sa huppe pointue penchée en avant évoque la coiffe traditionnelle d'Appenzell." },
+      { q: "De quelle couleur sont ses œufs ?", o: ["Blancs", "Bleus", "Chocolat"], a: 0, e: "Elle pond environ 130 œufs blancs par an." },
+      { q: "Depuis quand ProSpecieRara s'occupe-t-elle de cette race ?", o: ["1935", "2010", "1983"], a: 2, e: "En 1983, la race était devenue rare et ProSpecieRara a lancé sa conservation." }
+    ]
+  },
+
+  "poule-suisse": {
+    name: "Poule suisse",
+    latin: "Gallus gallus f. domestica — race Schweizerhuhn",
+    tagline: "Blanche comme la croix du drapeau et coiffée d'une crête rouge : c'est la poule nationale suisse, sauvée de justesse !",
+    id: [
+      { k: "Poids", v: "2,4 à 3,5 kg", note: "poule lourde, le coq est plus gros" },
+      { k: "Plumage", v: "Blanc neige", note: "crête frisée (« en rose ») rouge foncé" },
+      { k: "Ponte", v: "≈ 120 œufs/an", note: "œufs crème, au moins 55 g" },
+      { k: "Longévité", v: "6 à 10 ans", note: "la ponte diminue avec l'âge" },
+      { k: "Régime", v: "Omnivore", note: "graines, herbe, insectes, vers" },
+      { k: "Statut", v: "Race rare", note: "ProSpecieRara depuis 1991" }
+    ],
+    facts: [
+      { t: "Aux couleurs suisses", d: "Plumes blanches et crête rouge : elle porte les couleurs du drapeau suisse." },
+      { t: "Une crête spéciale", d: "Sa crête n'est pas dentelée mais perlée, et se termine en pointe vers l'arrière." },
+      { t: "Presque disparue", d: "À la fin du XXe siècle, on ne trouvait plus que moins de 50 poules suisses !" },
+      { t: "Œufs et chair", d: "C'est une poule « à deux fins » : elle donne des œufs et une bonne viande." }
+    ],
+    taxo: [
+      { k: "Classe", v: "Oiseaux" }, { k: "Ordre", v: "Galliformes" }, { k: "Famille", v: "Phasianidés" },
+      { k: "Espèce", v: "Gallus gallus (L., 1758), forme domestique" }, { k: "Race", v: "Poule suisse (Schweizerhuhn)" },
+      { k: "Statut", v: "Race rare soutenue par ProSpecieRara" }
+    ],
+    nat: [
+      { t: "Origine et histoire", d: "Race suisse sélectionnée au début du XXe siècle comme poule mixte, pour la ponte et la chair. Supplantée par les hybrides industriels, elle a failli disparaître : à la fin du XXe siècle, on n'en recensait plus que quelques dizaines." },
+      { t: "Caractéristiques de la race", d: "Poule au corps compact et lourd, dos droit, plumage blanc neige et crête frisée perlée rouge foncé terminée en pointe vers l'arrière. Poules de 2,4 à 2,8 kg, coqs de 2,8 à 3,5 kg." },
+      { t: "Conservation (ProSpecieRara)", d: "En 1991, ProSpecieRara a lancé avec des éleveurs engagés un programme de sauvegarde ; l'effectif a depuis augmenté. L'élevage est coordonné avec l'organisation partenaire ZUN." },
+      { t: "Élevage / comportement", d: "Race calme et robuste, bien adaptée au climat suisse ; sa crête basse la rend peu sensible au gel. Elle pond environ 120 œufs crème par an, parfois légèrement teintés de lilas et piquetés de blanc." }
+    ],
+    cal: [
+      { label: "Ponte principale", months: [3, 4, 5, 6, 7, 8, 9], color: "#3F7D58" },
+      { label: "Couvaison, poussins", months: [4, 5, 6], color: "#E8A33D" },
+      { label: "Mue", months: [9, 10, 11], color: "#9FCCB0" }
+    ],
+    track: "Empreinte à trois doigts vers l'avant et un petit doigt arrière, environ 6–7 cm ; sol gratté, cuvettes de bain de poussière ; plumes blanches éparses à l'automne pendant la mue.",
+    sources: "ProSpecieRara, ZUN (Zuchtvereinigung für ursprüngliches Nutzgeflügel).",
+    quiz: [
+      { q: "Combien de poules suisses restait-il à la fin du XXe siècle ?", o: ["Environ 5000", "Moins de 50", "Un million"], a: 1, e: "La race a frôlé l'extinction avant son sauvetage par ProSpecieRara et des éleveurs." },
+      { q: "Pourquoi dit-on que c'est une poule « à deux fins » ?", o: ["Elle a deux queues", "Elle pond le matin et le soir", "Elle donne des œufs et de la viande"], a: 2, e: "C'est une race mixte, élevée à la fois pour la ponte et pour la chair." },
+      { q: "Quelles couleurs porte la poule suisse ?", o: ["Blanc et rouge", "Vert et jaune", "Noir et orange"], a: 0, e: "Plumage blanc et crête rouge, comme le drapeau suisse." }
+    ]
+  },
+
+  "chevre-appenzell": {
+    name: "Chèvre d'Appenzell",
+    latin: "Capra aegagrus hircus — race Appenzellerziege",
+    tagline: "Toute blanche, sans cornes et curieuse de tout : voici Maman, Cracotte et Biscotte, nos chèvres d'Appenzell !",
+    id: [
+      { k: "Au garrot", v: "75 à 85 cm", note: "le bouc est plus grand" },
+      { k: "Poids", v: "55 à 75 kg", note: "≈ 55 kg la chèvre, 75 kg le bouc" },
+      { k: "Pelage", v: "Blanc neige", note: "poil mi-long" },
+      { k: "Longévité", v: "12 à 15 ans", note: "selon les conditions d'élevage" },
+      { k: "Régime", v: "Herbivore", note: "herbe, feuilles, rameaux" },
+      { k: "Statut", v: "Race rare", note: "ProSpecieRara" }
+    ],
+    facts: [
+      { t: "Sans cornes", d: "La plupart des chèvres d'Appenzell sont naturellement sans cornes." },
+      { t: "Gourmande de feuilles", d: "Plus qu'un brouteur d'herbe, la chèvre adore grignoter feuilles, ronces et petites branches." },
+      { t: "Un lait à fromage", d: "Son lait riche sert surtout à fabriquer du fromage de chèvre appenzellois." },
+      { t: "Des pupilles rectangles", d: "Comme toutes les chèvres, elle a des pupilles horizontales qui lui offrent un champ de vision très large." }
+    ],
+    sizes: [
+      { label: "Enfant de 6 ans", cm: 115, color: "#E8A33D" },
+      { label: "Chèvre d'Appenzell", cm: 75, color: "#3F7D58" }
+    ],
+    taxo: [
+      { k: "Classe", v: "Mammifères" }, { k: "Ordre", v: "Artiodactyles" }, { k: "Famille", v: "Bovidés" },
+      { k: "Espèce", v: "Capra hircus (L., 1758), forme domestique de C. aegagrus" }, { k: "Race", v: "Chèvre d'Appenzell (Appenzellerziege)" },
+      { k: "Statut", v: "Race rare soutenue par ProSpecieRara" }
+    ],
+    nat: [
+      { t: "Origine et histoire", d: "Race des collines d'Appenzell (Suisse orientale). Vers 1900, appréciée pour son lait et sa rusticité, elle comptait environ 5000 têtes et était exportée vers les cantons voisins et l'Allemagne ; l'élevage organisé débute au début du XXe siècle en Rhodes-Intérieures, puis en Rhodes-Extérieures." },
+      { t: "Caractéristiques de la race", d: "Chèvre blanc neige à poil mi-long, corps compact et solide, bons aplombs et mamelle large. Majoritairement mottes (sans cornes). Chèvres d'environ 75 cm au garrot pour 55 kg, boucs d'environ 85 cm pour 75 kg." },
+      { t: "Conservation (ProSpecieRara)", d: "Après les guerres mondiales, la baisse des exportations et la préférence pour les races à poil ras l'ont rendue menacée. La Fédération suisse d'élevage caprin (FSEC/SZZV), qui tient le herd-book, et ProSpecieRara ont permis une remontée des effectifs, aujourd'hui en légère hausse." },
+      { t: "Élevage / comportement", d: "Chèvre réputée calme et amicale, mais vive, curieuse et grande amatrice de ligneux (browsing). Production laitière régulière d'un peu plus de 750 kg par lactation. Gestation d'environ 5 mois (≈ 150 jours), souvent 1 à 2 cabris." }
+    ],
+    cal: [
+      { label: "Rut", months: [9, 10, 11, 12], color: "#3F7D58" },
+      { label: "Mises bas", months: [2, 3, 4], color: "#E8A33D" },
+      { label: "Mue de printemps", months: [4, 5, 6], color: "#9FCCB0" }
+    ],
+    track: "Empreinte de sabot fendu en deux onglons, environ 5 cm ; crottes en petites billes noires groupées ; écorces et rameaux rongés jusqu'à hauteur de chèvre dressée sur ses pattes arrière.",
+    sources: "ProSpecieRara, Fédération suisse d'élevage caprin (FSEC/SZZV).",
+    quiz: [
+      { q: "Quelle est la particularité des cornes de la chèvre d'Appenzell ?", o: ["Elles sont en spirale", "Elle n'en a souvent pas", "Elles brillent la nuit"], a: 1, e: "La plupart des chèvres d'Appenzell sont naturellement sans cornes." },
+      { q: "Que fait-on surtout avec son lait ?", o: ["Du fromage", "Du chocolat chaud", "Du beurre de cacahuète"], a: 0, e: "Son lait riche sert surtout à fabriquer du fromage de chèvre." },
+      { q: "Combien dure la gestation d'une chèvre ?", o: ["1 mois", "9 mois", "Environ 5 mois"], a: 2, e: "La gestation dure environ 150 jours, les cabris naissent à la fin de l'hiver ou au printemps." }
+    ]
+  },
+
+  "cochon-laineux": {
+    name: "Cochon laineux",
+    latin: "Sus scrofa f. domestica — race Mangalica (Mangalitza)",
+    tagline: "Un cochon frisé comme un mouton ? Oui ! Son épaisse toison bouclée le protège du froid tout l'hiver.",
+    id: [
+      { k: "Au garrot", v: "65 à 80 cm", note: "le verrat est un peu plus haut" },
+      { k: "Poids", v: "120 à 200 kg", note: "truie 120–160 kg, verrat 150–200 kg" },
+      { k: "Portée", v: "5 à 10 porcelets", note: "trois portées en deux ans" },
+      { k: "Longévité", v: "12 à 15 ans", note: "rarement atteint en élevage" },
+      { k: "Régime", v: "Omnivore", note: "herbe, racines, glands, fruits" },
+      { k: "Statut", v: "Race rare", note: "ProSpecieRara" }
+    ],
+    facts: [
+      { t: "Un cochon-mouton", d: "Son pelage frisé et laineux ressemble à la toison d'un mouton, surtout en hiver." },
+      { t: "Ventre d'hirondelle", d: "En Suisse, presque tous ont le dos foncé et le ventre clair, comme une hirondelle." },
+      { t: "Porcelets rayés", d: "Ses porcelets naissent avec des rayures, comme les marcassins du sanglier." },
+      { t: "Champion du lard", d: "Autrefois, on l'élevait surtout pour son lard épais, très apprécié dans toute l'Europe." }
+    ],
+    sizes: [
+      { label: "Enfant de 6 ans", cm: 115, color: "#E8A33D" },
+      { label: "Cochon laineux", cm: 70, color: "#3F7D58" }
+    ],
+    taxo: [
+      { k: "Classe", v: "Mammifères" }, { k: "Ordre", v: "Artiodactyles" }, { k: "Famille", v: "Suidés" },
+      { k: "Espèce", v: "Sus scrofa (L., 1758), forme domestique" }, { k: "Race", v: "Mangalica (Wollschwein)" },
+      { k: "Statut", v: "Race rare soutenue par ProSpecieRara" }
+    ],
+    nat: [
+      { t: "Origine et histoire", d: "Race formée au milieu du XIXe siècle en Autriche-Hongrie à partir de porcs des Balkans ; son lard était recherché dans toute l'Europe. En Suisse, il était répandu avant d'être évincé après la Seconde Guerre mondiale par les races à croissance rapide." },
+      { t: "Caractéristiques de la race", d: "Porc rustique à toison épaisse et bouclée, plus fournie en hiver. En Suisse on rencontre presque uniquement la variété « ventre d'hirondelle » (dos foncé, ventre clair) ; des variétés rousse et blonde existent en Hongrie, Allemagne et Autriche. Les porcelets portent des rayures longitudinales." },
+      { t: "Conservation (ProSpecieRara)", d: "La race a fortement régressé, notamment après la fin de l'élevage conservatoire étatique en Hongrie. ProSpecieRara la soutient en Suisse ; le herd-book est tenu par l'association suisse des éleveurs de porcs laineux (SVWS). Les effectifs remontent lentement en Europe centrale et en Suisse." },
+      { t: "Élevage / comportement", d: "Race très adaptée au plein air toute l'année grâce à sa toison, qui fouille le sol à la recherche de racines et apprécie les bains de boue. Croissance lente et forte tendance à l'engraissement. Gestation d'environ 114 jours (3 mois, 3 semaines, 3 jours)." }
+    ],
+    cal: [
+      { label: "Mises bas", months: [3, 4, 5, 9, 10], color: "#3F7D58" },
+      { label: "Toison d'hiver", months: [11, 12, 1, 2, 3], color: "#E8A33D" },
+      { label: "Mue", months: [5, 6, 7], color: "#9FCCB0" }
+    ],
+    track: "Empreinte de sabot à deux onglons avec marques des ergots ; sol retourné en profondeur (boutis) et souilles boueuses ; touffes de poils frisés accrochées aux clôtures et aux troncs de grattage.",
+    sources: "ProSpecieRara, SVWS (association suisse des éleveurs de porcs laineux).",
+    quiz: [
+      { q: "Qu'a de spécial le pelage du cochon laineux ?", o: ["Il est frisé comme celui d'un mouton", "Il change de couleur selon l'humeur", "Il n'a aucun poil"], a: 0, e: "Sa toison épaisse et bouclée le protège du froid." },
+      { q: "À quoi ressemblent ses porcelets à la naissance ?", o: ["À des petits zèbres à pois", "À des marcassins rayés", "À des chatons"], a: 1, e: "Comme les jeunes sangliers, ils portent des rayures." },
+      { q: "Dans quel pays est née la race Mangalica ?", o: ["En Écosse", "Au Japon", "En Autriche-Hongrie"], a: 2, e: "Elle a été sélectionnée au XIXe siècle en Autriche-Hongrie à partir de porcs des Balkans." }
+    ]
+  },
+
+  "mouton-saas": {
+    name: "Mouton de Saas",
+    latin: "Ovis aries — race Saaser Mutte",
+    tagline: "Grandes oreilles tombantes, nez bombé et pas de cornes : ce géant valaisan est l'un des plus grands moutons de Suisse !",
+    id: [
+      { k: "Au garrot", v: "80 à 85 cm", note: "le bélier est plus grand" },
+      { k: "Poids", v: "80 à 100 kg", note: "≈ 80 kg la brebis, 100 kg le bélier" },
+      { k: "Cornes", v: "Aucune", note: "« Mutte » = sans cornes" },
+      { k: "Longévité", v: "10 à 12 ans", note: "selon les conditions d'élevage" },
+      { k: "Régime", v: "Herbivore", note: "herbe des pâturages et des alpages" },
+      { k: "Statut", v: "Race rare", note: "ProSpecieRara depuis 2013" }
+    ],
+    facts: [
+      { t: "Un géant", d: "Avec environ 80 cm au garrot, c'est l'un des plus grands moutons de Suisse." },
+      { t: "Des oreilles pendantes", d: "Ses longues oreilles tombent de chaque côté de sa tête au nez bien bombé." },
+      { t: "Pas toujours blanc", d: "Environ un mouton de Saas sur trois est brun ou tacheté brun et blanc." },
+      { t: "Un vrai Valaisan", d: "Il vient de la vallée de Saas, au-dessus de Viège, dans le Haut-Valais." }
+    ],
+    sizes: [
+      { label: "Enfant de 6 ans", cm: 115, color: "#E8A33D" },
+      { label: "Mouton de Saas", cm: 80, color: "#3F7D58" }
+    ],
+    taxo: [
+      { k: "Classe", v: "Mammifères" }, { k: "Ordre", v: "Artiodactyles" }, { k: "Famille", v: "Bovidés" },
+      { k: "Espèce", v: "Ovis aries (L., 1758)" }, { k: "Race", v: "Mouton de Saas (Saaser Mutte)" },
+      { k: "Statut", v: "Race rare soutenue par ProSpecieRara" }
+    ],
+    nat: [
+      { t: "Origine et histoire", d: "Race valaisanne issue d'une souche locale de moutons bergamasques, développée de façon isolée dans la vallée de Saas et la région du Simplon (Haut-Valais). Une analyse ADN de 2015 a confirmé qu'elle est génétiquement distincte, avec peu d'apports extérieurs." },
+      { t: "Caractéristiques de la race", d: "Grand mouton motte (sans cornes), au profil busqué (« nez de bélier ») et aux longues oreilles pendantes. Environ un tiers des animaux sont bruns ou pie brun, alors que le bergamasque est toujours blanc. Laine assez fine, de qualité moyenne. Brebis ≈ 80 cm et 80 kg, béliers ≈ 85 cm et 100 kg." },
+      { t: "Conservation (ProSpecieRara)", d: "En fort déclin jusqu'en 2013, la race fait depuis l'objet d'un projet de sauvegarde de ProSpecieRara, avec un herd-book ouvert en 2014. Les effectifs augmentent et des éleveurs hors de la vallée de Saas ont rejoint le réseau." },
+      { t: "Élevage / comportement", d: "Mouton grégaire, adapté à l'estivage en montagne ; la tradition pastorale reste vivante dans le Saastal. Gestation d'environ 5 mois (≈ 150 jours)." }
+    ],
+    cal: [
+      { label: "Lutte", months: [9, 10, 11], color: "#3F7D58" },
+      { label: "Agnelages", months: [2, 3, 4], color: "#E8A33D" },
+      { label: "Tonte", months: [5, 9], color: "#9FCCB0" }
+    ],
+    track: "Empreinte de sabot fendu, onglons plus arrondis que chez la chèvre ; crottes en petites billes noires ; flocons de laine accrochés aux barbelés et aux buissons.",
+    sources: "ProSpecieRara, Fédération suisse d'élevage ovin (herd-book).",
+    quiz: [
+      { q: "Que signifie le mot « Mutte » dans « Saaser Mutte » ?", o: ["Sans cornes", "Très bavard", "Mouton blanc"], a: 0, e: "En dialecte, « Mutte » désigne un animal sans cornes." },
+      { q: "De quelle vallée vient ce mouton ?", o: ["De la vallée de Joux", "De la vallée de Saas, en Valais", "Du Val-de-Travers"], a: 1, e: "Il s'est développé dans la vallée de Saas et la région du Simplon." },
+      { q: "De quel mouton italien descend le mouton de Saas ?", o: ["Du mouton de Sardaigne", "Du mouton à cinq pattes", "Du mouton bergamasque"], a: 2, e: "Il descend d'une souche locale de moutons bergamasques." }
+    ]
+  },
+
+  "chevre-grigia": {
+    name: "Grande chèvre — Capra Grigia",
+    latin: "Capra hircus — race Capra Grigia (chèvre grise des montagnes)",
+    tagline: "Robe grise, cornes puissantes et pattes de montagnarde : la chèvre grise du Tessin est revenue de très loin !",
+    id: [
+      { k: "Au garrot", v: "70 à 85 cm", note: "le bouc est plus grand" },
+      { k: "Poids", v: "45 à 80 kg", note: "chèvre 45–55 kg, bouc 65–80 kg" },
+      { k: "Robe", v: "Grise", note: "du gris argent au gris foncé" },
+      { k: "Longévité", v: "12 à 15 ans", note: "selon les conditions d'élevage" },
+      { k: "Régime", v: "Herbivore", note: "herbe, feuilles, rameaux" },
+      { k: "Statut", v: "Race rare", note: "ProSpecieRara depuis 1997" }
+    ],
+    facts: [
+      { t: "Cinquante nuances de gris", d: "Selon sa vallée d'origine, sa robe va du gris argenté au gris foncé." },
+      { t: "Des cornes pour tous", d: "Chez la Capra Grigia, mâles et femelles portent de solides cornes." },
+      { t: "Un nom italien", d: "« Grigia » veut dire « grise » en italien, la langue de son Tessin natal." },
+      { t: "Sauvée en réunissant", d: "Pour la sauver, on a réuni en une seule race les dernières chèvres grises de plusieurs vallées." }
+    ],
+    sizes: [
+      { label: "Enfant de 6 ans", cm: 115, color: "#E8A33D" },
+      { label: "Capra Grigia", cm: 75, color: "#3F7D58" }
+    ],
+    taxo: [
+      { k: "Classe", v: "Mammifères" }, { k: "Ordre", v: "Artiodactyles" }, { k: "Famille", v: "Bovidés" },
+      { k: "Espèce", v: "Capra hircus (L., 1758), forme domestique de C. aegagrus" }, { k: "Race", v: "Capra Grigia" },
+      { k: "Statut", v: "Race rare soutenue par ProSpecieRara" }
+    ],
+    nat: [
+      { t: "Origine et histoire", d: "Race traditionnelle des vallées alpines du Tessin et des vallées méridionales des Grisons. Elle a presque disparu après l'assainissement des races de 1938, puis les abattages liés à l'arthrite-encéphalite caprine (CAEV)." },
+      { t: "Caractéristiques de la race", d: "Chèvre de montagne à poil court et robe grise : gris argent (type Leventina), gris moyen (Calanca) ou gris foncé (Valmaggia), pattes plus foncées que le corps, sans taches blanches ; raie dorsale foncée possible. Les deux sexes sont cornus, boucs et nombreuses chèvres barbus. Chèvres 70–80 cm et 45–55 kg, boucs 75–85 cm et 65–80 kg." },
+      { t: "Conservation (ProSpecieRara)", d: "En 1997, ProSpecieRara a lancé le projet « Capra Grigia » avec les derniers survivants des souches Calanca, Leventina, Valmaggia et Riviera, regroupés en une seule race plutôt que conservés séparément. Les effectifs sont aujourd'hui en augmentation." },
+      { t: "Élevage / comportement", d: "Chèvre rustique, à l'aise sur les terrains escarpés et adaptée à un élevage extensif en montagne. Comme toutes les chèvres, elle consomme volontiers ligneux et broussailles. Gestation d'environ 5 mois (≈ 150 jours)." }
+    ],
+    cal: [
+      { label: "Rut", months: [9, 10, 11, 12], color: "#3F7D58" },
+      { label: "Mises bas", months: [2, 3, 4], color: "#E8A33D" },
+      { label: "Mue de printemps", months: [4, 5, 6], color: "#9FCCB0" }
+    ],
+    track: "Empreinte de sabot fendu en deux onglons pointus, environ 5–6 cm ; crottes en petites billes noires ; arbustes écorcés et rameaux broutés en hauteur.",
+    sources: "ProSpecieRara, Fédération suisse d'élevage caprin (FSEC/SZZV).",
+    quiz: [
+      { q: "Que veut dire « grigia » en italien ?", o: ["Grande", "Gourmande", "Grise"], a: 2, e: "« Grigia » signifie grise, comme sa robe." },
+      { q: "Chez la Capra Grigia, qui porte des cornes ?", o: ["Seulement les boucs", "Les mâles et les femelles", "Personne, elles tombent à la naissance"], a: 1, e: "Les deux sexes ont de solides cornes." },
+      { q: "D'où vient la Capra Grigia ?", o: ["Du Tessin et du sud des Grisons", "De Genève", "Du Jura"], a: 0, e: "C'est une race des vallées alpines du sud de la Suisse." }
+    ]
+  }
+});
+
 class Component extends DCLogic {
   constructor(props) {
     super(props);
     this.state = { view: "home", mode: "public", sector: "all", spot: 24, answers: {} };
   }
-  go(view) {
+  go(view, anchor) {
     this.setState({ view: view });
-    try { window.scrollTo(0, 0); } catch (e) {}
+    setTimeout(function () {
+      try {
+        var el = anchor ? document.getElementById(anchor) : null;
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+        else window.scrollTo(0, 0);
+      } catch (e) {}
+    }, 60);
   }
   renderVals() {
     var self = this;
@@ -567,22 +2253,26 @@ class Component extends DCLogic {
       return "border-radius: 999px; padding: 10px 18px; min-height: 44px; font-size: 15px; font-weight: 600; " +
         (on ? "background: #111C1C; color: #FFFFFF; border: 2px solid #111C1C;" : "background: #FFFFFF; color: #111C1C; border: 2px solid #D9D3C3;");
     };
-
+    var navBtn = function (on) {
+      return "border: 0; border-radius: 999px; padding: 8px 14px; min-height: 44px; font-size: 14px; font-weight: 600; " +
+        (on ? "background: #3F7D58; color: #FFFFFF;" : "background: transparent; color: #D5E0DA;");
+    };
     var sectorLabel = function (key) {
       for (var i = 0; i < SECTORS.length; i++) if (SECTORS[i].key === key) return SECTORS[i].label;
       return "";
     };
+    var animalById = function (id) {
+      for (var i = 0; i < ANIMALS.length; i++) if (ANIMALS[i].id === id) return ANIMALS[i];
+      return null;
+    };
     var toItem = function (a) {
+      var has = !!FICHES[a.id];
       return {
         name: a.name, latin: a.latin, cls: a.cls, nick: a.nick || "", img: a.img,
         zone: SPOT_OF[a.name] ? "n° " + SPOT_OF[a.name] + " sur le plan · " + sectorLabel(a.sector) : sectorLabel(a.sector) + " (emplacement à préciser)",
-        hasFiche: !!a.fiche, noFiche: !a.fiche,
+        hasFiche: has, noFiche: !has,
         open: function () { self.go(a.id); }
       };
-    };
-    var navBtn = function (on) {
-      return "border: 0; border-radius: 999px; padding: 8px 14px; min-height: 44px; font-size: 14px; font-weight: 600; " +
-        (on ? "background: #3F7D58; color: #FFFFFF;" : "background: transparent; color: #D5E0DA;");
     };
 
     var spots = SPOTS.map(function (p) {
@@ -601,23 +2291,30 @@ class Component extends DCLogic {
     var sectors = SECTORS.map(function (s) {
       return { label: s.label, active: st.sector === s.key, style: chip(st.sector === s.key), pick: function () { self.setState({ sector: s.key }); } };
     });
-
     var groups = SECTORS.filter(function (s) { return s.key !== "all" && (st.sector === "all" || st.sector === s.key); }).map(function (s) {
       var items = ANIMALS.filter(function (a) { return a.sector === s.key; }).map(toItem);
       return { label: s.label, count: items.length, items: items };
     });
 
     var isFiche = !!FICHES[st.view];
-    var raw = isFiche ? FICHES[st.view] : FICHES.lynx;
+    var fid = isFiche ? st.view : "lynx";
+    var raw = FICHES[fid];
+    var animal = animalById(fid) || {};
+    var spotN = raw.spot || SPOT_OF[animal.name] || 0;
+    var spotInfo = spotByN(spotN);
     var maxCm = 120;
+    var sizes = (raw.sizes || []).map(function (z) {
+      return { label: z.label, cm: z.cm + " cm", style: "width: 100%; max-width: 72px; border-radius: 12px 12px 0 0; background: " + z.color + "; height: " + Math.round(Math.min(z.cm, maxCm) / maxCm * 160) + "px;" };
+    });
     var f = {
-      name: raw.name, latin: raw.latin, sector: raw.sector, tagline: raw.tagline, meet: raw.meet,
-      img: raw.img, imgAlt: raw.imgAlt,
-      showOnMap: function () { self.setState({ spot: raw.spot }); self.go("map"); },
+      name: raw.name, latin: raw.latin, tagline: raw.tagline,
+      sector: raw.sector || sectorLabel(animal.sector),
+      meet: raw.meet || ("À La Garenne : " + (animal.nick ? animal.nick + ", " : "") + (spotInfo ? "n° " + spotN + " sur le plan (" + spotInfo.label + ")" : "emplacement à préciser")),
+      img: raw.img || animal.img, imgAlt: raw.imgAlt || (animal.name + " à La Garenne"),
+      hasSpot: !!spotInfo, noSpot: !spotInfo,
+      showOnMap: function () { self.setState({ spot: spotN }); self.go("home", "plan"); },
       id: raw.id, facts: raw.facts, taxo: raw.taxo, nat: raw.nat, track: raw.track, sources: raw.sources,
-      sizes: raw.sizes.map(function (z) {
-        return { label: z.label, cm: z.cm + " cm", style: "width: 100%; max-width: 72px; border-radius: 12px 12px 0 0; background: " + z.color + "; height: " + Math.round(z.cm / maxCm * 160) + "px;" };
-      }),
+      sizes: sizes, hasSizes: sizes.length > 0,
       cal: raw.cal.map(function (r) {
         return {
           label: r.label,
@@ -629,7 +2326,7 @@ class Component extends DCLogic {
       })
     };
 
-    var ans = st.answers[st.view] || {};
+    var ans = st.answers[fid] || {};
     var score = 0;
     var quiz = raw.quiz.map(function (q, qi) {
       var chosen = ans[qi];
@@ -651,9 +2348,9 @@ class Component extends DCLogic {
             pick: function () {
               if (answered) return;
               var all = Object.assign({}, self.state.answers);
-              var mine = Object.assign({}, all[st.view] || {});
+              var mine = Object.assign({}, all[fid] || {});
               mine[qi] = oi;
-              all[st.view] = mine;
+              all[fid] = mine;
               self.setState({ answers: all });
             }
           };
@@ -662,24 +2359,24 @@ class Component extends DCLogic {
     });
 
     return {
-      isHome: st.view === "home", isFiche: isFiche, isMap: st.view === "map",
-      navHome: st.view === "home" ? "page" : "false", navMap: st.view === "map" ? "page" : "false",
-      navHomeStyle: navBtn(st.view === "home"), navMapStyle: navBtn(st.view === "map"),
-      goMap: function () { self.go("map"); },
+      isHome: st.view === "home", isFiche: isFiche,
+      navHome: st.view === "home" ? "page" : "false", navMap: "false",
+      navHomeStyle: navBtn(st.view === "home"), navMapStyle: navBtn(false),
+      goMap: function () { self.go("home", "plan"); },
       spots: spots, spotAnimals: spotAnimals, spotN: cur.n, spotTitle: cur.label, unplaced: unplaced,
-      isLynx: st.view === "lynx", isBoar: st.view === "sanglier",
+      isLynx: fid === "lynx", isBoar: fid === "sanglier", hasTrackArt: fid === "lynx" || fid === "sanglier",
       isPublic: st.mode === "public", isNat: st.mode === "nat",
       modePublicStyle: pill(st.mode === "public"), modeNatStyle: pill(st.mode === "nat"),
       setPublic: function () { self.setState({ mode: "public" }); },
       setNat: function () { self.setState({ mode: "nat" }); },
       goHome: function () { self.go("home"); },
       totalCount: ANIMALS.length,
-      ficheCount: ANIMALS.filter(function (a) { return a.fiche; }).length,
+      ficheCount: ANIMALS.filter(function (a) { return !!FICHES[a.id]; }).length,
       sectors: sectors, groups: groups, months: MONTHS,
       f: f, quiz: quiz, score: score, quizTotal: raw.quiz.length,
       resetQuiz: function () {
         var all = Object.assign({}, self.state.answers);
-        delete all[st.view];
+        delete all[fid];
         self.setState({ answers: all });
       }
     };
