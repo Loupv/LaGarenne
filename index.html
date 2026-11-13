@@ -1,0 +1,691 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Carnet de faune — La Garenne</title>
+<meta name="description" content="Les animaux du parc La Garenne (Le Vaud) : catalogue, fiches ludiques pour le public et les naturalistes, plan du parc.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Lilita+One&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F6F3EA}
+a{color:#2F6446}a:hover{color:#1E4530}
+button{font:inherit;cursor:pointer}
+button:focus-visible{outline:3px solid #E8A33D;outline-offset:2px}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<template id="dc">
+<div style="min-height: 100vh; background: #F6F3EA; color: #101828; font-family: Inter, system-ui, sans-serif; font-size: 16px; line-height: 1.5;">
+
+  <!-- Barre du haut -->
+  <header style="background: #111C1C; color: #FFFFFF;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 14px 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;">
+      <button onClick="{{goHome}}" style="background: none; border: 0; color: #FFFFFF; padding: 0; display: flex; align-items: center; gap: 10px; min-height: 44px;" aria-label="Retour au catalogue">
+        <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="17" r="16" fill="#3F7D58"></circle><path d="M10 22c2-6 5-9 7-9s5 3 7 9" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"></path><circle cx="13" cy="12" r="2" fill="#FFFFFF"></circle><circle cx="21" cy="12" r="2" fill="#FFFFFF"></circle></svg>
+        <span style="font-family: 'Lilita One', system-ui, sans-serif; font-size: 24px; letter-spacing: 0.5px;">La Garenne</span>
+        <span style="font-size: 13px; color: #B9D3C2; border-left: 1px solid #3A4A4A; padding-left: 10px;">Carnet de faune</span>
+      </button>
+      <nav aria-label="Sections" style="display: flex; gap: 4px; flex-wrap: wrap;">
+        <button onClick="{{goHome}}" aria-current="{{navHome}}" style="{{navHomeStyle}}">Les animaux</button>
+        <button onClick="{{goMap}}" aria-current="{{navMap}}" style="{{navMapStyle}}">Plan du parc</button>
+      </nav>
+      <div role="group" aria-label="Niveau de lecture" style="display: flex; background: #1F2E2E; border-radius: 999px; padding: 4px; gap: 4px;">
+        <button onClick="{{setPublic}}" aria-pressed="{{isPublic}}" style="{{modePublicStyle}}">Je découvre</button>
+        <button onClick="{{setNat}}" aria-pressed="{{isNat}}" style="{{modeNatStyle}}">Mode naturaliste</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== CATALOGUE ===================== -->
+  <sc-if value="{{isHome}}" hint-placeholder-val="{{true}}">
+    <section style="background: #3F7D58; color: #FFFFFF;">
+      <div style="max-width: 1200px; margin: 0 auto; padding: 48px 20px 56px; display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-end; justify-content: space-between;">
+        <div style="flex: 1 1 420px; min-width: 0;">
+          <p style="margin: 0 0 8px; font-size: 14px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #D7EBDD;">Parc animalier · Le Vaud</p>
+          <h1 style="margin: 0; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 52px; line-height: 1.05; letter-spacing: 0.8px;">Qui vit à La Garenne&nbsp;?</h1>
+          <p style="margin: 16px 0 0; font-size: 18px; max-width: 560px; color: #EAF4EE;">Les ambassadeurs de la faune sauvage de Suisse, presque tous passés par notre centre de soins. Choisis un animal pour ouvrir sa fiche.</p>
+        </div>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <div style="background: #FFFFFF; color: #111C1C; border-radius: 20px; padding: 16px 22px; min-width: 120px;">
+            <div style="font-family: 'Lilita One', system-ui, sans-serif; font-size: 40px; line-height: 1;">{{totalCount}}</div>
+            <div style="font-size: 14px; color: #364153;">espèces recensées</div>
+          </div>
+          <div style="background: #E8A33D; color: #111C1C; border-radius: 20px; padding: 16px 22px; min-width: 120px;">
+            <div style="font-family: 'Lilita One', system-ui, sans-serif; font-size: 40px; line-height: 1;">{{ficheCount}}</div>
+            <div style="font-size: 14px; color: #2B2112;">fiches ouvertes</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <main style="max-width: 1200px; margin: 0 auto; padding: 32px 20px 64px;">
+      <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 24px;">
+        <span style="font-size: 14px; font-weight: 600; color: #364153; margin-right: 4px;">Secteur :</span>
+        <sc-for list="{{sectors}}" as="s" hint-placeholder-count="5">
+          <button onClick="{{s.pick}}" aria-pressed="{{s.active}}" style="{{s.style}}">{{s.label}}</button>
+        </sc-for>
+      </div>
+
+      <sc-for list="{{groups}}" as="g" hint-placeholder-count="4">
+        <section style="margin-bottom: 40px;">
+          <h2 style="margin: 0 0 16px; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 30px; letter-spacing: 0.6px; color: #202020;">{{g.label}} <span style="font-family: Inter, system-ui, sans-serif; font-size: 15px; color: #5B6472;">· {{g.count}}</span></h2>
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 16px;">
+            <sc-for list="{{g.items}}" as="a" hint-placeholder-count="6">
+              <sc-if value="{{a.hasFiche}}" hint-placeholder-val="{{false}}">
+                <button onClick="{{a.open}}" style="text-align: left; background: #FFFFFF; border: 2px solid #3F7D58; border-radius: 20px; padding: 0; overflow: hidden; display: flex; flex-direction: column; color: #101828; box-shadow: 0 6px 0 #3F7D58;">
+                  <div style="height: 150px; background: #DDE9E0; position: relative; overflow: hidden;">
+                    <img src="{{a.img}}" alt="{{a.name}} à La Garenne" style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.36); transform-origin: 28% 72%; display: block;">
+                    <span style="position: absolute; top: 10px; left: 10px; background: #E8A33D; color: #111C1C; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px;">Fiche disponible</span>
+                  </div>
+                  <div style="padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 2px;">
+                    <span style="font-family: 'Lilita One', system-ui, sans-serif; font-size: 22px; letter-spacing: 0.4px;">{{a.name}}</span>
+                    <span style="font-style: italic; font-size: 14px; color: #5B6472;">{{a.latin}}</span>
+                    <span style="font-size: 13px; color: #2F6446; font-weight: 600; margin-top: 6px;">{{a.nick}}</span>
+                    <span style="font-size: 13px; color: #5B6472; margin-top: 6px;">Où : {{a.zone}}</span>
+                    <span style="font-size: 14px; font-weight: 700; color: #2F6446; margin-top: 8px;">Ouvrir la fiche →</span>
+                  </div>
+                </button>
+              </sc-if>
+              <sc-if value="{{a.noFiche}}" hint-placeholder-val="{{true}}">
+                <div style="background: #FFFFFF; border: 1px solid #E3DFD3; border-radius: 20px; overflow: hidden; display: flex; flex-direction: column;">
+                  <div style="height: 150px; background: #DDE9E0; position: relative; overflow: hidden;">
+                    <img src="{{a.img}}" alt="{{a.name}} à La Garenne" style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.36); transform-origin: 28% 72%; display: block;">
+                    <span style="position: absolute; top: 10px; left: 10px; font-size: 12px; font-weight: 600; color: #364153; background: #FFFFFF; padding: 3px 10px; border-radius: 999px;">{{a.cls}}</span>
+                  </div>
+                  <div style="padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 2px;">
+                    <span style="font-family: 'Lilita One', system-ui, sans-serif; font-size: 20px; letter-spacing: 0.4px;">{{a.name}}</span>
+                    <span style="font-style: italic; font-size: 14px; color: #5B6472;">{{a.latin}}</span>
+                    <span style="font-size: 13px; color: #2F6446; font-weight: 600;">{{a.nick}}</span>
+                    <span style="font-size: 13px; color: #5B6472; margin-top: 6px;">Où : {{a.zone}}</span>
+                    <span style="font-size: 13px; color: #5B6472;">Fiche bientôt disponible</span>
+                  </div>
+                </div>
+              </sc-if>
+            </sc-for>
+          </div>
+        </section>
+      </sc-for>
+    </main>
+  </sc-if>
+
+  <!-- ===================== PLAN ===================== -->
+  <sc-if value="{{isMap}}" hint-placeholder-val="{{false}}">
+    <section style="background: #3F7D58; color: #FFFFFF;">
+      <div style="max-width: 1200px; margin: 0 auto; padding: 40px 20px 44px;">
+        <h1 style="margin: 0; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 48px; line-height: 1.05; letter-spacing: 0.8px;">Où trouver chaque animal&nbsp;?</h1>
+        <p style="margin: 12px 0 0; font-size: 18px; max-width: 620px; color: #EAF4EE;">Touche un numéro du plan pour voir qui y vit, puis ouvre sa fiche.</p>
+      </div>
+    </section>
+    <main style="max-width: 1200px; margin: 0 auto; padding: 32px 20px 64px; display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+      <div style="flex: 999 1 720px; min-width: 0;">
+        <div style="overflow-x: auto; border-radius: 28px; border: 2px solid #111C1C; background: #EEF3E8;">
+        <div style="position: relative; min-width: 680px; aspect-ratio: 1500 / 770;">
+          <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" style="position: absolute; inset: 0;">
+            <polygon points="16.7,0.6 23.7,11 22,26 40,33 60.7,45.5 70,16.2 82.7,42.9 86.7,61 84,81.8 72,87 58.7,94.8 42.7,88.3 33.3,79.2 28,68.8 20,55.8 12.7,40.3 7.3,20.8" fill="#CFE0C8" stroke="#3F7D58" stroke-width="2" stroke-linejoin="round" vector-effect="non-scaling-stroke"></polygon>
+            <path d="M41 82 C38 72 34 62 30 50 C27 40 24 30 21 14" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="4 4" stroke-linecap="round" vector-effect="non-scaling-stroke"></path>
+            <path d="M36 62 C48 56 60 58 70 58 C77 58 81 52 76 34" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="4 4" stroke-linecap="round" vector-effect="non-scaling-stroke"></path>
+          </svg>
+          <sc-for list="{{spots}}" as="p" hint-placeholder-count="21">
+            <button onClick="{{p.pick}}" aria-pressed="{{p.active}}" aria-label="{{p.aria}}" title="{{p.label}}" style="{{p.style}}">{{p.n}}</button>
+          </sc-for>
+          <div style="position: absolute; left: 41%; top: 84%; transform: translate(-50%, -50%); background: #E8A33D; color: #111C1C; font-weight: 700; font-size: 14px; padding: 6px 14px; border-radius: 999px; border: 2px solid #111C1C;">Entrée</div>
+          <div style="position: absolute; left: 3%; bottom: 4%; font-size: 12px; color: #364153; background: #FFFFFF; padding: 4px 10px; border-radius: 999px; border: 1px solid #D9D3C3;">Centre de soins · fermé au public</div>
+        </div>
+        </div>
+        <p style="margin: 10px 0 0; font-size: 13px; color: #5B6472;">Plan simplifié d'après le plan du parc de 2023 ; les numéros sont ceux du plan officiel.</p>
+        <div style="margin-top: 18px; background: #FFFFFF; border-radius: 20px; border: 1px solid #E3DFD3; padding: 16px 18px;">
+          <h3 style="margin: 0 0 4px; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 20px; letter-spacing: 0.4px; color: #202020;">Pas encore sur le plan</h3>
+          <p style="margin: 0 0 10px; font-size: 14px; color: #5B6472;">Ces pensionnaires ne figurent pas sur le plan 2023. Demande à l'accueil ou ouvre l'œil !</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <sc-for list="{{unplaced}}" as="u" hint-placeholder-count="8">
+              <span style="font-size: 14px; background: #F1EEE4; color: #364153; padding: 4px 12px; border-radius: 999px;">{{u}}</span>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+      <aside style="flex: 1 1 320px; min-width: 0; background: #FFFFFF; border-radius: 24px; border: 1px solid #E3DFD3; padding: 20px;">
+        <p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: #3F7D58;">Plan n° {{spotN}}</p>
+        <h2 style="margin: 2px 0 14px; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 26px; letter-spacing: 0.5px; color: #202020;">{{spotTitle}}</h2>
+        <div style="display: flex; flex-direction: column; gap: 8px; max-height: 520px; overflow-y: auto;">
+          <sc-for list="{{spotAnimals}}" as="a" hint-placeholder-count="3">
+            <sc-if value="{{a.hasFiche}}" hint-placeholder-val="{{false}}">
+              <button onClick="{{a.open}}" style="display: flex; gap: 12px; align-items: center; text-align: left; background: #F6F3EA; border: 2px solid #3F7D58; border-radius: 16px; padding: 8px; color: #101828;">
+                <img src="{{a.img}}" alt="" style="width: 56px; height: 56px; border-radius: 12px; object-fit: cover; flex: none;">
+                <span style="display: flex; flex-direction: column; min-width: 0;">
+                  <span style="font-weight: 700;">{{a.name}}</span>
+                  <span style="font-size: 13px; color: #2F6446; font-weight: 600;">Ouvrir la fiche →</span>
+                </span>
+              </button>
+            </sc-if>
+            <sc-if value="{{a.noFiche}}" hint-placeholder-val="{{true}}">
+              <div style="display: flex; gap: 12px; align-items: center; padding: 8px; border-radius: 16px; border: 1px solid #EFEBE0;">
+                <img src="{{a.img}}" alt="" style="width: 56px; height: 56px; border-radius: 12px; object-fit: cover; flex: none;">
+                <span style="display: flex; flex-direction: column; min-width: 0;">
+                  <span style="font-weight: 600;">{{a.name}}</span>
+                  <span style="font-size: 13px; font-style: italic; color: #5B6472;">{{a.latin}}</span>
+                </span>
+              </div>
+            </sc-if>
+          </sc-for>
+        </div>
+      </aside>
+    </main>
+  </sc-if>
+
+  <!-- ===================== FICHE ===================== -->
+  <sc-if value="{{isFiche}}" hint-placeholder-val="{{false}}">
+    <section style="background: #111C1C; color: #FFFFFF;">
+      <div style="max-width: 1200px; margin: 0 auto; padding: 24px 20px 40px;">
+        <button onClick="{{goHome}}" style="background: none; border: 1px solid #3A4A4A; color: #FFFFFF; border-radius: 999px; padding: 8px 16px; min-height: 44px; font-size: 14px;">← Tous les animaux</button>
+        <div style="display: flex; flex-wrap: wrap; gap: 32px; align-items: center; margin-top: 24px;">
+          <div style="flex: 1 1 380px; min-width: 0;">
+            <p style="margin: 0 0 6px; font-size: 14px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #9FCCB0;">{{f.sector}}</p>
+            <h1 style="margin: 0; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 56px; line-height: 1.02; letter-spacing: 0.8px;">{{f.name}}</h1>
+            <p style="margin: 6px 0 0; font-style: italic; font-size: 18px; color: #C9D6CF;">{{f.latin}}</p>
+            <p style="margin: 18px 0 0; font-size: 20px; color: #FFFFFF; max-width: 520px;">{{f.tagline}}</p>
+            <button onClick="{{f.showOnMap}}" style="margin-top: 20px; display: inline-flex; gap: 10px; align-items: center; background: #1F2E2E; border: 1px solid #3A4A4A; color: #E7EEEA; border-radius: 16px; padding: 10px 14px; min-height: 44px; text-align: left;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E8A33D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>
+              <span style="font-size: 14px;">{{f.meet}} · <strong style="color: #FFFFFF;">voir sur le plan</strong></span>
+            </button>
+          </div>
+          <div style="flex: 1 1 360px; min-width: 0; height: 320px; border-radius: 28px; background: #2A3B3B; overflow: hidden;">
+            <img src="{{f.img}}" alt="{{f.imgAlt}}" style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.36); transform-origin: 28% 72%; display: block;">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <main style="max-width: 1200px; margin: 0 auto; padding: 32px 20px 72px; display: flex; flex-direction: column; gap: 32px;">
+
+      <!-- Carte d'identité -->
+      <section>
+        <h2 style="margin: 0 0 16px; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 30px; letter-spacing: 0.6px; color: #202020;">Carte d'identité</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px;">
+          <sc-for list="{{f.id}}" as="r" hint-placeholder-count="6">
+            <div style="background: #FFFFFF; border-radius: 18px; padding: 16px; border: 1px solid #E3DFD3;">
+              <div style="font-size: 13px; font-weight: 600; color: #5B6472; text-transform: uppercase; letter-spacing: 0.6px;">{{r.k}}</div>
+              <div style="font-family: 'Lilita One', system-ui, sans-serif; font-size: 22px; color: #111C1C; margin-top: 4px; letter-spacing: 0.3px;">{{r.v}}</div>
+              <div style="font-size: 13px; color: #5B6472; margin-top: 2px;">{{r.note}}</div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <!-- PUBLIC -->
+      <sc-if value="{{isPublic}}" hint-placeholder-val="{{true}}">
+        <div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: stretch;">
+          <section style="flex: 999 1 520px; min-width: 0;">
+            <h2 style="margin: 0 0 16px; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 30px; letter-spacing: 0.6px; color: #202020;">Le savais-tu&nbsp;?</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px;">
+              <sc-for list="{{f.facts}}" as="x" hint-placeholder-count="4">
+                <div style="background: #FFFFFF; border-radius: 20px; padding: 18px; border: 2px solid #111C1C; box-shadow: 4px 4px 0 #E8A33D;">
+                  <div style="font-family: 'Lilita One', system-ui, sans-serif; font-size: 20px; color: #3F7D58; letter-spacing: 0.3px;">{{x.t}}</div>
+                  <p style="margin: 6px 0 0; font-size: 15px; color: #364153;">{{x.d}}</p>
+                </div>
+              </sc-for>
+            </div>
+          </section>
+          <section style="flex: 1 1 300px; min-width: 0; background: #FFFFFF; border-radius: 24px; padding: 20px; border: 1px solid #E3DFD3;">
+            <h2 style="margin: 0 0 4px; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 24px; letter-spacing: 0.5px; color: #202020;">À côté de toi</h2>
+            <p style="margin: 0 0 16px; font-size: 14px; color: #5B6472;">Hauteur au garrot, comparée à un enfant de 6 ans.</p>
+            <div style="height: 200px; display: flex; align-items: flex-end; justify-content: space-around; gap: 12px; border-bottom: 2px solid #111C1C;">
+              <sc-for list="{{f.sizes}}" as="z" hint-placeholder-count="2">
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1 1 0;">
+                  <span style="font-family: 'Lilita One', system-ui, sans-serif; font-size: 18px;">{{z.cm}}</span>
+                  <div style="{{z.style}}"></div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display: flex; justify-content: space-around; gap: 12px; margin-top: 8px;">
+              <sc-for list="{{f.sizes}}" as="z" hint-placeholder-count="2">
+                <span style="flex: 1 1 0; text-align: center; font-size: 14px; font-weight: 600; color: #364153;">{{z.label}}</span>
+              </sc-for>
+            </div>
+          </section>
+        </div>
+      </sc-if>
+
+      <!-- NATURALISTE -->
+      <sc-if value="{{isNat}}" hint-placeholder-val="{{false}}">
+        <div style="display: flex; flex-wrap: wrap; gap: 24px;">
+          <section style="flex: 1 1 300px; min-width: 0; background: #FFFFFF; border-radius: 24px; padding: 20px; border: 1px solid #E3DFD3;">
+            <h2 style="margin: 0 0 12px; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 24px; letter-spacing: 0.5px; color: #202020;">Systématique</h2>
+            <sc-for list="{{f.taxo}}" as="t" hint-placeholder-count="5">
+              <div style="display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEBE0; font-size: 15px;">
+                <span style="color: #5B6472;">{{t.k}}</span>
+                <span style="font-weight: 600; text-align: right;">{{t.v}}</span>
+              </div>
+            </sc-for>
+          </section>
+          <section style="flex: 999 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 14px;">
+            <sc-for list="{{f.nat}}" as="n" hint-placeholder-count="4">
+              <div style="background: #FFFFFF; border-radius: 20px; padding: 18px 20px; border: 1px solid #E3DFD3;">
+                <h3 style="margin: 0; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 20px; letter-spacing: 0.4px; color: #3F7D58;">{{n.t}}</h3>
+                <p style="margin: 6px 0 0; font-size: 15px; color: #364153;">{{n.d}}</p>
+              </div>
+            </sc-for>
+          </section>
+        </div>
+
+        <section style="background: #FFFFFF; border-radius: 24px; padding: 20px; border: 1px solid #E3DFD3;">
+          <h2 style="margin: 0 0 4px; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 24px; letter-spacing: 0.5px; color: #202020;">Calendrier biologique</h2>
+          <p style="margin: 0 0 14px; font-size: 14px; color: #5B6472;">Périodes indicatives en Suisse ; varient selon l'altitude et les années.</p>
+          <div style="overflow-x: auto;">
+            <div style="min-width: 640px; display: flex; flex-direction: column; gap: 6px;">
+              <div style="display: grid; grid-template-columns: 160px repeat(12, minmax(0, 1fr)); gap: 4px; font-size: 12px; font-weight: 600; color: #5B6472; text-align: center;">
+                <span></span>
+                <sc-for list="{{months}}" as="m" hint-placeholder-count="12"><span>{{m}}</span></sc-for>
+              </div>
+              <sc-for list="{{f.cal}}" as="row" hint-placeholder-count="3">
+                <div style="display: grid; grid-template-columns: 160px repeat(12, minmax(0, 1fr)); gap: 4px; align-items: center;">
+                  <span style="font-size: 14px; font-weight: 600;">{{row.label}}</span>
+                  <sc-for list="{{row.cells}}" as="c" hint-placeholder-count="12"><div style="{{c.style}}"></div></sc-for>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </section>
+
+        <section style="display: flex; flex-wrap: wrap; gap: 24px; align-items: center; background: #111C1C; color: #FFFFFF; border-radius: 24px; padding: 24px;">
+          <div style="width: 140px; height: 140px; background: #F6F3EA; border-radius: 20px; display: flex; align-items: center; justify-content: center;">
+            <sc-if value="{{isLynx}}" hint-placeholder-val="{{true}}">
+              <svg width="110" height="110" viewBox="0 0 100 100" role="img" aria-label="Empreinte de lynx : quatre doigts ronds, sans marque de griffes"><g fill="#111C1C"><ellipse cx="27" cy="38" rx="9" ry="11"></ellipse><ellipse cx="42" cy="22" rx="9" ry="11"></ellipse><ellipse cx="58" cy="22" rx="9" ry="11"></ellipse><ellipse cx="73" cy="38" rx="9" ry="11"></ellipse><path d="M30 72 Q30 52 50 52 Q70 52 70 72 Q70 86 60 84 Q50 80 40 84 Q30 86 30 72Z"></path></g></svg>
+            </sc-if>
+            <sc-if value="{{isBoar}}" hint-placeholder-val="{{false}}">
+              <svg width="110" height="110" viewBox="0 0 100 100" role="img" aria-label="Empreinte de sanglier : deux sabots et deux gardes bien marquées"><g fill="#111C1C"><path d="M38 14 Q28 44 32 70 Q38 78 46 72 L48 18 Q44 8 38 14Z"></path><path d="M62 14 Q72 44 68 70 Q62 78 54 72 L52 18 Q56 8 62 14Z"></path><ellipse cx="24" cy="88" rx="6" ry="8"></ellipse><ellipse cx="76" cy="88" rx="6" ry="8"></ellipse></g></svg>
+            </sc-if>
+          </div>
+          <div style="flex: 1 1 320px; min-width: 0;">
+            <h2 style="margin: 0; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 24px; letter-spacing: 0.5px;">Empreinte &amp; indices de présence</h2>
+            <p style="margin: 6px 0 0; font-size: 15px; color: #DCE6E1;">{{f.track}}</p>
+          </div>
+        </section>
+
+        <p style="margin: 0; font-size: 14px; color: #5B6472;">Pour aller plus loin : {{f.sources}}</p>
+      </sc-if>
+
+      <!-- QUIZ -->
+      <section style="background: #3F7D58; color: #FFFFFF; border-radius: 28px; padding: 28px 24px;">
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 18px;">
+          <h2 style="margin: 0; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 32px; letter-spacing: 0.6px;">Mini-quiz</h2>
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="background: #FFFFFF; color: #111C1C; font-family: 'Lilita One', system-ui, sans-serif; font-size: 20px; padding: 6px 16px; border-radius: 999px;">{{score}} / {{quizTotal}}</span>
+            <button onClick="{{resetQuiz}}" style="background: none; border: 1px solid #A9D1B8; color: #FFFFFF; border-radius: 999px; padding: 8px 14px; min-height: 44px; font-size: 14px;">Recommencer</button>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <sc-for list="{{quiz}}" as="q" hint-placeholder-count="3">
+            <div style="background: #FFFFFF; color: #101828; border-radius: 20px; padding: 18px;">
+              <p style="margin: 0 0 12px; font-weight: 700; font-size: 17px;">{{q.n}}. {{q.q}}</p>
+              <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                <sc-for list="{{q.options}}" as="o" hint-placeholder-count="3">
+                  <button onClick="{{o.pick}}" style="{{o.style}}">{{o.label}}</button>
+                </sc-for>
+              </div>
+              <sc-if value="{{q.answered}}" hint-placeholder-val="{{false}}">
+                <p style="margin: 12px 0 0; font-size: 15px; color: #364153;"><strong>{{q.verdict}}</strong> {{q.explain}}</p>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+    </main>
+  </sc-if>
+
+  <footer style="background: #111C1C; color: #B9C6C0; font-size: 14px;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 24px 20px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between;">
+      <span>La Garenne · Parc animalier et centre de soins de la faune sauvage · Le Vaud (VD) · Photos © La Garenne</span>
+      <span>Tu as trouvé un animal sauvage blessé&nbsp;? Contacte le centre de soins avant d'intervenir.</span>
+    </div>
+  </footer>
+</div>
+</template>
+<script type="text/x-dc" id="dc-logic">
+var ANIMALS = [
+  { id: "sanglier", name: "Sanglier", latin: "Sus scrofa", sector: "lynx", cls: "Mammifère", fiche: true, img: "assets/sanglier-card.png" },
+  { id: "lynx", name: "Lynx des Carpates", latin: "Lynx lynx carpathicus", sector: "lynx", cls: "Mammifère", nick: "Igor et Rimava (Ava)", fiche: true, img: "assets/lynx-card.png" },
+  { name: "Loup gris", latin: "Canis lupus", sector: "lynx", cls: "Mammifère", nick: "River et Rhéa", img: "assets/loup.png" },
+  { name: "Oie de Diepholz", latin: "Anser anser f. domestica", sector: "ferme", cls: "Race domestique", img: "assets/oie.png" },
+  { name: "Poule appenzelloise huppée", latin: "Gallus gallus f. domestica", sector: "ferme", cls: "Race domestique", img: "assets/poule-app.png" },
+  { name: "Poule suisse", latin: "Gallus gallus f. domestica", sector: "ferme", cls: "Race domestique", img: "assets/poule-suisse.png" },
+  { name: "Chèvre d'Appenzell", latin: "Capra aegagrus hircus", sector: "ferme", cls: "Race domestique", nick: "Maman, Cracotte et Biscotte", img: "assets/chevre-app.png" },
+  { name: "Cochon laineux", latin: "Sus scrofa f. domestica", sector: "ferme", cls: "Race domestique", img: "assets/cochon.png" },
+  { name: "Mouton de Saas", latin: "Ovis aries", sector: "ferme", cls: "Race domestique", img: "assets/mouton.png" },
+  { name: "Grande chèvre (Grigia)", latin: "Capra hircus", sector: "ferme", cls: "Race domestique", img: "assets/grande-chevre.png" },
+  { name: "Vautour fauve", latin: "Gyps fulvus", sector: "voliere", cls: "Oiseau", img: "assets/vautour.png" },
+  { name: "Bouquetin des Alpes", latin: "Capra ibex", sector: "voliere", cls: "Mammifère", img: "assets/bouquetin.png" },
+  { name: "Marmotte des Alpes", latin: "Marmota marmota", sector: "voliere", cls: "Mammifère", img: "assets/marmotte.png" },
+  { name: "Ibis chauve", latin: "Geronticus eremita", sector: "voliere", cls: "Oiseau", img: "assets/ibis.png" },
+  { name: "Pigeon ramier", latin: "Columba palumbus", sector: "autres", cls: "Oiseau", img: "assets/pigeon.png" },
+  { name: "Étourneau sansonnet", latin: "Sturnus vulgaris", sector: "autres", cls: "Oiseau", img: "assets/etourneau.png" },
+  { name: "Merle noir", latin: "Turdus merula", sector: "autres", cls: "Oiseau", img: "assets/merle.png" },
+  { name: "Effraie des clochers", latin: "Tyto alba", sector: "autres", cls: "Oiseau", img: "assets/effraie.png" },
+  { name: "Buse variable", latin: "Buteo buteo", sector: "autres", cls: "Oiseau", img: "assets/buse.png" },
+  { name: "Milan royal", latin: "Milvus milvus", sector: "autres", cls: "Oiseau", img: "assets/milan.png" },
+  { name: "Milan noir", latin: "Milvus migrans", sector: "autres", cls: "Oiseau", img: "assets/milan.png" },
+  { name: "Hibou grand-duc", latin: "Bubo bubo", sector: "autres", cls: "Oiseau", img: "assets/grandduc.png" },
+  { name: "Gypaète barbu", latin: "Gypaetus barbatus", sector: "autres", cls: "Oiseau", img: "assets/gypaete.png" },
+  { name: "Cigogne blanche", latin: "Ciconia ciconia", sector: "autres", cls: "Oiseau", nick: "Rick et Morty", img: "assets/cigogne.png" },
+  { name: "Lièvre brun", latin: "Lepus europaeus", sector: "autres", cls: "Mammifère", img: "assets/lievre.png" },
+  { name: "Écureuil roux", latin: "Sciurus vulgaris", sector: "autres", cls: "Mammifère", nick: "Scrat", img: "assets/ecureuil.png" },
+  { name: "Renard roux", latin: "Vulpes vulpes", sector: "autres", cls: "Mammifère", img: "assets/renard.png" },
+  { name: "Fouine", latin: "Martes foina", sector: "autres", cls: "Mammifère", img: "assets/fouine.png" },
+  { name: "Loutre d'Europe", latin: "Lutra lutra", sector: "autres", cls: "Mammifère", nick: "Imane", img: "assets/loutre.png" },
+  { name: "Hérisson d'Europe", latin: "Erinaceus europaeus", sector: "autres", cls: "Mammifère", img: "assets/herisson.png" },
+  { name: "Castor d'Europe", latin: "Castor fiber", sector: "autres", cls: "Mammifère", img: "assets/castor.png" },
+  { name: "Raton laveur", latin: "Procyon lotor", sector: "autres", cls: "Mammifère", img: "assets/raton.png" },
+  { name: "Chat forestier", latin: "Felis silvestris", sector: "autres", cls: "Mammifère", img: "assets/chat.png" },
+  { name: "Cerf élaphe", latin: "Cervus elaphus", sector: "autres", cls: "Mammifère", img: "assets/cerf.png" },
+  { name: "Tortue d'Hermann", latin: "Testudo hermanni", sector: "autres", cls: "Reptile", img: "assets/tortue.png" },
+  { name: "Cistude d'Europe", latin: "Emys orbicularis", sector: "autres", cls: "Reptile", img: "assets/cistude.png" },
+  { name: "Salamandre tachetée", latin: "Salamandra salamandra", sector: "autres", cls: "Amphibien", img: "assets/salamandre.png" },
+  { name: "Sonneur à ventre jaune", latin: "Bombina variegata", sector: "autres", cls: "Amphibien", img: "assets/sonneur.png" },
+  { name: "Crapaud commun", latin: "Bufo bufo", sector: "autres", cls: "Amphibien", img: "assets/crapaud.png" }
+];
+
+var SECTORS = [
+  { key: "all", label: "Tous" },
+  { key: "lynx", label: "Loups, lynx & sangliers" },
+  { key: "ferme", label: "La fermette" },
+  { key: "voliere", label: "La grande volière" },
+  { key: "autres", label: "Autres volières & enclos" }
+];
+
+// Emplacements d'après le plan du parc 2023 (numéros d'origine), en % du cadre de la carte.
+var SPOTS = [
+  { n: 3, label: "Fermette (chèvres blanches)", x: 14.6, y: 8.9 },
+  { n: 4, label: "Pigeons", x: 21.9, y: 17.1 },
+  { n: 6, label: "Renards", x: 23.9, y: 30.8 },
+  { n: 7, label: "Chèvres", x: 30.1, y: 37.7 },
+  { n: 9, label: "Étang (castor, canard, cistude)", x: 31.1, y: 65.7 },
+  { n: 13, label: "Rapaces (buse et milans)", x: 40.6, y: 59 },
+  { n: 14, label: "Ratons laveurs", x: 47.9, y: 45.1 },
+  { n: 15, label: "Hibou grand-duc", x: 57.5, y: 50.8 },
+  { n: 18, label: "Passereaux", x: 49.8, y: 77.7 },
+  { n: 20, label: "Loups", x: 59.2, y: 72.5 },
+  { n: 21, label: "Gypaètes barbus", x: 64, y: 60.7 },
+  { n: 22, label: "Sangliers", x: 71.7, y: 67.3 },
+  { n: 23, label: "Grande volière (bouquetins, ibis, marmottes, vautours)", x: 66.8, y: 43 },
+  { n: 24, label: "Lynx", x: 78.7, y: 71.8 },
+  { n: 27, label: "Cochons laineux", x: 13.1, y: 36 },
+  { n: 28, label: "Fouines", x: 17.3, y: 25 },
+  { n: 29, label: "Moutons de Saas", x: 22.1, y: 27.6 },
+  { n: 30, label: "Tortues", x: 27.6, y: 34.5 },
+  { n: 31, label: "Loutre d'Europe", x: 37.5, y: 39.5 },
+  { n: 32, label: "Chats forestiers", x: 73.6, y: 43.8 },
+  { n: 33, label: "Cerfs", x: 70.9, y: 28.6 }
+];
+
+var SPOT_OF = {
+  "Sanglier": 22, "Lynx des Carpates": 24, "Loup gris": 20,
+  "Chèvre d'Appenzell": 3, "Cochon laineux": 27, "Mouton de Saas": 29, "Grande chèvre (Grigia)": 7,
+  "Vautour fauve": 23, "Bouquetin des Alpes": 23, "Marmotte des Alpes": 23, "Ibis chauve": 23,
+  "Pigeon ramier": 4, "Étourneau sansonnet": 18, "Merle noir": 18,
+  "Buse variable": 13, "Milan royal": 13, "Milan noir": 13, "Hibou grand-duc": 15, "Gypaète barbu": 21,
+  "Renard roux": 6, "Fouine": 28, "Loutre d'Europe": 31, "Castor d'Europe": 9, "Raton laveur": 14,
+  "Chat forestier": 32, "Cerf élaphe": 33, "Tortue d'Hermann": 30, "Cistude d'Europe": 9
+};
+
+var spotByN = function (n) {
+  for (var i = 0; i < SPOTS.length; i++) if (SPOTS[i].n === n) return SPOTS[i];
+  return null;
+};
+
+var MONTHS = ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"];
+
+var FICHES = {
+  lynx: {
+    name: "Lynx d'Europe",
+    latin: "Lynx lynx — ici la sous-espèce des Carpates, L. l. carpathicus",
+    sector: "Secteur loups et lynx",
+    tagline: "Le plus grand félin d'Europe, discret au point qu'on le croise rarement. Mais lui t'a sans doute déjà vu…",
+    meet: "À La Garenne : Igor et Rimava (Ava), secteur loups et lynx",
+    img: "assets/lynx-card.png",
+    imgAlt: "Lynx des Carpates couché sur les feuilles mortes, regard vers l'objectif",
+    spot: 24,
+    id: [
+      { k: "Au garrot", v: "50 à 70 cm", note: "à peu près un grand chien" },
+      { k: "Longueur", v: "80 à 120 cm", note: "+ une queue courte de 15 à 25 cm" },
+      { k: "Poids", v: "15 à 30 kg", note: "les mâles sont plus lourds" },
+      { k: "Longévité", v: "≈ 15 ans", note: "un peu plus en captivité" },
+      { k: "Régime", v: "Carnivore", note: "surtout chevreuils et chamois" },
+      { k: "En Suisse", v: "En danger", note: "Liste rouge · espèce protégée" }
+    ],
+    facts: [
+      { t: "Chasseur à l'affût", d: "Pas de longue course : il s'approche en silence et surprend sa proie en quelques bonds." },
+      { t: "Des raquettes aux pattes", d: "Ses larges pattes très poilues l'empêchent de s'enfoncer dans la neige." },
+      { t: "Un pelage unique", d: "Chaque lynx a ses propres taches, comme une empreinte digitale. Les chercheurs le reconnaissent ainsi sur les photos de pièges photographiques." },
+      { t: "De retour depuis 1971", d: "Disparu de Suisse au début du XXe siècle, il a été réintroduit à partir de 1971 avec des lynx venus des Carpates." }
+    ],
+    sizes: [
+      { label: "Enfant de 6 ans", cm: 115, color: "#E8A33D" },
+      { label: "Lynx", cm: 60, color: "#3F7D58" }
+    ],
+    taxo: [
+      { k: "Classe", v: "Mammifères" },
+      { k: "Ordre", v: "Carnivores" },
+      { k: "Famille", v: "Félidés" },
+      { k: "Espèce", v: "Lynx lynx (L., 1758)" },
+      { k: "Sous-espèce", v: "L. l. carpathicus" },
+      { k: "UICN mondiale", v: "Préoccupation mineure" },
+      { k: "Liste rouge CH", v: "En danger (EN)" }
+    ],
+    nat: [
+      { t: "Écologie", d: "Solitaire et territorial, actif surtout au crépuscule et la nuit. Domaines vitaux de l'ordre de 100 à 250 km², plus vastes chez les mâles. Prédation d'environ un ongulé par semaine (chevreuil, chamois), consommé sur plusieurs jours." },
+      { t: "Reproduction", d: "Rut en février–mars, gestation d'environ 70 jours. Portée de 1 à 4 jeunes (souvent 2) fin mai–juin ; les jeunes restent avec la femelle jusqu'à environ 10 mois." },
+      { t: "Statut et suivi en Suisse", d: "Population de l'ordre de 300 individus, surtout dans le Jura et les Alpes du Nord-Ouest. Suivi par pièges photographiques et identification individuelle du pelage. Menaces : trafic routier, braconnage, faible diversité génétique héritée d'un petit nombre de fondateurs." },
+      { t: "Les lynx de La Garenne", d: "Comme la plupart des pensionnaires du parc, Igor et Rimava sont les ambassadeurs de leur espèce auprès du public." }
+    ],
+    cal: [
+      { label: "Rut", months: [2, 3], color: "#3F7D58" },
+      { label: "Naissances", months: [5, 6], color: "#E8A33D" },
+      { label: "Jeunes avec la mère", months: [6, 7, 8, 9, 10, 11, 12, 1, 2, 3], color: "#9FCCB0" }
+    ],
+    track: "Empreinte ronde, environ 7 cm de large, quatre doigts sans marque de griffes (rétractiles). Autres indices : proies partiellement recouvertes de feuilles ou de neige, griffades sur les troncs.",
+    sources: "KORA (suivi des carnivores en Suisse), info fauna (CSCF), OFEV — Liste rouge des mammifères.",
+    quiz: [
+      { q: "Comment le lynx attrape-t-il ses proies ?", o: ["En courant pendant des kilomètres", "À l'affût, par surprise", "En chassant en meute"], a: 1, e: "Il approche en silence puis bondit sur quelques mètres." },
+      { q: "Comment les chercheurs reconnaissent-ils chaque lynx ?", o: ["À la taille de ses oreilles", "Au motif unique de son pelage", "À la couleur de ses yeux"], a: 1, e: "Les taches sont propres à chaque individu, visibles sur les pièges photographiques." },
+      { q: "Depuis quand le lynx est-il de retour en Suisse ?", o: ["1971", "1871", "2011"], a: 0, e: "Les premiers lâchers officiels datent de 1971." }
+    ]
+  },
+  sanglier: {
+    name: "Sanglier",
+    latin: "Sus scrofa",
+    sector: "Secteur loups et lynx",
+    tagline: "Un nez surpuissant, une famille très organisée et un goût prononcé pour les bains de boue.",
+    meet: "À La Garenne : secteur loups et lynx",
+    img: "assets/sanglier-card.png",
+    imgAlt: "Sanglier couché dans la boue, à La Garenne",
+    spot: 22,
+    id: [
+      { k: "Au garrot", v: "55 à 100 cm", note: "selon l'âge et le sexe" },
+      { k: "Longueur", v: "1,1 à 1,8 m", note: "du groin à la queue" },
+      { k: "Poids", v: "35 à 150 kg", note: "laies 35–80 kg, mâles jusqu'à 150 kg" },
+      { k: "Longévité", v: "≈ 10 ans", note: "rarement plus dans la nature" },
+      { k: "Régime", v: "Omnivore", note: "glands, faînes, racines, vers, larves…" },
+      { k: "En Suisse", v: "Commun", note: "en expansion · espèce chassable" }
+    ],
+    facts: [
+      { t: "Un nez en or", d: "Son groin fouille le sol et flaire la nourriture enfouie. Les traces de fouilles s'appellent des boutis." },
+      { t: "Marcassins en pyjama", d: "Les petits naissent rayés pour se camoufler dans les sous-bois. Les rayures disparaissent vers 4 à 6 mois." },
+      { t: "Spa de boue", d: "Il transpire très peu : se rouler dans une mare boueuse (la souille) le rafraîchit et le débarrasse des parasites." },
+      { t: "Famille matriarcale", d: "Les laies et leurs petits vivent en compagnie, guidées par la femelle la plus expérimentée. Les vieux mâles vivent seuls." }
+    ],
+    sizes: [
+      { label: "Enfant de 6 ans", cm: 115, color: "#E8A33D" },
+      { label: "Sanglier", cm: 80, color: "#3F7D58" }
+    ],
+    taxo: [
+      { k: "Classe", v: "Mammifères" },
+      { k: "Ordre", v: "Artiodactyles" },
+      { k: "Famille", v: "Suidés" },
+      { k: "Espèce", v: "Sus scrofa (L., 1758)" },
+      { k: "UICN mondiale", v: "Préoccupation mineure" },
+      { k: "Statut CH", v: "Chassable, régulé par les cantons" }
+    ],
+    nat: [
+      { t: "Écologie", d: "Actif surtout la nuit, en partie à cause de la pression de chasse. Très adaptable : forêts de feuillus, lisières, zones agricoles. Les années de forte fructification (glands, faînes) favorisent la reproduction." },
+      { t: "Reproduction", d: "Rut de novembre à janvier, gestation d'environ 115 jours (« 3 mois, 3 semaines, 3 jours »). Portées de 4 à 6 marcassins en moyenne, surtout au printemps." },
+      { t: "Vocabulaire des âges", d: "Marcassin (rayé, jusqu'à ~6 mois), bête rousse (jusqu'à 1 an), bête de compagnie, ragot (2–3 ans), tiers-an, quartenier, puis solitaire ou vieux sanglier." },
+      { t: "Enjeux de gestion", d: "Population en hausse et dégâts aux cultures. Vigilance face à la peste porcine africaine présente dans des pays voisins : tout cadavre de sanglier trouvé doit être signalé au garde-faune." }
+    ],
+    cal: [
+      { label: "Rut", months: [11, 12, 1], color: "#3F7D58" },
+      { label: "Mises bas", months: [3, 4, 5], color: "#E8A33D" },
+      { label: "Marcassins rayés", months: [3, 4, 5, 6, 7, 8, 9], color: "#9FCCB0" }
+    ],
+    track: "Deux sabots arrondis, plus larges que chez le chevreuil, avec les gardes (ergots) bien marquées en arrière. Autres indices : boutis (sol retourné), souilles, frottis de boue sur les troncs à hauteur de genou.",
+    sources: "info fauna (CSCF), OFEV, services cantonaux de la faune — Vaud : DGE-Biodiversité.",
+    quiz: [
+      { q: "Comment s'appelle le petit du sanglier ?", o: ["Le porcelet", "Le marcassin", "Le sanglot"], a: 1, e: "Le marcassin, reconnaissable à ses rayures." },
+      { q: "Pourquoi le sanglier se roule-t-il dans la boue ?", o: ["Pour se cacher des loups", "Pour se rafraîchir et chasser les parasites", "Pour se faire beau"], a: 1, e: "Il transpire très peu : la souille lui sert de climatiseur et d'anti-parasites." },
+      { q: "Qui mène la compagnie ?", o: ["Le plus gros mâle", "La laie la plus expérimentée", "Le plus jeune marcassin"], a: 1, e: "La compagnie est matriarcale ; les vieux mâles vivent en solitaires." }
+    ]
+  }
+};
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { view: "home", mode: "public", sector: "all", spot: 24, answers: {} };
+  }
+  go(view) {
+    this.setState({ view: view });
+    try { window.scrollTo(0, 0); } catch (e) {}
+  }
+  renderVals() {
+    var self = this;
+    var st = this.state;
+    var pill = function (on) {
+      return "border: 0; border-radius: 999px; padding: 8px 16px; min-height: 40px; font-size: 14px; font-weight: 600; " +
+        (on ? "background: #FFFFFF; color: #111C1C;" : "background: transparent; color: #D5E0DA;");
+    };
+    var chip = function (on) {
+      return "border-radius: 999px; padding: 10px 18px; min-height: 44px; font-size: 15px; font-weight: 600; " +
+        (on ? "background: #111C1C; color: #FFFFFF; border: 2px solid #111C1C;" : "background: #FFFFFF; color: #111C1C; border: 2px solid #D9D3C3;");
+    };
+
+    var sectorLabel = function (key) {
+      for (var i = 0; i < SECTORS.length; i++) if (SECTORS[i].key === key) return SECTORS[i].label;
+      return "";
+    };
+    var toItem = function (a) {
+      return {
+        name: a.name, latin: a.latin, cls: a.cls, nick: a.nick || "", img: a.img,
+        zone: SPOT_OF[a.name] ? "n° " + SPOT_OF[a.name] + " sur le plan · " + sectorLabel(a.sector) : sectorLabel(a.sector) + " (emplacement à préciser)",
+        hasFiche: !!a.fiche, noFiche: !a.fiche,
+        open: function () { self.go(a.id); }
+      };
+    };
+    var navBtn = function (on) {
+      return "border: 0; border-radius: 999px; padding: 8px 14px; min-height: 44px; font-size: 14px; font-weight: 600; " +
+        (on ? "background: #3F7D58; color: #FFFFFF;" : "background: transparent; color: #D5E0DA;");
+    };
+
+    var spots = SPOTS.map(function (p) {
+      var on = st.spot === p.n;
+      return {
+        n: p.n, label: p.label, active: on, aria: "N° " + p.n + " : " + p.label,
+        style: "position: absolute; left: " + p.x + "%; top: " + p.y + "%; transform: translate(-50%, -50%); width: 34px; height: 34px; border-radius: 999px; padding: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; " +
+          (on ? "background: #E8A33D; color: #111C1C; border: 3px solid #111C1C; z-index: 2; box-shadow: 0 0 0 5px rgba(232,163,61,0.35);" : "background: #3F7D58; color: #FFFFFF; border: 2px solid #FFFFFF; box-shadow: 0 2px 0 #1E4530;"),
+        pick: function () { self.setState({ spot: p.n }); }
+      };
+    });
+    var cur = spotByN(st.spot) || SPOTS[0];
+    var spotAnimals = ANIMALS.filter(function (a) { return SPOT_OF[a.name] === cur.n; }).map(toItem);
+    var unplaced = ANIMALS.filter(function (a) { return !SPOT_OF[a.name]; }).map(function (a) { return a.name; });
+
+    var sectors = SECTORS.map(function (s) {
+      return { label: s.label, active: st.sector === s.key, style: chip(st.sector === s.key), pick: function () { self.setState({ sector: s.key }); } };
+    });
+
+    var groups = SECTORS.filter(function (s) { return s.key !== "all" && (st.sector === "all" || st.sector === s.key); }).map(function (s) {
+      var items = ANIMALS.filter(function (a) { return a.sector === s.key; }).map(toItem);
+      return { label: s.label, count: items.length, items: items };
+    });
+
+    var isFiche = !!FICHES[st.view];
+    var raw = isFiche ? FICHES[st.view] : FICHES.lynx;
+    var maxCm = 120;
+    var f = {
+      name: raw.name, latin: raw.latin, sector: raw.sector, tagline: raw.tagline, meet: raw.meet,
+      img: raw.img, imgAlt: raw.imgAlt,
+      showOnMap: function () { self.setState({ spot: raw.spot }); self.go("map"); },
+      id: raw.id, facts: raw.facts, taxo: raw.taxo, nat: raw.nat, track: raw.track, sources: raw.sources,
+      sizes: raw.sizes.map(function (z) {
+        return { label: z.label, cm: z.cm + " cm", style: "width: 100%; max-width: 72px; border-radius: 12px 12px 0 0; background: " + z.color + "; height: " + Math.round(z.cm / maxCm * 160) + "px;" };
+      }),
+      cal: raw.cal.map(function (r) {
+        return {
+          label: r.label,
+          cells: MONTHS.map(function (m, i) {
+            var on = r.months.indexOf(i + 1) !== -1;
+            return { style: "height: 22px; border-radius: 6px; background: " + (on ? r.color : "#F1EEE4") + ";" };
+          })
+        };
+      })
+    };
+
+    var ans = st.answers[st.view] || {};
+    var score = 0;
+    var quiz = raw.quiz.map(function (q, qi) {
+      var chosen = ans[qi];
+      var answered = chosen !== undefined;
+      if (answered && chosen === q.a) score++;
+      return {
+        n: qi + 1, q: q.q, answered: answered,
+        verdict: answered ? (chosen === q.a ? "Bravo !" : "Pas tout à fait…") : "",
+        explain: q.e,
+        options: q.o.map(function (label, oi) {
+          var base = "border-radius: 14px; padding: 10px 16px; min-height: 44px; font-size: 15px; font-weight: 600; text-align: left; ";
+          var look;
+          if (!answered) look = "background: #F6F3EA; color: #111C1C; border: 2px solid #D9D3C3;";
+          else if (oi === q.a) look = "background: #3F7D58; color: #FFFFFF; border: 2px solid #2F6446;";
+          else if (oi === chosen) look = "background: #FBE3E0; color: #8A1C12; border: 2px solid #C9483A; text-decoration: line-through;";
+          else look = "background: #FFFFFF; color: #5B6472; border: 2px solid #E3DFD3;";
+          return {
+            label: label, style: base + look,
+            pick: function () {
+              if (answered) return;
+              var all = Object.assign({}, self.state.answers);
+              var mine = Object.assign({}, all[st.view] || {});
+              mine[qi] = oi;
+              all[st.view] = mine;
+              self.setState({ answers: all });
+            }
+          };
+        })
+      };
+    });
+
+    return {
+      isHome: st.view === "home", isFiche: isFiche, isMap: st.view === "map",
+      navHome: st.view === "home" ? "page" : "false", navMap: st.view === "map" ? "page" : "false",
+      navHomeStyle: navBtn(st.view === "home"), navMapStyle: navBtn(st.view === "map"),
+      goMap: function () { self.go("map"); },
+      spots: spots, spotAnimals: spotAnimals, spotN: cur.n, spotTitle: cur.label, unplaced: unplaced,
+      isLynx: st.view === "lynx", isBoar: st.view === "sanglier",
+      isPublic: st.mode === "public", isNat: st.mode === "nat",
+      modePublicStyle: pill(st.mode === "public"), modeNatStyle: pill(st.mode === "nat"),
+      setPublic: function () { self.setState({ mode: "public" }); },
+      setNat: function () { self.setState({ mode: "nat" }); },
+      goHome: function () { self.go("home"); },
+      totalCount: ANIMALS.length,
+      ficheCount: ANIMALS.filter(function (a) { return a.fiche; }).length,
+      sectors: sectors, groups: groups, months: MONTHS,
+      f: f, quiz: quiz, score: score, quizTotal: raw.quiz.length,
+      resetQuiz: function () {
+        var all = Object.assign({}, self.state.answers);
+        delete all[st.view];
+        self.setState({ answers: all });
+      }
+    };
+  }
+}
+</script>
+<script src="dc-runtime.js"></script>
+</body>
+</html>
