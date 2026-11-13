@@ -97,34 +97,29 @@ button:focus-visible{outline:3px solid #E8A33D;outline-offset:2px}
           <p style="margin: 0 0 10px; font-size: 14px; color: #5B6472;">Ces pensionnaires ne figurent pas sur le plan 2023. Demande à l'accueil ou ouvre l'œil !</p>
           <div style="display: flex; flex-wrap: wrap; gap: 8px;">
             <sc-for list="{{unplaced}}" as="u" hint-placeholder-count="8">
-              <span style="font-size: 14px; background: #F1EEE4; color: #364153; padding: 4px 12px; border-radius: 999px;">{{u}}</span>
+              <button onClick="{{u.open}}" style="font-size: 14px; font-weight: 600; background: #F1EEE4; color: #111C1C; border: 1px solid #D9D3C3; padding: 6px 12px; min-height: 36px; border-radius: 999px;">{{u.name}}</button>
             </sc-for>
           </div>
         </div>
       </div>
-      <aside style="flex: 1 1 320px; min-width: 0; background: #FFFFFF; border-radius: 24px; border: 1px solid #E3DFD3; padding: 20px;">
-        <p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: #3F7D58;">Plan n° {{spotN}}</p>
-        <h2 style="margin: 2px 0 14px; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 26px; letter-spacing: 0.5px; color: #202020;">{{spotTitle}}</h2>
-        <div style="display: flex; flex-direction: column; gap: 8px; max-height: 520px; overflow-y: auto;">
-          <sc-for list="{{spotAnimals}}" as="a" hint-placeholder-count="3">
-            <sc-if value="{{a.hasFiche}}" hint-placeholder-val="{{false}}">
-              <button onClick="{{a.open}}" style="display: flex; gap: 12px; align-items: center; text-align: left; background: #F6F3EA; border: 2px solid #3F7D58; border-radius: 16px; padding: 8px; color: #101828;">
-                <img src="{{a.img}}" alt="" style="width: 56px; height: 56px; border-radius: 12px; object-fit: cover; object-position: {{a.pos}}; flex: none;">
-                <span style="display: flex; flex-direction: column; min-width: 0;">
-                  <span style="font-weight: 700;">{{a.name}}</span>
-                  <span style="font-size: 13px; color: #2F6446; font-weight: 600;">Ouvrir la fiche →</span>
-                </span>
-              </button>
-            </sc-if>
-            <sc-if value="{{a.noFiche}}" hint-placeholder-val="{{true}}">
-              <div style="display: flex; gap: 12px; align-items: center; padding: 8px; border-radius: 16px; border: 1px solid #EFEBE0;">
-                <img src="{{a.img}}" alt="" style="width: 56px; height: 56px; border-radius: 12px; object-fit: cover; object-position: {{a.pos}}; flex: none;">
-                <span style="display: flex; flex-direction: column; min-width: 0;">
-                  <span style="font-weight: 600;">{{a.name}}</span>
-                  <span style="font-size: 13px; font-style: italic; color: #5B6472;">{{a.latin}}</span>
-                </span>
+      <aside style="flex: 1 1 320px; min-width: 0; background: #FFFFFF; border-radius: 24px; border: 1px solid #E3DFD3; padding: 18px 14px 14px; display: flex; flex-direction: column; max-height: 640px; box-sizing: border-box;">
+        <h3 style="margin: 0 6px 2px; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 24px; letter-spacing: 0.4px; color: #202020;">Légende du plan</h3>
+        <p style="margin: 0 6px 10px; font-size: 13px; color: #5B6472;">Touche un numéro pour le repérer, ou un nom pour ouvrir sa fiche.</p>
+        <div id="legend" style="position: relative; overflow-y: auto; min-height: 0; display: flex; flex-direction: column; gap: 2px;">
+          <sc-for list="{{legend}}" as="l" hint-placeholder-count="21">
+            <div id="leg-{{l.n}}" style="{{l.rowStyle}}">
+              <button onClick="{{l.pick}}" aria-pressed="{{l.active}}" aria-label="{{l.aria}}" style="{{l.numStyle}}">{{l.n}}</button>
+              <div style="display: flex; flex-direction: column; min-width: 0;">
+                <sc-if value="{{l.hasPlace}}" hint-placeholder-val="{{false}}">
+                  <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; color: #3F7D58; margin-top: 4px;">{{l.place}}</span>
+                </sc-if>
+                <div style="display: flex; flex-wrap: wrap; column-gap: 12px;">
+                  <sc-for list="{{l.animals}}" as="a" hint-placeholder-count="1">
+                    <button onClick="{{a.open}}" style="background: none; border: 0; padding: 4px 0; min-height: 34px; font-size: 15px; font-weight: 600; color: #111C1C; text-align: left; text-decoration: underline; text-decoration-color: #9FCCB0; text-decoration-thickness: 2px; text-underline-offset: 4px;">{{a.name}}</button>
+                  </sc-for>
+                </div>
               </div>
-            </sc-if>
+            </div>
           </sc-for>
         </div>
       </aside>
@@ -147,7 +142,7 @@ button:focus-visible{outline:3px solid #E8A33D;outline-offset:2px}
             <sc-for list="{{g.items}}" as="a" hint-placeholder-count="6">
               <sc-if value="{{a.hasFiche}}" hint-placeholder-val="{{false}}">
                 <button onClick="{{a.open}}" style="text-align: left; background: #FFFFFF; border: 2px solid #3F7D58; border-radius: 20px; padding: 0; overflow: hidden; display: flex; flex-direction: column; color: #101828; box-shadow: 0 6px 0 #3F7D58;">
-                  <div style="height: 150px; background: #DDE9E0; position: relative; overflow: hidden;">
+                  <div style="aspect-ratio: 398 / 286; background: #DDE9E0; position: relative; overflow: hidden;">
                     <img src="{{a.img}}" alt="{{a.name}} à La Garenne" style="width: 100%; height: 100%; object-fit: cover; object-position: {{a.pos}}; display: block;">
                     <span style="position: absolute; top: 10px; left: 10px; font-size: 12px; font-weight: 600; color: #364153; background: #FFFFFF; padding: 3px 10px; border-radius: 999px;">{{a.cls}}</span>
                   </div>
@@ -162,7 +157,7 @@ button:focus-visible{outline:3px solid #E8A33D;outline-offset:2px}
               </sc-if>
               <sc-if value="{{a.noFiche}}" hint-placeholder-val="{{true}}">
                 <div style="background: #FFFFFF; border: 1px solid #E3DFD3; border-radius: 20px; overflow: hidden; display: flex; flex-direction: column;">
-                  <div style="height: 150px; background: #DDE9E0; position: relative; overflow: hidden;">
+                  <div style="aspect-ratio: 398 / 286; background: #DDE9E0; position: relative; overflow: hidden;">
                     <img src="{{a.img}}" alt="{{a.name}} à La Garenne" style="width: 100%; height: 100%; object-fit: cover; object-position: {{a.pos}}; display: block;">
                     <span style="position: absolute; top: 10px; left: 10px; font-size: 12px; font-weight: 600; color: #364153; background: #FFFFFF; padding: 3px 10px; border-radius: 999px;">{{a.cls}}</span>
                   </div>
@@ -207,7 +202,7 @@ button:focus-visible{outline:3px solid #E8A33D;outline-offset:2px}
             </div>
             </sc-if>
           </div>
-          <div style="flex: 1 1 360px; min-width: 0; height: 320px; border-radius: 28px; background: #2A3B3B; overflow: hidden;">
+          <div style="flex: 1 1 360px; min-width: 0; aspect-ratio: 398 / 286; border-radius: 28px; background: #2A3B3B; overflow: hidden;">
             <img src="{{f.img}}" alt="{{f.imgAlt}}" style="width: 100%; height: 100%; object-fit: cover; object-position: {{f.pos}}; display: block;">
           </div>
         </div>
@@ -2470,12 +2465,30 @@ class Component extends DCLogic {
         n: p.n, label: p.label, active: on, aria: "N° " + p.n + " : " + p.label,
         style: "position: absolute; left: " + p.x + "%; top: " + p.y + "%; transform: translate(-50%, -50%); width: 34px; height: 34px; border-radius: 999px; padding: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; " +
           (on ? "background: #E8A33D; color: #111C1C; border: 3px solid #111C1C; z-index: 2; box-shadow: 0 0 0 5px rgba(232,163,61,0.35);" : "background: #3F7D58; color: #FFFFFF; border: 2px solid #FFFFFF; box-shadow: 0 2px 0 #1E4530;"),
+        pick: function () {
+          self.setState({ spot: p.n });
+          setTimeout(function () {
+            var row = document.getElementById("leg-" + p.n), box = document.getElementById("legend");
+            if (row && box) box.scrollTop = row.offsetTop - 8;
+          }, 60);
+        }
+      };
+    });
+    var PLACES = { 3: "Fermette", 9: "Étang", 13: "Rapaces", 18: "Passereaux", 23: "Grande volière" };
+    var legend = SPOTS.slice().sort(function (x, y) { return x.n - y.n; }).map(function (p) {
+      var on = st.spot === p.n;
+      return {
+        n: p.n, active: on, aria: "Repérer le n° " + p.n + " sur le plan",
+        place: PLACES[p.n] || "", hasPlace: !!PLACES[p.n],
+        animals: ANIMALS.filter(function (a) { return SPOT_OF[a.name] === p.n; }).map(toItem),
+        rowStyle: "display: flex; gap: 10px; align-items: flex-start; padding: 4px 8px; border-radius: 14px; " +
+          (on ? "background: #FDF1DC; box-shadow: inset 0 0 0 2px #E8A33D;" : "background: transparent;"),
+        numStyle: "flex: none; width: 34px; height: 34px; margin-top: 2px; border-radius: 999px; padding: 0; font-size: 14px; font-weight: 700; " +
+          (on ? "background: #E8A33D; color: #111C1C; border: 2px solid #111C1C;" : "background: #3F7D58; color: #FFFFFF; border: 2px solid #3F7D58;"),
         pick: function () { self.setState({ spot: p.n }); }
       };
     });
-    var cur = spotByN(st.spot) || SPOTS[0];
-    var spotAnimals = ANIMALS.filter(function (a) { return SPOT_OF[a.name] === cur.n; }).map(toItem);
-    var unplaced = ANIMALS.filter(function (a) { return !SPOT_OF[a.name]; }).map(function (a) { return a.name; });
+    var unplaced = ANIMALS.filter(function (a) { return !SPOT_OF[a.name]; }).map(toItem);
 
     var sectors = SECTORS.map(function (s) {
       return { label: s.label, active: st.sector === s.key, style: chip(st.sector === s.key), pick: function () { self.setState({ sector: s.key }); } };
@@ -2566,7 +2579,7 @@ class Component extends DCLogic {
       navHome: st.view === "home" ? "page" : "false", navMap: "false",
       navHomeStyle: navBtn(st.view === "home"), navMapStyle: navBtn(false),
       goMap: function () { self.go("home", "plan"); },
-      spots: spots, spotAnimals: spotAnimals, spotN: cur.n, spotTitle: cur.label, unplaced: unplaced,
+      spots: spots, legend: legend, unplaced: unplaced,
       isLynx: fid === "lynx", isBoar: fid === "sanglier", hasTrackArt: fid === "lynx" || fid === "sanglier",
       isPublic: st.mode === "public", isNat: st.mode === "nat",
       modePublicStyle: pill(st.mode === "public"), modeNatStyle: pill(st.mode === "nat"),
