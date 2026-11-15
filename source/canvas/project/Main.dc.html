@@ -722,7 +722,7 @@ details summary{cursor:pointer}
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":2200}}'>
 var ANIMALS = [
   { id: "sanglier", name: "Sanglier", latin: "Sus scrofa", sector: "lynx", cls: "Mammifère", img: "/_blob/bdc7de5e5c66c43b1fb03fb8abd5e0ef" },
-  { id: "lynx", name: "Lynx d'Europe", latin: "Lynx lynx · sous-espèce des Carpates", sector: "lynx", cls: "Mammifère", nick: "Igor et Rimava (Ava)", img: "/_blob/9981c8ebfab053bf6288b85af0e0167a" },
+  { id: "lynx", name: "Lynx d'Europe", latin: "Lynx lynx · lignée des Carpates", sector: "lynx", cls: "Mammifère", nick: "Igor et Rimava (Ava)", img: "/_blob/9981c8ebfab053bf6288b85af0e0167a" },
   { id: "loup", name: "Loup gris", latin: "Canis lupus", sector: "lynx", cls: "Mammifère", nick: "River et Rhéa", img: "/_blob/b7f0db46a31c4e0475f6769707973116" },
   { id: "oie", name: "Oie de Diepholz", latin: "Anser anser f. domestica", sector: "ferme", cls: "Race domestique", img: "/_blob/46789c3b1546a393231c2683cdc97894" },
   { id: "poule-appenzelloise", name: "Poule appenzelloise huppée", latin: "Gallus gallus f. domestica", sector: "ferme", cls: "Race domestique", img: "/_blob/5fe9bd3bcc047b91fcd1c9056464a664" },
@@ -814,7 +814,7 @@ var MONTHS = ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"];
 var FICHES = {
   lynx: {
     name: "Lynx d'Europe",
-    latin: "Lynx lynx — ici la sous-espèce des Carpates, L. l. carpathicus",
+    latin: "Lynx lynx — ici d'origine carpatique",
     sector: "Secteur loups et lynx",
     tagline: "Le plus grand félin d'Europe, discret au point qu'on le croise rarement. Mais lui t'a sans doute déjà vu…",
     meet: "À La Garenne : Igor et Rimava (Ava), secteur loups et lynx",
@@ -844,7 +844,7 @@ var FICHES = {
       { k: "Ordre", v: "Carnivores" },
       { k: "Famille", v: "Félidés" },
       { k: "Espèce", v: "Lynx lynx (L., 1758)" },
-      { k: "Sous-espèce", v: "L. l. carpathicus" },
+      { k: "Lignée", v: "Carpates (rattachée à L. l. lynx)" },
       { k: "UICN mondiale", v: "Préoccupation mineure" },
       { k: "Liste rouge CH", v: "En danger (EN)" }
     ],
@@ -1991,7 +1991,8 @@ Object.assign(FICHES, {
     taxo: [
       { k: "Classe", v: "Oiseaux" }, { k: "Ordre", v: "Ciconiiformes" }, { k: "Famille", v: "Ciconiidés" },
       { k: "Espèce", v: "Ciconia ciconia (L., 1758)" },
-      { k: "UICN mondiale", v: "Préoccupation mineure" }
+      { k: "UICN mondiale", v: "Préoccupation mineure" },
+      { k: "Liste rouge CH", v: "Non menacé (LC)" }
     ],
     nat: [
       { t: "Écologie", d: "Fréquente les prairies humides, les zones agricoles extensives et les rives, où elle chasse à pied des vers de terre, des insectes, des petits mammifères (campagnols) et des amphibiens. Niche sur les toits, les cheminées, les arbres ou des plateformes artificielles, souvent en colonies lâches." },
@@ -2433,7 +2434,7 @@ Object.assign(FICHES, {
     ],
     taxo: [
       { k: "Classe", v: "Mammifères" }, { k: "Ordre", v: "Artiodactyles" }, { k: "Famille", v: "Suidés" },
-      { k: "Espèce", v: "Sus scrofa (L., 1758), forme domestique" }, { k: "Race", v: "Mangalica (Wollschwein)" },
+      { k: "Espèce", v: "Sus scrofa L., 1758, forme domestique" }, { k: "Race", v: "Mangalica (Wollschwein)" },
       { k: "Statut", v: "Race rare soutenue par ProSpecieRara" }
     ],
     nat: [
@@ -2567,7 +2568,7 @@ var FUN = {
     "Pas un sprinteur : il chasse par surprise, en quelques grands bonds, et abandonne vite si la proie lui échappe."
   ],
   "sanglier": [
-    "Ses défenses du bas s'aiguisent en frottant contre celles du haut : un taille-crayon intégré !",
+    "Ses défenses du bas s'aiguisent en frottant contre celles du haut, les « grès » : un taille-crayon intégré !",
     "Sanglier et cochon domestique appartiennent à la même espèce : ce sont des cousins très proches."
   ],
   "loup": [
@@ -2620,7 +2621,7 @@ var FUN = {
   ],
   "bouquetin": [
     "Tous les bouquetins de Suisse descendent d'animaux ramenés en contrebande d'Italie au début du XXe siècle.",
-    "On peut estimer l'âge d'un mâle en comptant les bourrelets de ses cornes, qui approchent le mètre."
+    "On peut estimer l'âge d'un bouquetin en comptant les anneaux de croissance de ses cornes : un anneau par hiver. Celles des vieux mâles approchent le mètre."
   ],
   "marmotte": [
     "Elle ne siffle pas avec la bouche : son « sifflement » est un cri poussé avec la gorge.",
@@ -2778,7 +2779,7 @@ var INDIVIDUS = [
 
   { name: "Arthur", species: "bouquetin", sex: "m", born: 2016, bornText: "né au parc le 18 mai 2016", origin: "Né au parc",
     trait: "Le seul mâle adulte : le papa de tous les jeunes bouquetins.",
-    story: "Compte les bourrelets de ses cornes pour deviner son âge !" },
+    story: "Ses cornes portent un anneau de croissance par hiver : les gardiens s'en servent pour estimer l'âge des bouquetins." },
 
   { name: "Scrat", species: "ecureuil", sex: "f", born: null, bornText: "", origin: "Centre de soins de La Garenne",
     trait: "Elle essaie d'enterrer ses noisettes dans les plis des habits des soigneurs !",
@@ -2846,7 +2847,7 @@ var STATS = {
     young: "4 à 6 marcassins", gestation: "≈ 115 jours de gestation"
   },
   "loup": {
-    weight: [30, 50], weightNote: "mâles plus lourds",
+    weight: [25, 40], weightNote: "mâles plus lourds",
     lifeWild: [5, 10], lifeCaptive: [10, 15],
     size: { label: "Hauteur au garrot", cm: [60, 80] },
     diet: "Carnivore", activity: "Nocturne",
@@ -3115,7 +3116,7 @@ var OBSERVE = {
   "ecureuil": "Cherche sa queue en panache et ses oreilles. Cache-t-il une noisette quelque part ?",
   "vautour": "Regarde son cou presque sans plumes et sa collerette blanche, comme une écharpe.",
   "gypaete": "Cherche sa « barbe » noire sous le bec et ses yeux cerclés de rouge. Héra est la plus orange !",
-  "bouquetin": "Compte les bourrelets sur les cornes d'Arthur : chaque gros bourrelet, c'est environ une année.",
+  "bouquetin": "Regarde les cornes d'Arthur : les gros bourrelets sur le devant servent de décor, ce sont les fins anneaux entre eux qui marquent chaque hiver.",
   "marmotte": "Écoute : entends-tu un sifflement ? Cherche-la debout sur ses pattes arrière, qui fait le guet.",
   "ibis": "Regarde sa tête chauve et rouge, et sa crinière de plumes en bataille.",
   "effraie": "Cherche son visage blanc en forme de cœur. Ses yeux noirs regardent droit devant.",
