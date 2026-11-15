@@ -4,7 +4,10 @@ Petite webapp qui recense les animaux du parc animalier La Garenne (Le Vaud, VD)
 
 - catalogue des espèces du parc, par secteur ;
 - fiches ludiques (lynx, sanglier) avec un mode « Je découvre » et un mode naturaliste, et un mini-quiz ;
-- plan du parc avec les numéros du plan officiel 2023.
+- plan du parc avec les numéros du plan officiel 2023 et sa légende ;
+- « Nos pensionnaires » : les animaux du parc, un par un (nom, histoire, caractère) ;
+- « Espèces en chiffres » : poids, taille, espérance de vie dans la nature et en captivité ;
+- un quiz infini (choix simple et réponses multiples) sur les pensionnaires et les espèces.
 
 Site statique, sans build : `index.html` + `dc-runtime.js` + `assets/`. Pour le voir en local :
 
@@ -12,6 +15,14 @@ Site statique, sans build : `index.html` + `dc-runtime.js` + `assets/`. Pour le 
 python3 -m http.server 8765
 ```
 
-La maquette source est un canevas Claude Design ; `index.html` en est l'export.
+## Modifier le site
+
+La source est le canevas Claude Design `source/canvas/project/Main.dc.html` (données, textes et logique). `index.html` en est l'export :
+
+```bash
+python3 source/build.py
+```
+
+Les photos sources sont dans `source/photos/`. Le dossier `ressources/` (documents du parc) reste local et n'est jamais publié.
 
 Photos © La Garenne, utilisées avec son accord.

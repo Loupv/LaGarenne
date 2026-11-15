@@ -30,6 +30,9 @@ button:focus-visible{outline:3px solid #E8A33D;outline-offset:2px}
       <nav aria-label="Sections" style="display: flex; gap: 4px; flex-wrap: wrap;">
         <button onClick="{{goHome}}" aria-current="{{navHome}}" style="{{navHomeStyle}}">Les animaux</button>
         <button onClick="{{goMap}}" aria-current="{{navMap}}" style="{{navMapStyle}}">Plan du parc</button>
+        <button onClick="{{goIndiv}}" aria-current="{{navIndiv}}" style="{{navIndivStyle}}">Pensionnaires</button>
+        <button onClick="{{goStats}}" aria-current="{{navStats}}" style="{{navStatsStyle}}">Espèces en chiffres</button>
+        <button onClick="{{goQuiz}}" aria-current="{{navQuiz}}" style="{{navQuizStyle}}">Quiz</button>
       </nav>
       <div role="group" aria-label="Niveau de lecture" style="display: flex; background: #1F2E2E; border-radius: 999px; padding: 4px; gap: 4px;">
         <button onClick="{{setPublic}}" aria-pressed="{{isPublic}}" style="{{modePublicStyle}}">Je découvre</button>
@@ -178,6 +181,161 @@ button:focus-visible{outline:3px solid #E8A33D;outline-offset:2px}
   </sc-if>
 
 
+  <!-- ===================== PENSIONNAIRES ===================== -->
+  <sc-if value="{{isIndiv}}" hint-placeholder-val="{{false}}">
+    <section style="background: #3F7D58; color: #FFFFFF;">
+      <div style="max-width: 1200px; margin: 0 auto; padding: 40px 20px 44px;">
+        <h1 style="margin: 0; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 48px; line-height: 1.05; letter-spacing: 0.8px;">Nos pensionnaires</h1>
+        <p style="margin: 12px 0 0; font-size: 18px; max-width: 680px; color: #EAF4EE;">Ils ont un nom, une histoire et un sacré caractère. Fais connaissance avec les animaux de La Garenne !</p>
+      </div>
+    </section>
+    <main style="max-width: 1200px; margin: 0 auto; padding: 32px 20px 64px;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 18px;">
+        <sc-for list="{{indivs}}" as="i" hint-placeholder-count="9">
+          <article style="background: #FFFFFF; border: 2px solid #111C1C; border-radius: 22px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 4px 4px 0 #3F7D58;">
+            <div style="aspect-ratio: 398 / 286; background: #DDE9E0; position: relative; overflow: hidden;">
+              <img src="{{i.img}}" alt="{{i.speciesName}}" style="width: 100%; height: 100%; object-fit: cover; object-position: {{i.pos}}; display: block;">
+              <span style="position: absolute; top: 10px; left: 10px; font-size: 12px; font-weight: 600; color: #364153; background: #FFFFFF; padding: 3px 10px; border-radius: 999px;">{{i.speciesName}}</span>
+            </div>
+            <div style="padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 6px; flex: 1;">
+              <h2 style="margin: 0; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 26px; letter-spacing: 0.4px; color: #111C1C;">{{i.name}}</h2>
+              <sc-if value="{{i.hasMeta}}" hint-placeholder-val="{{true}}">
+                <p style="margin: 0; font-size: 13px; font-weight: 600; color: #2F6446;">{{i.meta}}</p>
+              </sc-if>
+              <p style="margin: 0; font-size: 15px; color: #101828;">{{i.trait}}</p>
+              <sc-if value="{{i.hasStory}}" hint-placeholder-val="{{false}}">
+                <p style="margin: 0; font-size: 14px; color: #364153;">{{i.story}}</p>
+              </sc-if>
+              <button onClick="{{i.open}}" style="margin-top: auto; align-self: flex-start; background: none; border: 0; padding: 8px 0 0; min-height: 40px; font-size: 14px; font-weight: 700; color: #2F6446;">Fiche de l'espèce →</button>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+      <p style="margin: 24px 0 0; font-size: 13px; color: #5B6472;">D'après les dossiers pédagogiques du parc (2024–2025). Certains pensionnaires ont pu changer depuis.</p>
+    </main>
+  </sc-if>
+
+  <!-- ===================== ESPÈCES EN CHIFFRES ===================== -->
+  <sc-if value="{{isStats}}" hint-placeholder-val="{{false}}">
+    <section style="background: #3F7D58; color: #FFFFFF;">
+      <div style="max-width: 1200px; margin: 0 auto; padding: 40px 20px 44px;">
+        <h1 style="margin: 0; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 48px; line-height: 1.05; letter-spacing: 0.8px;">Espèces en chiffres</h1>
+        <p style="margin: 12px 0 0; font-size: 18px; max-width: 680px; color: #EAF4EE;">Poids, taille, espérance de vie dans la nature et en captivité : compare toutes les espèces du parc.</p>
+      </div>
+    </section>
+    <main style="max-width: 1200px; margin: 0 auto; padding: 28px 20px 64px;">
+      <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 18px;">
+        <span style="font-size: 14px; font-weight: 600; color: #364153; margin-right: 4px;">Trier par :</span>
+        <sc-for list="{{sorts}}" as="o" hint-placeholder-count="5">
+          <button onClick="{{o.pick}}" aria-pressed="{{o.active}}" style="{{o.style}}">{{o.label}}</button>
+        </sc-for>
+      </div>
+      <div style="overflow-x: auto; border: 1px solid #E3DFD3; border-radius: 20px; background: #FFFFFF;">
+        <div role="table" aria-label="Espèces en chiffres" style="min-width: 1000px;">
+          <div role="row" style="display: grid; grid-template-columns: minmax(210px, 1.7fr) repeat(7, minmax(110px, 1fr)); background: #F1EEE4; border-bottom: 2px solid #E3DFD3;">
+            <div role="columnheader" style="padding: 12px; font-size: 13px; font-weight: 700; color: #364153;">Espèce</div>
+            <div role="columnheader" style="padding: 12px; font-size: 13px; font-weight: 700; color: #364153;">Poids adulte</div>
+            <div role="columnheader" style="padding: 12px; font-size: 13px; font-weight: 700; color: #364153;">Taille</div>
+            <div role="columnheader" style="padding: 12px; font-size: 13px; font-weight: 700; color: #364153;">Vie dans la nature</div>
+            <div role="columnheader" style="padding: 12px; font-size: 13px; font-weight: 700; color: #364153;">Vie en captivité</div>
+            <div role="columnheader" style="padding: 12px; font-size: 13px; font-weight: 700; color: #364153;">Régime</div>
+            <div role="columnheader" style="padding: 12px; font-size: 13px; font-weight: 700; color: #364153;">Actif</div>
+            <div role="columnheader" style="padding: 12px; font-size: 13px; font-weight: 700; color: #364153;">Reproduction</div>
+          </div>
+          <sc-for list="{{statRows}}" as="r" hint-placeholder-count="12">
+            <div role="row" style="display: grid; grid-template-columns: minmax(210px, 1.7fr) repeat(7, minmax(110px, 1fr)); border-bottom: 1px solid #EFEBE0;">
+              <div role="cell" style="padding: 10px 12px; font-size: 14px; align-self: center;">
+                <button onClick="{{r.open}}" style="display: flex; gap: 10px; align-items: center; background: none; border: 0; padding: 0; min-height: 44px; text-align: left; color: #111C1C;">
+                  <img src="{{r.img}}" alt="" style="width: 44px; height: 44px; border-radius: 10px; object-fit: cover; object-position: {{r.pos}}; flex: none;">
+                  <span style="font-weight: 700; text-decoration: underline; text-decoration-color: #9FCCB0; text-decoration-thickness: 2px; text-underline-offset: 3px;">{{r.name}}</span>
+                </button>
+              </div>
+              <div role="cell" style="padding: 10px 12px; font-size: 14px; align-self: center;"><div style="font-weight: 600;">{{r.weight}}</div><div style="font-size: 12px; color: #5B6472;">{{r.weightNote}}</div></div>
+              <div role="cell" style="padding: 10px 12px; font-size: 14px; align-self: center;"><div>{{r.size}}</div><div style="font-size: 12px; color: #5B6472;">{{r.sizeLabel}}</div></div>
+              <div role="cell" style="padding: 10px 12px; font-size: 14px; align-self: center;">
+                <div style="font-weight: 600;">{{r.lifeWild}}</div>
+                <div style="width: 100%; max-width: 120px; height: 8px; border-radius: 999px; background: #F1EEE4; margin-top: 4px;"><div style="{{r.barWild}}"></div></div>
+              </div>
+              <div role="cell" style="padding: 10px 12px; font-size: 14px; align-self: center;">
+                <div style="font-weight: 600;">{{r.lifeCaptive}}</div>
+                <div style="width: 100%; max-width: 120px; height: 8px; border-radius: 999px; background: #F1EEE4; margin-top: 4px;"><div style="{{r.barCaptive}}"></div></div>
+              </div>
+              <div role="cell" style="padding: 10px 12px; font-size: 14px; align-self: center;">{{r.diet}}</div>
+              <div role="cell" style="padding: 10px 12px; font-size: 14px; align-self: center;">{{r.activity}}</div>
+              <div role="cell" style="padding: 10px 12px; font-size: 14px; align-self: center;"><div style="font-size: 13px;">{{r.young}}</div><div style="font-size: 13px; color: #5B6472;">{{r.gestation}}</div></div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <p style="margin: 14px 0 0; font-size: 13px; color: #5B6472;">Fourchettes typiques pour des adultes. En captivité, les animaux vivent souvent plus longtemps : soins vétérinaires, nourriture régulière, pas de prédateurs. Barres à l'échelle de la plus longue vie du tableau.</p>
+    </main>
+  </sc-if>
+
+  <!-- ===================== QUIZ INFINI ===================== -->
+  <sc-if value="{{isQuiz}}" hint-placeholder-val="{{false}}">
+    <section style="background: #3F7D58; color: #FFFFFF;">
+      <div style="max-width: 1200px; margin: 0 auto; padding: 40px 20px 44px;">
+        <h1 style="margin: 0; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 48px; line-height: 1.05; letter-spacing: 0.8px;">Quiz infini</h1>
+        <p style="margin: 12px 0 0; font-size: 18px; max-width: 680px; color: #EAF4EE;">Des questions sans fin sur nos pensionnaires et les espèces du parc. Jusqu'où ira ta série ?</p>
+      </div>
+    </section>
+    <main style="max-width: 860px; margin: 0 auto; padding: 28px 20px 64px; display: flex; flex-direction: column; gap: 18px;">
+      <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
+        <span style="font-size: 14px; font-weight: 600; color: #364153; margin-right: 4px;">Questions sur :</span>
+        <sc-for list="{{qModes}}" as="m" hint-placeholder-count="3">
+          <button onClick="{{m.pick}}" aria-pressed="{{m.active}}" style="{{m.style}}">{{m.label}}</button>
+        </sc-for>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px;">
+        <div style="background: #FFFFFF; border: 1px solid #E3DFD3; border-radius: 18px; padding: 12px 16px;">
+          <div style="font-size: 13px; color: #5B6472;">Bonnes réponses</div>
+          <div style="font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 28px;">{{qz.good}} / {{qz.total}}</div>
+        </div>
+        <div style="background: #FFFFFF; border: 1px solid #E3DFD3; border-radius: 18px; padding: 12px 16px;">
+          <div style="font-size: 13px; color: #5B6472;">Série en cours</div>
+          <div style="font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 28px; color: #3F7D58;">{{qz.streak}}</div>
+        </div>
+        <div style="background: #E8A33D; border: 1px solid #111C1C; border-radius: 18px; padding: 12px 16px;">
+          <div style="font-size: 13px; color: #2B2112;">Meilleure série</div>
+          <div style="font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 28px;">{{qz.best}}</div>
+        </div>
+      </div>
+      <section style="background: #FFFFFF; border: 2px solid #111C1C; border-radius: 26px; box-shadow: 6px 6px 0 #3F7D58; overflow: hidden;">
+        <sc-if value="{{qz.hasImg}}" hint-placeholder-val="{{true}}">
+          <div style="aspect-ratio: 16 / 7; background: #DDE9E0; overflow: hidden;">
+            <img src="{{qz.img}}" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: {{qz.pos}}; display: block;">
+          </div>
+        </sc-if>
+        <div style="padding: 20px 22px 22px;">
+          <p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: #3F7D58;">{{qz.cat}}</p>
+          <h2 style="margin: 6px 0 16px; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 26px; line-height: 1.25; letter-spacing: 0.3px; color: #111C1C;">{{qz.q}}</h2>
+          <sc-if value="{{qz.multi}}" hint-placeholder-val="{{false}}">
+            <p style="margin: -6px 0 14px; font-size: 14px; font-weight: 700; color: #7A4B0C;">Plusieurs réponses possibles : coche toutes les bonnes, puis valide.</p>
+          </sc-if>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <sc-for list="{{qz.options}}" as="o" hint-placeholder-count="4">
+              <button onClick="{{o.pick}}" aria-pressed="{{o.pressed}}" style="{{o.style}}">{{o.label}}</button>
+            </sc-for>
+          </div>
+          <sc-if value="{{qz.answered}}" hint-placeholder-val="{{false}}">
+            <div style="margin-top: 16px; background: #F6F3EA; border-radius: 16px; padding: 14px 16px;">
+              <p style="margin: 0; font-size: 16px;"><strong>{{qz.verdict}}</strong> {{qz.e}}</p>
+            </div>
+          </sc-if>
+          <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px;">
+            <sc-if value="{{qz.showValidate}}" hint-placeholder-val="{{false}}">
+              <button onClick="{{qz.validate}}" style="background: #E8A33D; color: #111C1C; border: 2px solid #111C1C; border-radius: 999px; padding: 10px 22px; min-height: 44px; font-size: 15px; font-weight: 700;">Valider</button>
+            </sc-if>
+            <button onClick="{{qz.next}}" style="{{qz.nextStyle}}">{{qz.nextLabel}}</button>
+            <sc-if value="{{qz.hasFiche}}" hint-placeholder-val="{{false}}">
+              <button onClick="{{qz.open}}" style="background: #FFFFFF; color: #111C1C; border: 2px solid #111C1C; border-radius: 999px; padding: 10px 18px; min-height: 44px; font-size: 15px; font-weight: 700;">Voir la fiche</button>
+            </sc-if>
+          </div>
+        </div>
+      </section>
+    </main>
+  </sc-if>
+
   <!-- ===================== FICHE ===================== -->
   <sc-if value="{{isFiche}}" hint-placeholder-val="{{false}}">
     <section style="background: #111C1C; color: #FFFFFF;">
@@ -224,6 +382,26 @@ button:focus-visible{outline:3px solid #E8A33D;outline-offset:2px}
           </sc-for>
         </div>
       </section>
+
+      <sc-if value="{{f.hasIndiv}}" hint-placeholder-val="{{false}}">
+      <section style="background: #FFFFFF; border: 2px solid #111C1C; border-radius: 28px; padding: 22px 24px; box-shadow: 4px 4px 0 #3F7D58;">
+        <h2 style="margin: 0 0 12px; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 30px; letter-spacing: 0.6px; color: #202020;">Nos pensionnaires</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px;">
+          <sc-for list="{{f.indiv}}" as="i" hint-placeholder-count="2">
+            <div style="background: #F6F3EA; border-radius: 18px; padding: 14px 16px;">
+              <div style="font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 22px; color: #3F7D58;">{{i.name}}</div>
+              <sc-if value="{{i.hasMeta}}" hint-placeholder-val="{{true}}">
+                <div style="font-size: 13px; font-weight: 600; color: #364153;">{{i.meta}}</div>
+              </sc-if>
+              <p style="margin: 6px 0 0; font-size: 15px;">{{i.trait}}</p>
+              <sc-if value="{{i.hasStory}}" hint-placeholder-val="{{false}}">
+                <p style="margin: 6px 0 0; font-size: 14px; color: #364153;">{{i.story}}</p>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+      </sc-if>
 
       <sc-if value="{{f.hasFun}}" hint-placeholder-val="{{true}}">
       <section style="background: #E8A33D; color: #111C1C; border-radius: 28px; padding: 24px;">
@@ -509,7 +687,7 @@ var FICHES = {
       { t: "Les lynx de La Garenne", d: "Comme la plupart des pensionnaires du parc, Igor et Rimava sont les ambassadeurs de leur espèce auprès du public." }
     ],
     cal: [
-      { label: "Rut", months: [2, 3], color: "#3F7D58" },
+      { label: "Rut", months: [2, 3, 4], color: "#3F7D58" },
       { label: "Naissances", months: [5, 6], color: "#E8A33D" },
       { label: "Jeunes avec la mère", months: [6, 7, 8, 9, 10, 11, 12, 1, 2, 3], color: "#9FCCB0" }
     ],
@@ -533,7 +711,7 @@ var FICHES = {
     id: [
       { k: "Au garrot", v: "55 à 100 cm", note: "selon l'âge et le sexe" },
       { k: "Longueur", v: "1,1 à 1,8 m", note: "du groin à la queue" },
-      { k: "Poids", v: "35 à 150 kg", note: "laies 35–80 kg, mâles jusqu'à 150 kg" },
+      { k: "Poids", v: "35 à 150 kg", note: "laies jusqu'à ≈ 100 kg, mâles jusqu'à 150 kg" },
       { k: "Longévité", v: "≈ 10 ans", note: "rarement plus dans la nature" },
       { k: "Régime", v: "Omnivore", note: "glands, faînes, racines, vers, larves…" },
       { k: "En Suisse", v: "Commun", note: "en expansion · espèce chassable" }
@@ -558,7 +736,7 @@ var FICHES = {
     ],
     nat: [
       { t: "Écologie", d: "Actif surtout la nuit, en partie à cause de la pression de chasse. Très adaptable : forêts de feuillus, lisières, zones agricoles. Les années de forte fructification (glands, faînes) favorisent la reproduction." },
-      { t: "Reproduction", d: "Rut de novembre à janvier, gestation d'environ 115 jours (« 3 mois, 3 semaines, 3 jours »). Portées de 4 à 6 marcassins en moyenne, surtout au printemps." },
+      { t: "Reproduction", d: "Rut de novembre à janvier, gestation d'environ 115 jours (« 3 mois, 3 semaines, 3 jours »). Portées de 2 à 10 marcassins (4 à 6 le plus souvent), surtout au printemps." },
       { t: "Vocabulaire des âges", d: "Marcassin (rayé, jusqu'à ~6 mois), bête rousse (jusqu'à 1 an), bête de compagnie, ragot (2–3 ans), tiers-an, quartenier, puis solitaire ou vieux sanglier." },
       { t: "Enjeux de gestion", d: "Population en hausse et dégâts aux cultures. Vigilance face à la peste porcine africaine présente dans des pays voisins : tout cadavre de sanglier trouvé doit être signalé au garde-faune." }
     ],
@@ -585,7 +763,7 @@ Object.assign(FICHES, {
     id: [
       { k: "Au garrot", v: "60 à 80 cm", note: "comme un grand berger allemand" },
       { k: "Longueur", v: "100 à 140 cm", note: "+ une queue de 30 à 45 cm" },
-      { k: "Poids", v: "25 à 45 kg", note: "les mâles sont plus lourds" },
+      { k: "Poids", v: "30 à 50 kg", note: "les mâles sont plus lourds" },
       { k: "Longévité", v: "8 à 10 ans", note: "jusqu'à 15 ans en captivité" },
       { k: "Régime", v: "Carnivore", note: "surtout cerfs, chevreuils, chamois" },
       { k: "En Suisse", v: "Vulnérable", note: "Liste rouge · protégé, régulation possible" }
@@ -783,7 +961,7 @@ Object.assign(FICHES, {
     nat: [
       { t: "Écologie", d: "Rongeur semi-aquatique vivant en famille (couple et jeunes des deux dernières années) sur un territoire de rive défendu. Strictement herbivore : écorce et rameaux de feuillus (saules, peupliers) en hiver, végétation herbacée et aquatique en été. Ses barrages relèvent le niveau d'eau et créent des zones humides favorables à de nombreuses espèces." },
       { t: "Reproduction", d: "Monogame. Accouplement en fin d'hiver, gestation d'environ 105 jours, 2 à 4 jeunes nés en mai–juin dans le terrier ou la hutte. Les subadultes quittent la famille vers 2 ans." },
-      { t: "Statut et menaces en Suisse", d: "Exterminé au début du XIXe siècle, il a été réintroduit entre 1956 et 1977. Avec près de 4000 individus en 2020, il n'est plus considéré comme menacé (LC dans la Liste rouge 2022) mais reste protégé ; les conflits (inondations, galeries sous les digues, arbres abattus) sont suivis par le Service Conseil Castor." },
+      { t: "Statut et menaces en Suisse", d: "Exterminé au début du XIXe siècle, il a été réintroduit entre 1956 et 1977. Avec 4914 individus recensés à l'hiver 2021–2022, il n'est plus considéré comme menacé (LC dans la Liste rouge 2022) mais reste protégé ; les conflits (inondations, galeries sous les digues, arbres abattus) sont suivis par le Service Conseil Castor." },
       { t: "Identification", d: "Gros rongeur brun à queue plate, ovale et écailleuse ; pattes postérieures palmées. Dans l'eau, se distingue du ragondin et du rat musqué par sa taille et sa queue, et de la loutre par sa nage lente, le dos visible." }
     ],
     cal: [
@@ -826,13 +1004,13 @@ Object.assign(FICHES, {
     nat: [
       { t: "Origine et invasion", d: "Originaire d'Amérique du Nord, introduit en Allemagne dans les années 1930 (lâchers et évasions d'élevages à fourrure), il s'est répandu dans une grande partie de l'Europe centrale. Il figure sur la liste des espèces exotiques envahissantes préoccupantes de l'Union européenne ; en Suisse, il est présent régulièrement surtout dans le nord-est du pays." },
       { t: "Écologie", d: "Omnivore opportuniste, nocturne, lié aux forêts riches en eau mais aussi aux zones habitées. Il exploite fruits, invertébrés, amphibiens, œufs et oisillons ainsi que les déchets. Pas d'hibernation vraie mais un repos hivernal avec baisse d'activité par grand froid." },
-      { t: "Reproduction", d: "Accouplement en fin d'hiver, gestation d'environ 63 jours, 2 à 5 jeunes nés au printemps dans une cavité d'arbre ou un bâtiment. Les jeunes restent avec la mère jusqu'à l'automne." },
+      { t: "Reproduction", d: "Accouplement en fin d'hiver, gestation d'environ 63 jours, 2 à 5 jeunes nés au printemps dans une cavité d'arbre ou un bâtiment. Les jeunes passent leur premier hiver avec la mère et se dispersent au début de l'été suivant." },
       { t: "Impacts", d: "Prédateur potentiel d'amphibiens, de reptiles et de nids d'oiseaux, il peut peser sur des populations locales déjà fragiles. Il est porteur du nématode Baylisascaris procyonis, transmissible à l'humain : ne jamais le nourrir ni le garder." }
     ],
     cal: [
       { label: "Accouplement", months: [1, 2, 3], color: "#3F7D58" },
       { label: "Naissances", months: [4, 5], color: "#E8A33D" },
-      { label: "Repos hivernal", months: [12, 1, 2], color: "#9FCCB0" }
+      { label: "Repos hivernal", months: [11, 12, 1, 2], color: "#9FCCB0" }
     ],
     track: "Empreintes très reconnaissables, en forme de petite main humaine à cinq longs doigts, 6 à 8 cm, souvent au bord de l'eau ; les postérieures plus allongées. Latrines communes au pied des arbres ou sur les toits, poubelles renversées.",
     sources: "info fauna (CSCF), OFEV — Liste rouge des mammifères 2022 (espèces non indigènes), règlement UE 1143/2014.",
@@ -896,7 +1074,7 @@ Object.assign(FICHES, {
     tagline: "Le roi de la forêt porte une couronne qui repousse chaque année. En automne, son brame résonne dans toute la montagne !",
     id: [
       { k: "Au garrot", v: "100 à 150 cm", note: "les mâles sont nettement plus grands" },
-      { k: "Poids", v: "80 à 200 kg", note: "biches 80–120 kg, cerfs plus lourds" },
+      { k: "Poids", v: "70 à 250 kg", note: "biches 70–100 kg, cerfs 120–250 kg" },
       { k: "Bois", v: "jusqu'à 1 m", note: "seulement chez le mâle" },
       { k: "Longévité", v: "15 à 20 ans", note: "rarement atteint dans la nature" },
       { k: "Régime", v: "Herbivore", note: "herbes, rameaux, écorce, fruits" },
@@ -1102,7 +1280,7 @@ Object.assign(FICHES, {
     cal: [
       { label: "Ponte / couvaison", months: [12, 1, 2, 3], color: "#3F7D58" },
       { label: "Jeunes au nid", months: [3, 4, 5, 6, 7], color: "#E8A33D" },
-      { label: "Présence en Suisse", months: [5, 6, 7, 8, 9], color: "#9FCCB0" }
+      { label: "Présence en Suisse", months: [4, 5, 6, 7, 8, 9, 10], color: "#9FCCB0" }
     ],
     track: "Groupes planant haut en cercles au-dessus des alpages, souvent posés ensemble près d'une carcasse ; falaises de nidification blanchies de fientes dans son aire d'origine.",
     sources: "Station ornithologique suisse (Vogelwarte), Vulture Conservation Foundation, OFEV — Liste rouge des oiseaux nicheurs.",
@@ -1142,8 +1320,8 @@ Object.assign(FICHES, {
     ],
     nat: [
       { t: "Écologie", d: "Hôte des massifs montagneux riches en ongulés et en falaises, il exploite surtout les restes de carcasses délaissés par les autres charognards. Il patrouille les versants à basse altitude en vol plané, sur des domaines vitaux de plusieurs centaines de km²." },
-      { t: "Reproduction", d: "Couples territoriaux et fidèles ; le nid est installé dans une cavité ou une vire de falaise. Ponte de 1 à 2 œufs en hiver (décembre–février), mais un seul jeune est généralement élevé ; incubation d'environ 53 jours et envol après 110 à 130 jours." },
-      { t: "Statut et menaces en Suisse", d: "Exterminé des Alpes au début du XXe siècle (dernier oiseau suisse à la fin du XIXe siècle), il fait l'objet d'un programme international de réintroduction depuis 1986, dont les premiers lâchers en Suisse en 1991. Les jeunes lâchés proviennent d'un réseau européen d'élevage en captivité auquel participent des parcs zoologiques ; les menaces restent le plomb des munitions, les collisions et le dérangement des sites de nid." },
+      { t: "Reproduction", d: "Couples territoriaux et fidèles ; le nid est installé dans une cavité ou une vire de falaise. Ponte de 1 à 2 œufs en hiver (décembre–février), mais un seul jeune est généralement élevé ; incubation de 53 à 58 jours et envol après 110 à 130 jours." },
+      { t: "Statut et menaces en Suisse", d: "Exterminé des Alpes au début du XXe siècle (dernier oiseau suisse à la fin du XIXe siècle), il fait l'objet d'un programme international de réintroduction depuis 1986, dont les premiers lâchers en Suisse en 1991. Les jeunes lâchés proviennent d'un réseau européen d'élevage en captivité auquel participent des parcs zoologiques, dont La Garenne avec la Fondation Pro Gypaète : ses jeunes nés en captivité sont relâchés dans l'arc alpin ; les menaces restent le plomb des munitions, les collisions et le dérangement des sites de nid." },
       { t: "Identification", d: "Adulte : tête blanchâtre avec un masque noir et une « barbe » de soies sous le bec, œil cerclé de rouge, dessous orangé, dos gris ardoise. En vol : ailes longues et pointues, longue queue cunéiforme. Les jeunes sont brun foncé et n'acquièrent le plumage adulte que vers 5 à 7 ans." }
     ],
     cal: [
@@ -1490,8 +1668,8 @@ Object.assign(FICHES, {
     tagline: "Le plus grand hibou d'Europe, avec ses yeux orange et ses aigrettes en forme d'oreilles : le seigneur des falaises la nuit.",
     id: [
       { k: "Taille", v: "60 à 75 cm", note: "la femelle est plus grande" },
-      { k: "Envergure", v: "1,5 à 1,8 m", note: "" },
-      { k: "Poids", v: "1,8 à 3,2 kg", note: "femelle nettement plus lourde" },
+      { k: "Envergure", v: "1,6 à 1,9 m", note: "" },
+      { k: "Poids", v: "1,6 à 4,2 kg", note: "femelle nettement plus lourde" },
       { k: "Longévité", v: "≈ 20 ans", note: "bien plus en captivité" },
       { k: "Régime", v: "Carnivore", note: "rats, hérissons, lièvres, oiseaux" },
       { k: "En Suisse", v: "Vulnérable", note: "Liste rouge · espèce protégée" }
@@ -2411,10 +2589,647 @@ var FUN = {
 var FUN_LIST = [];
 Object.keys(FUN).forEach(function (id) { FUN[id].forEach(function (t) { FUN_LIST.push({ id: id, text: t }); }); });
 
+// Pensionnaires de La Garenne — d'après les dossiers pédagogiques du parc (2024–2025) et lagarenne.ch.
+// born : année de naissance (nombre) ou null ; origin : provenance normalisée (sert au quiz) ;
+// group : true pour un groupe sans nom individuel (exclu des questions « qui est… »).
+var INDIVIDUS = [
+  { name: "Igor", species: "lynx", sex: "m", born: 2014, bornText: "né le 20 mai 2014", origin: "",
+    trait: "Massif, avec des taches en forme de ronds en bas du dos.",
+    story: "Il forme un couple avec Rimava : La Garenne participe au programme européen Linking Lynx." },
+  { name: "Rimava (Ava)", species: "lynx", sex: "f", born: null, bornText: "", origin: "",
+    trait: "La compagne d'Igor.",
+    story: "Au parc, les lynx reçoivent à manger un jour sur deux ou trois, pour imiter le rythme d'un chasseur sauvage." },
+
+  { name: "River", species: "loup", sex: "f", born: 2019, bornText: "née en 2019", origin: "Parc de Sainte-Croix",
+    trait: "Son masque facial est très foncé.",
+    story: "Arrivée avec sa sœur Rhéa le 3 décembre 2024." },
+  { name: "Rhéa", species: "loup", sex: "f", born: 2019, bornText: "née en 2019", origin: "Parc de Sainte-Croix",
+    trait: "La plus claire des louves.",
+    story: "La sœur de River, arrivée avec elle en décembre 2024." },
+
+  { name: "Lila", species: "sanglier", sex: "f", born: 2014, bornText: "née le 4 août 2014", origin: "",
+    trait: "La matriarche de la compagnie, au poil argenté.",
+    story: "Les laies du parc sont trop sociables avec l'humain pour être relâchées." },
+  { name: "Maya", species: "sanglier", sex: "f", born: 2015, bornText: "née le 12 juillet 2015", origin: "",
+    trait: "Des défenses très développées pour une femelle.", story: "" },
+  { name: "Styx", species: "sanglier", sex: "f", born: null, bornText: "", origin: "",
+    trait: "On la reconnaît à son double menton.", story: "" },
+  { name: "Lady", species: "sanglier", sex: "f", born: 2014, bornText: "née en 2014", origin: "",
+    trait: "Elle porte la marque d'un ancien collier autour du cou.", story: "" },
+  { name: "Ganon", species: "sanglier", sex: "m", born: 2015, bornText: "né en 2015", origin: "Centre de soins de La Garenne",
+    trait: "Retrouvé par le garde-faune en train de nager dans le Léman, avec Mog.", story: "" },
+  { name: "Mog", species: "sanglier", sex: "m", born: 2015, bornText: "né en 2015", origin: "Centre de soins de La Garenne",
+    trait: "Repêché dans le Léman avec Ganon, alors qu'ils nageaient au large.", story: "" },
+
+  { name: "Rox", species: "renard", sex: "m", born: 2014, bornText: "né en 2014", origin: "Centre de soins de La Garenne",
+    trait: "Il adore rester roulé en boule à l'étage de la petite cabane.",
+    story: "Arrivé orphelin avec sa sœur Fox au printemps 2014, trop habitué à l'humain pour être relâché." },
+  { name: "Fox", species: "renard", sex: "f", born: 2014, bornText: "née en 2014", origin: "Centre de soins de La Garenne",
+    trait: "La sœur de Rox, la plus active des deux.",
+    story: "Orpheline recueillie au printemps 2014." },
+
+  { name: "Imane", species: "loutre", sex: "f", born: 2013, bornText: "née en 2013", origin: "Wildnispark Zurich",
+    trait: "La loutre du parc, arrivée en 2018.",
+    story: "Elle participe au programme de conservation de son espèce." },
+
+  { name: "Miko", species: "raton", sex: "m", born: null, bornText: "", origin: "",
+    trait: "Le plus amical des trois ratons laveurs.", story: "" },
+  { name: "Sloan", species: "raton", sex: "m", born: null, bornText: "", origin: "",
+    trait: "Le plus gros. Il a dû être opéré après avoir mal digéré des plumes de poussin !",
+    story: "Depuis, les soigneurs ont un temps déplumé les poussins avant de les lui donner." },
+  { name: "Jack", species: "raton", sex: "f", born: null, bornText: "", origin: "",
+    trait: "La plus petite, avec un masque très foncé.", story: "" },
+
+  { name: "Patrick", species: "chat-forestier", sex: "m", born: null, bornText: "", origin: "",
+    trait: "Le mâle aux rayures bien marquées, souvent perché sur les poutres métalliques.", story: "" },
+  { name: "Natachat", species: "chat-forestier", sex: "f", born: null, bornText: "", origin: "",
+    trait: "La plus grosse des deux femelles, souvent cachée dans la cabane du pic.", story: "" },
+  { name: "Leila", species: "chat-forestier", sex: "f", born: null, bornText: "", origin: "Centre de soins de La Garenne",
+    trait: "Elle aime se cacher dans la boîte à droite de l'enclos.", story: "" },
+
+  { name: "Pénélope", species: "castor", sex: "f", born: 2020, bornText: "née le 11 mai 2020", origin: "Tierpark Neumünster (Allemagne)",
+    trait: "Avec sa sœur Martine, elle agrandit sans cesse la hutte, qui dépasse maintenant la barrière !",
+    story: "Arrivée en février 2023." },
+  { name: "Martine", species: "castor", sex: "f", born: 2020, bornText: "née le 11 mai 2020", origin: "Tierpark Neumünster (Allemagne)",
+    trait: "La sœur jumelle de Pénélope, venue d'Allemagne.", story: "Arrivée en février 2023." },
+
+  { name: "Arthur", species: "bouquetin", sex: "m", born: 2016, bornText: "né au parc le 18 mai 2016", origin: "Né au parc",
+    trait: "Le seul mâle adulte : le papa de tous les jeunes bouquetins.",
+    story: "Compte les bourrelets de ses cornes pour deviner son âge !" },
+
+  { name: "Scrat", species: "ecureuil", sex: "f", born: null, bornText: "", origin: "Centre de soins de La Garenne",
+    trait: "Elle essaie d'enterrer ses noisettes dans les plis des habits des soigneurs !",
+    story: "Trouvée orpheline par une famille, elle est au parc depuis octobre 2018." },
+
+  { name: "Zeus", species: "gypaete", sex: "m", born: 2015, bornText: "né en mars 2015", origin: "Un parc en Espagne",
+    trait: "Le gypaète le plus clair.",
+    story: "Arrivé en juin 2019. La Garenne collabore avec la Fondation Pro Gypaète : les jeunes nés au parc sont relâchés dans les Alpes." },
+  { name: "Héra", species: "gypaete", sex: "f", born: 2015, bornText: "née en janvier 2015", origin: "Autriche",
+    trait: "Orange vif et un peu plus grande que Zeus.",
+    story: "Arrivée le même jour que Zeus, en juin 2019." },
+
+  { name: "Le couple de vautours", species: "vautour", sex: "", born: null, bornText: "le mâle est né en mars 1998, la femelle en avril 2004", origin: "", group: true,
+    trait: "Le mâle a près de 30 ans : l'un des doyens du parc.", story: "" },
+  { name: "Les 3 grands-ducs", species: "grand-duc", sex: "", born: null, bornText: "", origin: "Né au parc", group: true,
+    trait: "Tous nés au parc, ils ne peuvent pas être relâchés.", story: "" },
+  { name: "Les 6 buses", species: "buse", sex: "", born: null, bornText: "", origin: "Centre de soins de La Garenne", group: true,
+    trait: "Toutes blessées, elles ne peuvent plus vivre dans la nature.",
+    story: "La doyenne ne vole plus du tout : elle vit au sol, protégée des fouines et des renards par des fils électriques." },
+  { name: "Le milan noir", species: "milan-noir", sex: "", born: null, bornText: "", origin: "Centre de soins de La Garenne", group: true,
+    trait: "Venu du centre de soins, il ne peut plus voler.", story: "" },
+  { name: "Le milan royal", species: "milan-royal", sex: "", born: null, bornText: "", origin: "Centre de soins de La Garenne", group: true,
+    trait: "Venu du centre de soins, il ne peut plus voler.", story: "" },
+  { name: "Rick et Morty", species: "cigogne", sex: "", born: null, bornText: "", origin: "", group: true,
+    trait: "Le couple de cigognes du parc.", story: "" },
+
+  { name: "Robert", species: "oie", sex: "m", born: null, bornText: "", origin: "",
+    trait: "Le jars, papa de la famille, arrivé en 2016 avec Françoise.",
+    story: "Parents et fils se disputent tellement qu'un groupe sort pendant que l'autre reste dedans !" },
+  { name: "Françoise", species: "oie", sex: "f", born: null, bornText: "", origin: "",
+    trait: "La maman oie, arrivée en 2016 avec Robert.", story: "" },
+  { name: "Les fils de Robert et Françoise", species: "oie", sex: "", born: 2022, bornText: "nés au parc en 2022", origin: "Né au parc", group: true,
+    trait: "Ils ne supportent pas leurs parents : grosses bagarres garanties !", story: "" },
+  { name: "Marcel", species: "poule-suisse", sex: "m", born: 2019, bornText: "né au parc vers 2019", origin: "Né au parc",
+    trait: "Le coq, qui veille sur ses 4 poules suisses.", story: "" },
+  { name: "Maman", species: "chevre-appenzell", sex: "f", born: null, bornText: "", origin: "",
+    trait: "Arrivée en 2015, particulièrement câline.", story: "" },
+  { name: "Cracotte et Biscotte", species: "chevre-appenzell", sex: "f", born: null, bornText: "", origin: "", group: true,
+    trait: "Les deux autres chèvres d'Appenzell du parc.", story: "" },
+  { name: "Skip", species: "chevre-grigia", sex: "m", born: 2018, bornText: "né vers 2018", origin: "",
+    trait: "Un fort caractère : il donne des coups de cornes quand il n'a pas ce qu'il veut à manger !", story: "" },
+  { name: "Mélissandre", species: "cochon-laineux", sex: "f", born: null, bornText: "", origin: "",
+    trait: "La plus imposante des trois cochons laineux, arrivés en 2017.", story: "" },
+  { name: "Tache", species: "mouton-saas", sex: "f", born: null, bornText: "", origin: "",
+    trait: "On la reconnaît à la tache sur son visage. Arrivée en mai 2017.",
+    story: "Avec Blanche, elles échangent sans arrêt leurs gamelles, persuadées que c'est meilleur chez l'autre !" },
+  { name: "Blanche", species: "mouton-saas", sex: "f", born: null, bornText: "", origin: "",
+    trait: "Toute blanche, arrivée en mai 2016.", story: "" }
+];
+
+var STATS = {
+  "lynx": {
+    weight: [15, 30], weightNote: "mâles plus lourds",
+    lifeWild: [10, 15], lifeCaptive: [15, 20],
+    size: { label: "Hauteur au garrot", cm: [50, 70] },
+    diet: "Carnivore", activity: "Crépusculaire",
+    young: "1 à 4 jeunes", gestation: "≈ 70 jours de gestation"
+  },
+  "sanglier": {
+    weight: [35, 150], weightNote: "laies jusqu'à ≈ 100 kg, mâles jusqu'à 150 kg",
+    lifeWild: [10, 12], lifeCaptive: [15, 20],
+    size: { label: "Hauteur au garrot", cm: [55, 100] },
+    diet: "Omnivore", activity: "Nocturne",
+    young: "4 à 6 marcassins", gestation: "≈ 115 jours de gestation"
+  },
+  "loup": {
+    weight: [30, 50], weightNote: "mâles plus lourds",
+    lifeWild: [5, 10], lifeCaptive: [10, 15],
+    size: { label: "Hauteur au garrot", cm: [60, 80] },
+    diet: "Carnivore", activity: "Nocturne",
+    young: "4 à 6 louveteaux", gestation: "≈ 63 jours de gestation"
+  },
+  "renard": {
+    weight: [3, 7], weightNote: "",
+    lifeWild: [2, 5], lifeCaptive: [10, 15],
+    size: { label: "Hauteur au garrot", cm: [35, 40] },
+    diet: "Omnivore", activity: "Crépusculaire",
+    young: "4 à 6 renardeaux", gestation: "≈ 52 jours de gestation"
+  },
+  "fouine": {
+    weight: [1, 2.5], weightNote: "mâles plus lourds",
+    lifeWild: [3, 10], lifeCaptive: [10, 18],
+    size: { label: "Longueur", cm: [40, 55] },
+    diet: "Omnivore", activity: "Nocturne",
+    young: "2 à 4 jeunes", gestation: "≈ 8 mois de gestation (implantation différée)"
+  },
+  "loutre": {
+    weight: [5, 12], weightNote: "mâles plus lourds",
+    lifeWild: [4, 5], lifeCaptive: [15, 18],
+    size: { label: "Longueur", cm: [60, 90] },
+    diet: "Piscivore", activity: "Nocturne",
+    young: "1 à 3 loutrons", gestation: "≈ 62 jours de gestation"
+  },
+  "castor": {
+    weight: [15, 35], weightNote: "",
+    lifeWild: [15, 20], lifeCaptive: [20, 24],
+    size: { label: "Longueur", cm: [75, 100] },
+    diet: "Herbivore", activity: "Nocturne",
+    young: "2 à 4 castorins", gestation: "≈ 105 jours de gestation"
+  },
+  "raton": {
+    weight: [4, 9], weightNote: "mâles plus lourds, plus gras en automne",
+    lifeWild: [3, 5], lifeCaptive: [16, 21],
+    size: { label: "Longueur", cm: [40, 70] },
+    diet: "Omnivore", activity: "Nocturne",
+    young: "2 à 5 jeunes", gestation: "≈ 63 jours de gestation"
+  },
+  "chat-forestier": {
+    weight: [3, 7], weightNote: "mâles plus lourds",
+    lifeWild: [7, 10], lifeCaptive: [12, 16],
+    size: { label: "Longueur", cm: [45, 65] },
+    diet: "Carnivore", activity: "Crépusculaire",
+    young: "2 à 4 chatons", gestation: "≈ 68 jours de gestation"
+  },
+  "cerf": {
+    weight: [70, 250], weightNote: "biches 70–100 kg, cerfs 120–250 kg",
+    lifeWild: [10, 13], lifeCaptive: [20, 25],
+    size: { label: "Hauteur au garrot", cm: [100, 150] },
+    diet: "Herbivore", activity: "Crépusculaire",
+    young: "1 faon (rarement 2)", gestation: "≈ 8 mois de gestation"
+  },
+  "herisson": {
+    weight: [0.8, 1.5], weightNote: "au plus lourd avant l'hiver",
+    lifeWild: [2, 5], lifeCaptive: [6, 10],
+    size: { label: "Longueur", cm: [20, 30] },
+    diet: "Insectivore", activity: "Nocturne",
+    young: "4 à 6 jeunes", gestation: "≈ 35 jours de gestation"
+  },
+  "ecureuil": {
+    weight: [0.25, 0.45], weightNote: "",
+    lifeWild: [3, 7], lifeCaptive: [8, 10],
+    size: { label: "Longueur", cm: [18, 25] },
+    diet: "Granivore", activity: "Diurne",
+    young: "3 à 5 jeunes", gestation: "≈ 38 jours de gestation"
+  },
+  "lievre": {
+    weight: [3, 5], weightNote: "",
+    lifeWild: [1, 5], lifeCaptive: [8, 12],
+    size: { label: "Longueur", cm: [50, 70] },
+    diet: "Herbivore", activity: "Crépusculaire",
+    young: "1 à 4 levrauts", gestation: "≈ 42 jours de gestation"
+  },
+  "vautour": {
+    weight: [6, 11], weightNote: "",
+    lifeWild: [25, 30], lifeCaptive: [35, 40],
+    size: { label: "Envergure", cm: [230, 280] },
+    diet: "Charognard", activity: "Diurne",
+    young: "1 œuf", gestation: "≈ 50 jours d'incubation"
+  },
+  "gypaete": {
+    weight: [4.5, 7], weightNote: "femelle un peu plus lourde",
+    lifeWild: [20, 30], lifeCaptive: [40, 45],
+    size: { label: "Envergure", cm: [260, 290] },
+    diet: "Charognard", activity: "Diurne",
+    young: "1 à 2 œufs (1 jeune élevé)", gestation: "≈ 53 jours d'incubation"
+  },
+  "bouquetin": {
+    weight: [35, 100], weightNote: "étagnes 35–60 kg, boucs 65–100 kg",
+    lifeWild: [15, 20], lifeCaptive: [20, 24],
+    size: { label: "Hauteur au garrot", cm: [65, 95] },
+    diet: "Herbivore", activity: "Diurne",
+    young: "1 cabri (rarement 2)", gestation: "≈ 5 mois et demi de gestation"
+  },
+  "marmotte": {
+    weight: [3, 7], weightNote: "maigre au printemps, dodue en automne",
+    lifeWild: [10, 15], lifeCaptive: [15, 18],
+    size: { label: "Longueur", cm: [45, 60] },
+    diet: "Herbivore", activity: "Diurne",
+    young: "2 à 6 marmottons", gestation: "≈ 33 jours de gestation"
+  },
+  "ibis": {
+    weight: [1, 1.5], weightNote: "",
+    lifeWild: [15, 20], lifeCaptive: [20, 30],
+    size: { label: "Envergure", cm: [120, 135] },
+    diet: "Insectivore", activity: "Diurne",
+    young: "2 à 4 œufs", gestation: "≈ 28 jours d'incubation"
+  },
+  "effraie": {
+    weight: [0.25, 0.4], weightNote: "femelle un peu plus lourde",
+    lifeWild: [2, 4], lifeCaptive: [15, 20],
+    size: { label: "Envergure", cm: [80, 95] },
+    diet: "Carnivore", activity: "Nocturne",
+    young: "4 à 7 œufs", gestation: "≈ 30 jours d'incubation"
+  },
+  "buse": {
+    weight: [0.5, 1.2], weightNote: "femelle plus lourde",
+    lifeWild: [8, 12], lifeCaptive: [20, 30],
+    size: { label: "Envergure", cm: [110, 130] },
+    diet: "Carnivore", activity: "Diurne",
+    young: "2 à 4 œufs", gestation: "≈ 35 jours d'incubation"
+  },
+  "milan-royal": {
+    weight: [0.8, 1.3], weightNote: "femelle plus lourde",
+    lifeWild: [10, 15], lifeCaptive: [20, 30],
+    size: { label: "Envergure", cm: [145, 170] },
+    diet: "Omnivore", activity: "Diurne",
+    young: "1 à 3 œufs", gestation: "≈ 32 jours d'incubation"
+  },
+  "milan-noir": {
+    weight: [0.6, 1], weightNote: "femelle plus lourde",
+    lifeWild: [10, 15], lifeCaptive: [20, 25],
+    size: { label: "Envergure", cm: [130, 155] },
+    diet: "Omnivore", activity: "Diurne",
+    young: "2 à 3 œufs", gestation: "≈ 32 jours d'incubation"
+  },
+  "grand-duc": {
+    weight: [1.6, 4.2], weightNote: "femelle nettement plus lourde",
+    lifeWild: [20, 25], lifeCaptive: [28, 34],
+    size: { label: "Envergure", cm: [160, 188] },
+    diet: "Carnivore", activity: "Nocturne",
+    young: "2 à 4 œufs", gestation: "≈ 35 jours d'incubation"
+  },
+  "pigeon": {
+    weight: [0.4, 0.6], weightNote: "",
+    lifeWild: [3, 6], lifeCaptive: [10, 15],
+    size: { label: "Taille", cm: [38, 43] },
+    diet: "Granivore", activity: "Diurne",
+    young: "2 œufs", gestation: "≈ 17 jours d'incubation"
+  },
+  "etourneau": {
+    weight: [0.06, 0.09], weightNote: "",
+    lifeWild: [2, 5], lifeCaptive: [10, 15],
+    size: { label: "Taille", cm: [19, 22] },
+    diet: "Omnivore", activity: "Diurne",
+    young: "4 à 6 œufs", gestation: "≈ 12 jours d'incubation"
+  },
+  "merle": {
+    weight: [0.08, 0.11], weightNote: "",
+    lifeWild: [2, 4], lifeCaptive: [10, 15],
+    size: { label: "Taille", cm: [24, 27] },
+    diet: "Omnivore", activity: "Diurne",
+    young: "3 à 5 œufs", gestation: "≈ 13 jours d'incubation"
+  },
+  "cigogne": {
+    weight: [2.5, 4.5], weightNote: "mâles un peu plus lourds",
+    lifeWild: [15, 25], lifeCaptive: [25, 35],
+    size: { label: "Envergure", cm: [155, 215] },
+    diet: "Carnivore", activity: "Diurne",
+    young: "3 à 5 œufs", gestation: "≈ 33 jours d'incubation"
+  },
+  "tortue": {
+    weight: [0.5, 1.5], weightNote: "femelles plus grandes",
+    lifeWild: [50, 80], lifeCaptive: [60, 100],
+    size: { label: "Longueur", cm: [12, 20] },
+    diet: "Herbivore", activity: "Diurne",
+    young: "2 à 6 œufs", gestation: "≈ 2 à 3 mois d'incubation"
+  },
+  "cistude": {
+    weight: [0.3, 1], weightNote: "",
+    lifeWild: [40, 60], lifeCaptive: [60, 80],
+    size: { label: "Longueur", cm: [12, 20] },
+    diet: "Carnivore", activity: "Diurne",
+    young: "5 à 15 œufs", gestation: "≈ 2 à 3 mois d'incubation"
+  },
+  "salamandre": {
+    weight: [0.02, 0.05], weightNote: "",
+    lifeWild: [15, 25], lifeCaptive: [30, 50],
+    size: { label: "Longueur", cm: [15, 20] },
+    diet: "Carnivore", activity: "Nocturne",
+    young: "20 à 40 larves", gestation: "plusieurs mois de gestation (ovovivipare)"
+  },
+  "sonneur": {
+    weight: [0.005, 0.015], weightNote: "",
+    lifeWild: [10, 15], lifeCaptive: [15, 25],
+    size: { label: "Longueur", cm: [4, 5] },
+    diet: "Carnivore", activity: "Jour et nuit",
+    young: "œufs en petits paquets de 2 à 30", gestation: "éclosion en 2 à 10 jours"
+  },
+  "crapaud": {
+    weight: [0.03, 0.12], weightNote: "femelles nettement plus grandes",
+    lifeWild: [8, 12], lifeCaptive: [20, 30],
+    size: { label: "Longueur", cm: [8, 12] },
+    diet: "Carnivore", activity: "Nocturne",
+    young: "3000 à 6000 œufs", gestation: "éclosion en 2 à 3 semaines"
+  },
+  "oie": {
+    weight: [5.5, 7], weightNote: "le jars est plus lourd",
+    lifeWild: [10, 15], lifeCaptive: [10, 15],
+    size: { label: "Taille", cm: [70, 85] },
+    diet: "Herbivore", activity: "Diurne",
+    young: "35 à 50 œufs par an", gestation: "≈ 30 jours d'incubation"
+  },
+  "poule-appenzelloise": {
+    weight: [1.2, 1.8], weightNote: "le coq est plus lourd",
+    lifeWild: [6, 10], lifeCaptive: [6, 10],
+    size: { label: "Taille", cm: [40, 50] },
+    diet: "Omnivore", activity: "Diurne",
+    young: "≈ 130 œufs par an", gestation: "≈ 21 jours d'incubation"
+  },
+  "poule-suisse": {
+    weight: [2.4, 3.5], weightNote: "poule 2,4–2,8 kg, coq 2,8–3,5 kg",
+    lifeWild: [6, 10], lifeCaptive: [6, 10],
+    size: { label: "Taille", cm: [50, 60] },
+    diet: "Omnivore", activity: "Diurne",
+    young: "≈ 120 œufs par an", gestation: "≈ 21 jours d'incubation"
+  },
+  "chevre-appenzell": {
+    weight: [55, 75], weightNote: "≈ 55 kg la chèvre, 75 kg le bouc",
+    lifeWild: [12, 15], lifeCaptive: [12, 15],
+    size: { label: "Hauteur au garrot", cm: [75, 85] },
+    diet: "Herbivore", activity: "Diurne",
+    young: "1 à 2 cabris", gestation: "≈ 150 jours de gestation"
+  },
+  "cochon-laineux": {
+    weight: [120, 200], weightNote: "truie 120–160 kg, verrat 150–200 kg",
+    lifeWild: [12, 15], lifeCaptive: [12, 15],
+    size: { label: "Hauteur au garrot", cm: [65, 80] },
+    diet: "Omnivore", activity: "Diurne",
+    young: "5 à 10 porcelets", gestation: "≈ 115 jours de gestation"
+  },
+  "mouton-saas": {
+    weight: [80, 100], weightNote: "≈ 80 kg la brebis, 100 kg le bélier",
+    lifeWild: [10, 12], lifeCaptive: [10, 12],
+    size: { label: "Hauteur au garrot", cm: [80, 85] },
+    diet: "Herbivore", activity: "Diurne",
+    young: "1 à 2 agneaux", gestation: "≈ 150 jours de gestation"
+  },
+  "chevre-grigia": {
+    weight: [45, 80], weightNote: "chèvre 45–55 kg, bouc 65–80 kg",
+    lifeWild: [12, 15], lifeCaptive: [12, 15],
+    size: { label: "Hauteur au garrot", cm: [70, 85] },
+    diet: "Herbivore", activity: "Diurne",
+    young: "1 à 2 cabris", gestation: "≈ 150 jours de gestation"
+  }
+};
+
+// Quiz infini : génère des questions à partir de FICHES, STATS et INDIVIDUS.
+// Question : { cat, q, options[], answers[] (indices corrects), multi, e, img, pos, sel[], done }
+function rnd(n) { return Math.floor(Math.random() * n); }
+function pick(arr) { return arr[rnd(arr.length)]; }
+function shuffle(arr) {
+  var a = arr.slice();
+  for (var i = a.length - 1; i > 0; i--) { var j = rnd(i + 1); var t = a[i]; a[i] = a[j]; a[j] = t; }
+  return a;
+}
+function uniq(arr) { return arr.filter(function (x, i) { return arr.indexOf(x) === i; }); }
+function mid(r) { return (r[0] + r[1]) / 2; }
+function spName(id) { return FICHES[id] ? FICHES[id].name : id; }
+function spAnimal(id) { for (var i = 0; i < ANIMALS.length; i++) if (ANIMALS[i].id === id) return ANIMALS[i]; return {}; }
+function spClass(id) { return spAnimal(id).cls || ""; }
+function round2(x) {
+  if (x < 1) return Math.max(0.01, Math.round(x * 100) / 100);
+  if (x < 10) return Math.round(x * 2) / 2;
+  if (x < 40) return Math.round(x);
+  return Math.round(x / 5) * 5;
+}
+function fmtKg(kg) {
+  if (kg < 1) return Math.round(kg * 1000) + " g";
+  return (kg < 10 ? (Math.round(kg * 10) / 10) : Math.round(kg)).toString().replace(".", ",") + " kg";
+}
+function fmtRange(r, f) {
+  var a = f(r[0]), b = f(r[1]);
+  if (a === b) return a;
+  var ua = a.split(" "), ub = b.split(" ");
+  if (ua[1] === ub[1]) return ua[0] + " à " + b;
+  return a + " à " + b;
+}
+function fmtWeight(r) { return fmtRange(r, fmtKg); }
+function fmtYears(r) { return r[0] === r[1] ? r[0] + " ans" : r[0] + " à " + r[1] + " ans"; }
+function fmtCm(r) {
+  var f = function (c) { return c >= 100 ? (Math.round(c / 10) / 10).toString().replace(".", ",") + " m" : Math.round(c) + " cm"; };
+  return fmtRange(r, f);
+}
+function statIds() { return Object.keys(STATS).filter(function (id) { return FICHES[id]; }); }
+// Espèces proches pour des leurres crédibles : même classe d'abord.
+function similarPool(id) {
+  var same = statIds().filter(function (x) { return x !== id && spClass(x) === spClass(id); });
+  return same.length >= 4 ? same : statIds().filter(function (x) { return x !== id; });
+}
+// k éléments dont la valeur diffère d'au moins `ratio` deux à deux (ni identiques, ni trop éloignés si maxRatio).
+function pickDistinct(pool, val, k, ratio, maxRatio) {
+  for (var tries = 0; tries < 60; tries++) {
+    var chosen = [];
+    var p = shuffle(pool);
+    for (var i = 0; i < p.length && chosen.length < k; i++) {
+      var v = val(p[i]);
+      var ok = chosen.every(function (c) {
+        var w = val(c), r = Math.max(v, w) / Math.max(Math.min(v, w), 1e-6);
+        return r >= ratio && (!maxRatio || r <= maxRatio);
+      });
+      if (ok) chosen.push(p[i]);
+    }
+    if (chosen.length === k) return chosen;
+  }
+  return null;
+}
+function single(cat, q, correct, wrongs, e, imgId) {
+  var opts = shuffle([correct].concat(wrongs));
+  var a = spAnimal(imgId || "");
+  return { cat: cat, q: q, options: opts, answers: [opts.indexOf(correct)], multi: false, e: e, img: a.img || "", pos: POS[imgId] || "50% 50%", ficheId: imgId || "", sel: [], done: false };
+}
+function multi(cat, q, corrects, wrongs, e, imgId) {
+  var opts = shuffle(corrects.concat(wrongs));
+  var a = spAnimal(imgId || "");
+  return { cat: cat, q: q, options: opts, answers: corrects.map(function (c) { return opts.indexOf(c); }), multi: true, e: e, img: a.img || "", pos: POS[imgId] || "50% 50%", ficheId: imgId || "", sel: [], done: false };
+}
+// Fourchette leurre : la vraie fourchette multipliée par un facteur, arrondie.
+function scaledRange(r, f) { return [round2(r[0] * f), round2(r[1] * f)]; }
+
+var GEN_ESPECES = [
+  function heavier() {
+    var cls = pick(["Mammifère", "Oiseau", "Race domestique"]);
+    var pool = statIds().filter(function (x) { return spClass(x) === cls; });
+    var ids = pickDistinct(pool, function (id) { return mid(STATS[id].weight); }, 4, 1.3);
+    if (!ids) return null;
+    var best = ids.slice().sort(function (x, y) { return mid(STATS[y].weight) - mid(STATS[x].weight); })[0];
+    return single("Espèces · poids", "Lequel est le plus lourd à l'âge adulte ?", spName(best), ids.filter(function (i) { return i !== best; }).map(spName),
+      ids.map(function (i) { return spName(i) + " : " + fmtWeight(STATS[i].weight); }).join(" · "), null);
+  },
+  function olderWild() {
+    var ids = pickDistinct(statIds(), function (id) { return mid(STATS[id].lifeWild); }, 4, 1.25, 4);
+    if (!ids) return null;
+    var best = ids.slice().sort(function (x, y) { return mid(STATS[y].lifeWild) - mid(STATS[x].lifeWild); })[0];
+    return single("Espèces · longévité", "Lequel vit le plus longtemps dans la nature ?", spName(best), ids.filter(function (i) { return i !== best; }).map(spName),
+      ids.map(function (i) { return spName(i) + " : " + fmtYears(STATS[i].lifeWild); }).join(" · "), null);
+  },
+  function weightOf() {
+    var id = pick(statIds()), r = STATS[id].weight;
+    var factors = shuffle([0.35, 0.5, 1.8, 2.5, 3.5]);
+    var wrongs = [];
+    for (var i = 0; i < factors.length && wrongs.length < 3; i++) {
+      var w = fmtWeight(scaledRange(r, factors[i]));
+      if (w !== fmtWeight(r) && wrongs.indexOf(w) < 0) wrongs.push(w);
+    }
+    if (wrongs.length < 3) return null;
+    return single("Espèces · poids", "Combien pèse un adulte : " + spName(id) + " ?", fmtWeight(r), wrongs,
+      spName(id) + " : " + fmtWeight(r) + (STATS[id].weightNote ? " (" + STATS[id].weightNote + ")" : "") + ".", id);
+  },
+  function captive() {
+    var id = pick(statIds()), n = STATS[id].lifeCaptive[1];
+    var vals = uniq(shuffle([0.45, 0.65, 1.4, 1.8, 2.3]).map(function (f) { return Math.max(2, Math.round(n * f)); }).filter(function (v) { return Math.abs(v - n) >= 2; })).slice(0, 3);
+    if (vals.length < 3) return null;
+    var f = function (v) { return "Jusqu'à ≈ " + v + " ans"; };
+    return single("Espèces · longévité", "Combien de temps peut vivre " + spName(id) + " en captivité ?", f(n), vals.map(f),
+      spName(id) + " : " + fmtYears(STATS[id].lifeCaptive) + " en captivité, contre " + fmtYears(STATS[id].lifeWild) + " dans la nature.", id);
+  },
+  function wildVsCaptive() {
+    var id = pick(statIds()), s = STATS[id];
+    if (s.lifeCaptive[1] <= s.lifeWild[1]) return null;
+    var gapPct = Math.round((mid(s.lifeCaptive) / mid(s.lifeWild) - 1) * 100);
+    var opts = ["Environ deux fois plus longtemps en captivité", "Un peu plus longtemps en captivité", "Plus longtemps dans la nature", "Autant dans les deux cas"];
+    var correct = gapPct >= 70 ? opts[0] : opts[1];
+    return single("Espèces · longévité", "Nature ou captivité : où " + spName(id) + " vit-il le plus longtemps ?", correct, opts.filter(function (o) { return o !== correct; }),
+      "Dans la nature : " + fmtYears(s.lifeWild) + ". En captivité : " + fmtYears(s.lifeCaptive) + " (soins, nourriture régulière, pas de prédateurs).", id);
+  },
+  function diet() {
+    var id = pick(statIds()), d = STATS[id].diet;
+    var all = ["Carnivore", "Omnivore", "Herbivore", "Insectivore", "Charognard", "Piscivore", "Granivore"];
+    var conflicts = { "Carnivore": ["Charognard", "Piscivore"], "Charognard": ["Carnivore"], "Piscivore": ["Carnivore"], "Omnivore": [], "Insectivore": ["Carnivore"], "Herbivore": ["Granivore"], "Granivore": ["Herbivore"] };
+    var wrong = shuffle(all.filter(function (x) { return x !== d && (conflicts[d] || []).indexOf(x) < 0; })).slice(0, 3);
+    return single("Espèces · régime", "Quel est le régime alimentaire : " + spName(id) + " ?", d, wrong, spName(id) + " : " + d.toLowerCase() + ".", id);
+  },
+  function activity() {
+    var id = pick(statIds()), act = STATS[id].activity;
+    var map = { "Diurne": "Surtout le jour", "Nocturne": "Surtout la nuit", "Crépusculaire": "À l'aube et au crépuscule", "Jour et nuit": "Aussi bien le jour que la nuit" };
+    var wrong = Object.keys(map).filter(function (k) { return k !== act; }).map(function (k) { return map[k]; });
+    return single("Espèces · mode de vie", "Quand " + spName(id) + " est-il le plus actif ?", map[act], wrong, spName(id) + " : " + act.toLowerCase() + ".", id);
+  },
+  function ficheQuiz() {
+    var id = pick(Object.keys(FICHES)), qq = pick(FICHES[id].quiz);
+    return single("Fiche · " + spName(id), qq.q, qq.o[qq.a], qq.o.filter(function (o, i) { return i !== qq.a; }), qq.e, id);
+  },
+  // ----- plusieurs réponses -----
+  function mNight() {
+    var yes = shuffle(statIds().filter(function (x) { return STATS[x].activity === "Nocturne"; })).slice(0, 2 + rnd(2));
+    var no = shuffle(statIds().filter(function (x) { return STATS[x].activity === "Diurne"; })).slice(0, 5 - yes.length);
+    if (yes.length < 2 || no.length < 2) return null;
+    return multi("Espèces · mode de vie", "Lesquels sont surtout actifs la nuit ?", yes.map(spName), no.map(spName),
+      "Nocturnes : " + yes.map(spName).join(", ") + ". Les autres vivent surtout le jour.", null);
+  },
+  function mHeavy() {
+    var t = pick([1, 5, 20, 50]);
+    var yes = shuffle(statIds().filter(function (x) { return STATS[x].weight[0] > t; })).slice(0, 2 + rnd(2));
+    var no = shuffle(statIds().filter(function (x) { return STATS[x].weight[1] < t && STATS[x].weight[1] > t / 6; })).slice(0, 5 - yes.length);
+    if (yes.length < 2 || no.length < 2) return null;
+    return multi("Espèces · poids", "Lesquels pèsent plus de " + fmtKg(t) + " à l'âge adulte ?", yes.map(spName), no.map(spName),
+      yes.concat(no).map(function (i) { return spName(i) + " : " + fmtWeight(STATS[i].weight); }).join(" · "), null);
+  },
+  function mLongLife() {
+    var t = pick([10, 15, 20, 30]);
+    var yes = shuffle(statIds().filter(function (x) { return STATS[x].lifeWild[0] >= t; })).slice(0, 2 + rnd(2));
+    var no = shuffle(statIds().filter(function (x) { return STATS[x].lifeWild[1] < t && STATS[x].lifeWild[1] >= t / 3; })).slice(0, 5 - yes.length);
+    if (yes.length < 2 || no.length < 2) return null;
+    return multi("Espèces · longévité", "Lesquels peuvent vivre plus de " + t + " ans dans la nature ?", yes.map(spName), no.map(spName),
+      yes.concat(no).map(function (i) { return spName(i) + " : " + fmtYears(STATS[i].lifeWild); }).join(" · "), null);
+  },
+  function mDiet() {
+    var d = pick(["Carnivore", "Herbivore", "Omnivore"]);
+    var near = { "Carnivore": ["Omnivore", "Insectivore"], "Herbivore": ["Omnivore", "Granivore"], "Omnivore": ["Carnivore", "Herbivore", "Granivore"] }[d];
+    var yes = shuffle(statIds().filter(function (x) { return STATS[x].diet === d; })).slice(0, 2 + rnd(2));
+    var no = shuffle(statIds().filter(function (x) { return near.indexOf(STATS[x].diet) >= 0; })).slice(0, 5 - yes.length);
+    if (yes.length < 2 || no.length < 2) return null;
+    return multi("Espèces · régime", "Lesquels sont " + d.toLowerCase() + "s ?", yes.map(spName), no.map(spName),
+      yes.concat(no).map(function (i) { return spName(i) + " : " + STATS[i].diet.toLowerCase(); }).join(" · "), null);
+  }
+];
+
+function namedIndiv() { return INDIVIDUS.filter(function (i) { return !i.group; }); }
+var ORIGINS = ["Né au parc", "Centre de soins de La Garenne", "Wildnispark Zurich", "Tierpark Neumünster (Allemagne)", "Un parc en Espagne", "Autriche", "Parc de Sainte-Croix"];
+
+var GEN_INDIV = [
+  function whoIs() {
+    var ind = pick(namedIndiv());
+    var others = shuffle(similarPool(ind.species)).slice(0, 3).map(spName);
+    return single("Pensionnaires", ind.name + ", c'est…", spName(ind.species), others, ind.name + " : " + ind.trait, ind.species);
+  },
+  function guessWho() {
+    var all = namedIndiv(), ind = pick(all);
+    var same = shuffle(all.filter(function (i) { return i !== ind && i.species === ind.species; }));
+    var near = shuffle(all.filter(function (i) { return i.species !== ind.species && spClass(i.species) === spClass(ind.species); }));
+    var wrong = same.concat(near).slice(0, 3).map(function (i) { return i.name; });
+    if (wrong.length < 3) return null;
+    return single("Pensionnaires · " + spName(ind.species), "Qui suis-je ? « " + ind.trait + " »", ind.name, wrong,
+      "C'est " + ind.name + " (" + spName(ind.species).toLowerCase() + ").", ind.species);
+  },
+  function origin() {
+    var ind = pick(namedIndiv().filter(function (i) { return i.origin; }));
+    var wrong = shuffle(ORIGINS.filter(function (o) { return o !== ind.origin; })).slice(0, 3);
+    return single("Pensionnaires · origine", "D'où vient " + ind.name + " (" + spName(ind.species).toLowerCase() + ") ?", ind.origin, wrong,
+      ind.name + " : " + ind.origin.toLowerCase() + (ind.bornText ? ", " + ind.bornText : "") + ".", ind.species);
+  },
+  function year() {
+    var ind = pick(namedIndiv().filter(function (i) { return i.born; }));
+    var deltas = shuffle([-3, -2, -1, 1, 2, 3]).slice(0, 3);
+    return single("Pensionnaires · âge", "En quelle année est " + (ind.sex === "f" ? "née " : "né ") + ind.name + " (" + spName(ind.species).toLowerCase() + ") ?", String(ind.born),
+      deltas.map(function (d) { return String(ind.born + d); }), ind.name + " est " + ind.bornText + ".", ind.species);
+  },
+  function howMany() {
+    var counts = { "buse": 6, "sanglier": 6, "grand-duc": 3, "raton": 3, "chat-forestier": 3 };
+    var id = pick(Object.keys(counts)), n = counts[id];
+    var wrong = shuffle([n - 2, n - 1, n + 1, n + 2].filter(function (x) { return x > 0; })).slice(0, 3).map(String);
+    return single("Pensionnaires · effectifs", "Combien d'individus vivent au parc : " + spName(id) + " ?", String(n), wrong,
+      "Il y en a " + n + " d'après le parc (2024–2025).", id);
+  },
+  // ----- plusieurs réponses -----
+  function mSameSpecies() {
+    var all = namedIndiv();
+    var bySp = {};
+    all.forEach(function (i) { (bySp[i.species] = bySp[i.species] || []).push(i); });
+    var sps = Object.keys(bySp).filter(function (k) { return bySp[k].length >= 2; });
+    var sp = pick(sps);
+    var yes = shuffle(bySp[sp]).slice(0, Math.min(3, bySp[sp].length));
+    var near = shuffle(all.filter(function (i) { return i.species !== sp && spClass(i.species) === spClass(sp); }));
+    var no = near.slice(0, 5 - yes.length);
+    if (no.length < 2) return null;
+    return multi("Pensionnaires", "Parmi ces pensionnaires, lesquels sont de l'espèce « " + spName(sp) + " » ?",
+      yes.map(function (i) { return i.name; }), no.map(function (i) { return i.name; }),
+      yes.map(function (i) { return i.name; }).join(", ") + " : " + spName(sp).toLowerCase() + ". " + no.map(function (i) { return i.name + " : " + spName(i.species).toLowerCase(); }).join(", ") + ".", sp);
+  },
+  function mCareCentre() {
+    var all = namedIndiv().filter(function (i) { return i.origin; });
+    var yes = shuffle(all.filter(function (i) { return i.origin === "Centre de soins de La Garenne"; })).slice(0, 2 + rnd(2));
+    var no = shuffle(all.filter(function (i) { return i.origin !== "Centre de soins de La Garenne"; })).slice(0, 5 - yes.length);
+    if (yes.length < 2 || no.length < 2) return null;
+    return multi("Pensionnaires · origine", "Lesquels sont arrivés par le centre de soins de La Garenne ?",
+      yes.map(function (i) { return i.name; }), no.map(function (i) { return i.name; }),
+      no.map(function (i) { return i.name + " : " + i.origin.toLowerCase(); }).join(" · ") + ".", null);
+  }
+];
+
+function makeQuestion(mode) {
+  var gens = mode === "indiv" ? GEN_INDIV : mode === "especes" ? GEN_ESPECES : GEN_INDIV.concat(GEN_ESPECES);
+  for (var t = 0; t < 30; t++) {
+    var q = pick(gens)();
+    if (q && q.options.length >= 3 && q.answers.every(function (a) { return a >= 0; }) && uniq(q.options).length === q.options.length) return q;
+  }
+  return GEN_ESPECES[7]();
+}
+
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { view: "home", mode: "public", sector: "all", spot: 24, answers: {}, funIdx: Math.floor(Math.random() * FUN_LIST.length) };
+    this.state = { view: "home", mode: "public", sector: "all", spot: 24, answers: {}, funIdx: Math.floor(Math.random() * FUN_LIST.length),
+      statSort: "name", qMode: "all", qq: makeQuestion("all"), qGood: 0, qTotal: 0, qStreak: 0, qBest: 0 };
   }
   go(view, anchor) {
     this.setState({ view: view });
@@ -2514,6 +3329,16 @@ class Component extends DCLogic {
       meet: raw.meet || ("À La Garenne : " + (animal.nick ? animal.nick + ", " : "") + (spotInfo ? "n° " + spotN + " sur le plan (" + spotInfo.label + ")" : "emplacement à préciser")),
       img: raw.img || animal.img, imgAlt: raw.imgAlt || (animal.name + " à La Garenne"), pos: POS[fid] || "50% 50%",
       fun: FUN[fid] || [], hasFun: !!(FUN[fid] && FUN[fid].length),
+      indiv: INDIVIDUS.filter(function (i) { return i.species === fid; }).map(function (ind) {
+        var bits = [];
+        if (ind.sex === "m" && !ind.group) bits.push("Mâle");
+        if (ind.sex === "f" && !ind.group) bits.push("Femelle");
+        if (ind.bornText) bits.push(ind.bornText);
+        if (ind.origin && ind.origin !== "Né au parc") bits.push("vient de : " + ind.origin);
+        var meta = bits.join(" · ");
+        return { name: ind.name, meta: meta, hasMeta: meta.length > 0, trait: ind.trait, story: ind.story, hasStory: !!ind.story };
+      }),
+      hasIndiv: INDIVIDUS.some(function (i) { return i.species === fid; }),
       hasSpot: !!spotInfo, noSpot: !spotInfo,
       showOnMap: function () { self.setState({ spot: spotN }); self.go("home", "plan"); },
       id: raw.id, facts: raw.facts, taxo: raw.taxo, nat: raw.nat, track: raw.track, sources: raw.sources,
@@ -2573,7 +3398,120 @@ class Component extends DCLogic {
       open: function () { self.go(fItem.id); }
     };
 
+    // ----- pensionnaires -----
+    var indivItem = function (ind) {
+      var a = animalById(ind.species) || {};
+      var bits = [];
+      if (ind.sex === "m" && !ind.group) bits.push("Mâle");
+      if (ind.sex === "f" && !ind.group) bits.push("Femelle");
+      if (ind.bornText) bits.push(ind.bornText);
+      if (ind.origin && ind.origin !== "Né au parc") bits.push("vient de : " + ind.origin);
+      var meta = bits.join(" · ");
+      return {
+        name: ind.name, speciesName: (FICHES[ind.species] || {}).name || a.name, img: a.img, pos: POS[ind.species] || "50% 50%",
+        meta: meta, hasMeta: meta.length > 0, trait: ind.trait, story: ind.story, hasStory: !!ind.story,
+        open: function () { self.go(ind.species); }
+      };
+    };
+    var order = ANIMALS.map(function (a) { return a.id; });
+    var indivs = INDIVIDUS.slice().sort(function (x, y) { return order.indexOf(x.species) - order.indexOf(y.species); }).map(indivItem);
+
+    // ----- espèces en chiffres -----
+    var maxLife = 0;
+    Object.keys(STATS).forEach(function (id) { maxLife = Math.max(maxLife, STATS[id].lifeCaptive[1], STATS[id].lifeWild[1]); });
+    var sortDefs = [
+      { key: "name", label: "Nom" }, { key: "weight", label: "Poids" }, { key: "wild", label: "Vie dans la nature" },
+      { key: "captive", label: "Vie en captivité" }, { key: "gap", label: "Écart nature / captivité" }
+    ];
+    var sortVal = {
+      weight: function (id) { return mid(STATS[id].weight); },
+      wild: function (id) { return mid(STATS[id].lifeWild); },
+      captive: function (id) { return mid(STATS[id].lifeCaptive); },
+      gap: function (id) { return mid(STATS[id].lifeCaptive) - mid(STATS[id].lifeWild); }
+    };
+    var statIds = order.filter(function (id) { return STATS[id] && FICHES[id]; });
+    if (st.statSort === "name") statIds.sort(function (x, y) { return spName(x).localeCompare(spName(y), "fr"); });
+    else statIds.sort(function (x, y) { return sortVal[st.statSort](y) - sortVal[st.statSort](x); });
+    var bar = function (r, color) { return "height: 8px; border-radius: 999px; background: " + color + "; width: " + Math.max(4, Math.round(r[1] / maxLife * 100)) + "%;"; };
+    var statRows = statIds.map(function (id) {
+      var s = STATS[id], a = animalById(id) || {};
+      return {
+        name: spName(id), img: a.img, pos: POS[id] || "50% 50%", open: function () { self.go(id); },
+        weight: fmtWeight(s.weight), weightNote: s.weightNote || "", size: fmtCm(s.size.cm), sizeLabel: s.size.label,
+        lifeWild: fmtYears(s.lifeWild), lifeCaptive: fmtYears(s.lifeCaptive),
+        barWild: bar(s.lifeWild, "#3F7D58"), barCaptive: bar(s.lifeCaptive, "#E8A33D"),
+        diet: s.diet, activity: s.activity, young: s.young, gestation: s.gestation
+      };
+    });
+    var sorts = sortDefs.map(function (d) {
+      return { label: d.label, active: st.statSort === d.key, style: chip(st.statSort === d.key), pick: function () { self.setState({ statSort: d.key }); } };
+    });
+
+    // ----- quiz infini -----
+    var qq = st.qq;
+    var qAnswered = qq.done;
+    var sameSet = function (a, b) { return a.length === b.length && a.every(function (x) { return b.indexOf(x) >= 0; }); };
+    var qOk = qAnswered && sameSet(qq.sel, qq.answers);
+    var qPartial = qAnswered && !qOk && qq.multi && qq.sel.some(function (x) { return qq.answers.indexOf(x) >= 0; });
+    var commit = function (sel) {
+      var cur = self.state.qq;
+      if (cur.done) return;
+      var ok = sameSet(sel, cur.answers);
+      var streak = ok ? self.state.qStreak + 1 : 0;
+      self.setState({
+        qq: Object.assign({}, cur, { sel: sel, done: true }),
+        qTotal: self.state.qTotal + 1, qGood: self.state.qGood + (ok ? 1 : 0),
+        qStreak: streak, qBest: Math.max(self.state.qBest, streak)
+      });
+    };
+    var qModes = [{ key: "all", label: "Tout" }, { key: "indiv", label: "Nos pensionnaires" }, { key: "especes", label: "Les espèces" }].map(function (m) {
+      return {
+        label: m.label, active: st.qMode === m.key, style: chip(st.qMode === m.key),
+        pick: function () { if (st.qMode !== m.key) self.setState({ qMode: m.key, qq: makeQuestion(m.key) }); }
+      };
+    });
+    var qFicheId = qq.ficheId && FICHES[qq.ficheId] ? qq.ficheId : null;
+    var qz = {
+      cat: qq.cat, q: qq.q, e: qq.e, img: qq.img, pos: qq.pos, hasImg: !!qq.img, answered: qAnswered, multi: qq.multi,
+      verdict: qAnswered ? (qOk ? "Bravo !" : qPartial ? "Presque !" : "Raté !") : "",
+      showValidate: qq.multi && !qAnswered && qq.sel.length > 0,
+      validate: function () { commit(self.state.qq.sel); },
+      good: st.qGood, total: st.qTotal, streak: st.qStreak, best: st.qBest,
+      hasFiche: qAnswered && !!qFicheId, open: function () { if (qFicheId) self.go(qFicheId); },
+      nextLabel: qAnswered ? "Question suivante →" : "Passer",
+      nextStyle: qAnswered
+        ? "background: #111C1C; color: #FFFFFF; border: 2px solid #111C1C; border-radius: 999px; padding: 10px 20px; min-height: 44px; font-size: 15px; font-weight: 700;"
+        : "background: transparent; color: #364153; border: 2px solid #D9D3C3; border-radius: 999px; padding: 10px 18px; min-height: 44px; font-size: 15px; font-weight: 600;",
+      next: function () { self.setState({ qq: makeQuestion(self.state.qMode) }); },
+      options: qq.options.map(function (label, oi) {
+        var base = "text-align: left; border-radius: 16px; padding: 12px 16px; min-height: 48px; font-size: 16px; font-weight: 600; ";
+        var isSel = qq.sel.indexOf(oi) >= 0, isRight = qq.answers.indexOf(oi) >= 0;
+        var look, suffix = "";
+        if (!qAnswered) look = isSel ? "background: #FDF1DC; color: #111C1C; border: 2px solid #E8A33D; box-shadow: inset 0 0 0 1px #E8A33D;" : "background: #F6F3EA; color: #111C1C; border: 2px solid #D9D3C3;";
+        else if (isRight && isSel) look = "background: #3F7D58; color: #FFFFFF; border: 2px solid #2F6446;";
+        else if (isRight) { look = "background: #E7F2EA; color: #1E4530; border: 2px dashed #3F7D58;"; suffix = qq.multi ? "  · oubliée" : ""; }
+        else if (isSel) look = "background: #FBE3E0; color: #8A1C12; border: 2px solid #C9483A; text-decoration: line-through;";
+        else look = "background: #FFFFFF; color: #5B6472; border: 2px solid #E3DFD3;";
+        return {
+          label: (qq.multi && !qAnswered ? (isSel ? "☑  " : "☐  ") : "") + label + suffix,
+          pressed: qq.multi ? String(isSel) : "false", style: base + look,
+          pick: function () {
+            var cur = self.state.qq;
+            if (cur.done) return;
+            if (!cur.multi) { commit([oi]); return; }
+            var sel = cur.sel.indexOf(oi) >= 0 ? cur.sel.filter(function (x) { return x !== oi; }) : cur.sel.concat([oi]);
+            self.setState({ qq: Object.assign({}, cur, { sel: sel }) });
+          }
+        };
+      })
+    };
+
     return {
+      indivs: indivs, statRows: statRows, sorts: sorts, qModes: qModes, qz: qz,
+      isIndiv: st.view === "indiv", isStats: st.view === "stats", isQuiz: st.view === "quiz",
+      navIndiv: st.view === "indiv" ? "page" : "false", navStats: st.view === "stats" ? "page" : "false", navQuiz: st.view === "quiz" ? "page" : "false",
+      navIndivStyle: navBtn(st.view === "indiv"), navStatsStyle: navBtn(st.view === "stats"), navQuizStyle: navBtn(st.view === "quiz"),
+      goIndiv: function () { self.go("indiv"); }, goStats: function () { self.go("stats"); }, goQuiz: function () { self.go("quiz"); },
       fun: fun,
       isHome: st.view === "home", isFiche: isFiche,
       navHome: st.view === "home" ? "page" : "false", navMap: "false",
