@@ -3175,11 +3175,37 @@ function makeQuestion(mode) {
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { view: "home", mode: "public", sector: "all", spot: 24, answers: {}, funIdx: Math.floor(Math.random() * FUN_LIST.length),
+    var r = this.readRoute();
+    this.state = { view: r.view, mode: "public", sector: "all", spot: 24, answers: {}, funIdx: Math.floor(Math.random() * FUN_LIST.length),
       statSort: "name", qMode: "all", qq: makeQuestion("all"), qGood: 0, qTotal: 0, qStreak: 0, qBest: 0 };
+  }
+  // Adresses : #lynx (fiche), #pensionnaires, #chiffres, #quiz, #plan ; ?mode=nat pour le mode naturaliste.
+  readRoute() {
+    var h = "", nat = false;
+    try { h = decodeURIComponent((window.location.hash || "").slice(1)); nat = /[?&]mode=nat/.test(window.location.search); } catch (e) {}
+    var map = { "pensionnaires": "indiv", "chiffres": "stats", "quiz": "quiz", "plan": "home", "": "home" };
+    var view = map[h] !== undefined ? map[h] : (FICHES[h] ? h : "home");
+    return { view: view, anchor: h === "plan" ? "plan" : null, nat: nat };
+  }
+  componentDidMount() {
+    var self = this, r = this.readRoute();
+    if (r.nat) this.setState({ mode: "nat" });
+    if (r.anchor) setTimeout(function () { var el = document.getElementById(r.anchor); if (el) el.scrollIntoView(); }, 120);
+    try {
+      window.addEventListener("hashchange", function () {
+        var nr = self.readRoute();
+        if (nr.view !== self.state.view) { self.setState({ view: nr.view }); window.scrollTo(0, 0); }
+      });
+    } catch (e) {}
   }
   go(view, anchor) {
     this.setState({ view: view });
+    try {
+      var slug = { "home": anchor === "plan" ? "plan" : "", "indiv": "pensionnaires", "stats": "chiffres", "quiz": "quiz" }[view];
+      if (slug === undefined) slug = view;
+      var target = slug ? "#" + slug : window.location.pathname + window.location.search;
+      if (("#" + slug) !== window.location.hash) history.pushState(null, "", target);
+    } catch (e) {}
     setTimeout(function () {
       try {
         var el = anchor ? document.getElementById(anchor) : null;
