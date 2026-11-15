@@ -3,7 +3,7 @@
 Petite webapp qui recense les animaux du parc animalier La Garenne (Le Vaud, VD), pour le public et les naturalistes :
 
 - catalogue des espèces du parc, par secteur ;
-- fiches ludiques (lynx, sanglier) avec un mode « Je découvre » et un mode naturaliste, et un mini-quiz ;
+- une fiche ludique par espèce (39), avec un mode « Je découvre » et un mode naturaliste, des fun facts et un mini-quiz ;
 - plan du parc avec les numéros du plan officiel 2023 et sa légende ;
 - « Nos pensionnaires » : les animaux du parc, un par un (nom, histoire, caractère) ;
 - « Espèces en chiffres » : poids, taille, espérance de vie dans la nature et en captivité ;
