@@ -576,7 +576,6 @@ var ANIMALS = [
   { id: "grand-duc", name: "Hibou grand-duc", latin: "Bubo bubo", sector: "autres", cls: "Oiseau", img: "/_blob/81d4aef349165ac65fedfda6176dbe0f" },
   { id: "gypaete", name: "Gypaète barbu", latin: "Gypaetus barbatus", sector: "autres", cls: "Oiseau", img: "/_blob/66a3892402a6dd561bce9a74872a9882" },
   { id: "cigogne", name: "Cigogne blanche", latin: "Ciconia ciconia", sector: "autres", cls: "Oiseau", nick: "Rick et Morty", img: "/_blob/9d2b729853a6799e90c2088d371d0e3a" },
-  { id: "lievre", name: "Lièvre brun", latin: "Lepus europaeus", sector: "autres", cls: "Mammifère", img: "/_blob/a2532fb5ac16430d967f7743ff45afa6" },
   { id: "ecureuil", name: "Écureuil roux", latin: "Sciurus vulgaris", sector: "autres", cls: "Mammifère", nick: "Scrat", img: "/_blob/0c2357313425878bea935b7d6a9b403f" },
   { id: "renard", name: "Renard roux", latin: "Vulpes vulpes", sector: "autres", cls: "Mammifère", img: "/_blob/03aa0e415e0a5348bf7b99c871b39d6d" },
   { id: "fouine", name: "Fouine", latin: "Martes foina", sector: "autres", cls: "Mammifère", img: "/_blob/2f6f11c7e461fc13f1e75a08cbee7882" },
@@ -1200,49 +1199,7 @@ Object.assign(FICHES, {
       { q: "Comment s'appelle le nid de l'écureuil ?", o: ["Un terrier", "Une catiche", "Une hotte"], a: 2, e: "C'est une boule de branches et de mousse dans un arbre." }
     ]
   },
-
-  "lievre": {
-    name: "Lièvre brun",
-    latin: "Lepus europaeus",
-    tagline: "Sprinteur des champs aux longues oreilles, il peut filer à 70 km/h. Mais dans nos campagnes, il a de plus en plus de mal.",
-    id: [
-      { k: "Longueur", v: "50 à 70 cm", note: "oreilles de 10 à 14 cm à pointe noire" },
-      { k: "Poids", v: "3 à 5 kg", note: "bien plus gros qu'un lapin de garenne" },
-      { k: "Vitesse", v: "jusqu'à 70 km/h", note: "en course zigzaguante" },
-      { k: "Longévité", v: "1 à 5 ans", note: "la plupart meurent jeunes" },
-      { k: "Régime", v: "Herbivore", note: "herbes, trèfles, céréales, bourgeons" },
-      { k: "En Suisse", v: "Vulnérable", note: "Liste rouge · chassable selon cantons" }
-    ],
-    facts: [
-      { t: "Pas un lapin", d: "Le lièvre ne creuse pas de terrier : il se cache dans un creux au sol, appelé le gîte." },
-      { t: "Né prêt à courir", d: "Les levrauts naissent avec leur fourrure et les yeux ouverts, contrairement aux lapereaux." },
-      { t: "Seul, mais pas abandonné", d: "La mère ne vient allaiter qu'une fois par jour. Un levraut seul dans un champ n'a pas besoin d'aide : ne le touche pas !" },
-      { t: "Combats de boxe", d: "Au printemps, on voit des lièvres « boxer » : souvent une femelle qui repousse un mâle trop insistant." }
-    ],
-    taxo: [
-      { k: "Classe", v: "Mammifères" }, { k: "Ordre", v: "Lagomorphes" }, { k: "Famille", v: "Léporidés" },
-      { k: "Espèce", v: "Lepus europaeus (Pallas, 1778)" },
-      { k: "UICN mondiale", v: "Préoccupation mineure" }, { k: "Liste rouge CH", v: "Vulnérable (VU)" }
-    ],
-    nat: [
-      { t: "Écologie", d: "Espèce des milieux ouverts (champs, prairies, friches) richement structurés, de la plaine jusqu'à l'étage alpin. Crépusculaire et nocturne, il passe la journée tapi dans son gîte. Herbivore pratiquant la cæcotrophie (réingestion de crottes molles)." },
-      { t: "Reproduction", d: "Longue saison de reproduction de la fin de l'hiver à l'automne, avec 3 à 4 portées par an de 1 à 4 levrauts nidifuges après environ 42 jours de gestation. La superfétation (nouvelle gestation avant la mise bas) est possible. La mortalité des jeunes est très élevée." },
-      { t: "Statut et menaces en Suisse", d: "Maintenu dans la catégorie VU dans la Liste rouge 2022 en raison du déclin continu de ses populations. Principales causes : intensification agricole, fauche précoce, disparition des structures (haies, jachères, bandes fleuries), prédation et trafic routier. Plusieurs cantons suivent ses effectifs par comptages nocturnes au phare." },
-      { t: "Identification", d: "Plus grand et plus élancé que le lapin de garenne, longues pattes postérieures, oreilles plus longues que la tête et terminées de noir, queue noire dessus et blanche dessous. Iris jaune-orangé." }
-    ],
-    cal: [
-      { label: "Accouplements (« boxe »)", months: [2, 3, 4], color: "#3F7D58" },
-      { label: "Naissances", months: [3, 4, 5, 6, 7, 8, 9], color: "#E8A33D" }
-    ],
-    track: "Traces en Y : les longues empreintes postérieures se posent devant les antérieures, l'une derrière l'autre. Crottes rondes et légèrement aplaties d'environ 1,5 cm, gîte ovale creusé dans l'herbe ou la terre labourée.",
-    sources: "info fauna (CSCF), OFEV — Liste rouge des mammifères 2022.",
-    quiz: [
-      { q: "Où dort le lièvre brun ?", o: ["Dans un terrier profond", "Dans un creux au sol, le gîte", "Dans les arbres"], a: 1, e: "Contrairement au lapin, le lièvre ne creuse pas de terrier." },
-      { q: "Tu trouves un levraut seul dans un champ. Que fais-tu ?", o: ["Je l'emmène chez moi", "Je lui donne une carotte", "Je le laisse tranquille sans le toucher"], a: 2, e: "Sa mère revient l'allaiter : il n'est pas abandonné." },
-      { q: "Pourquoi le lièvre devient-il rare en Suisse ?", o: ["Les campagnes offrent moins d'abris et de nourriture variée", "Il est parti vivre en ville", "Il a peur des vaches"], a: 0, e: "L'agriculture intensive et la disparition des haies et jachères lui nuisent." }
-    ]
-  }
-});
+  });
 Object.assign(FICHES, {
   "vautour": {
     name: "Vautour fauve",
@@ -2483,10 +2440,6 @@ var FUN = {
     "Il n'hiberne pas : il dort beaucoup en hiver, mais sort pour retrouver ses cachettes.",
     "Les pinceaux de poils de ses oreilles poussent en hiver et disparaissent en été."
   ],
-  "lievre": [
-    "Ce n'est pas un lapin : le levraut naît couvert de poils, les yeux ouverts, presque prêt à courir.",
-    "Pas de terrier : il se cache dans un simple creux d'herbe, le « gîte »."
-  ],
   "vautour": [
     "Il ne tue pas : il nettoie la nature en mangeant les animaux morts. Son estomac très acide détruit beaucoup de microbes.",
     "Son cou presque sans plumes l'aide à rester propre quand il plonge la tête dans une carcasse."
@@ -2668,6 +2621,9 @@ var INDIVIDUS = [
     trait: "Orange vif et un peu plus grande que Zeus.",
     story: "Arrivée le même jour que Zeus, en juin 2019." },
 
+  { name: "Le cerf du parc", species: "cerf", sex: "m", born: null, bornText: "", origin: "", group: true,
+    trait: "Le seul mâle de la harde : c'est lui qui porte les bois et brame à l'automne.", story: "" },
+
   { name: "Le couple de vautours", species: "vautour", sex: "", born: null, bornText: "le mâle est né en mars 1998, la femelle en avril 2004", origin: "", group: true,
     trait: "Le mâle a près de 30 ans : l'un des doyens du parc.", story: "" },
   { name: "Les 3 grands-ducs", species: "grand-duc", sex: "", born: null, bornText: "", origin: "Né au parc", group: true,
@@ -2790,13 +2746,6 @@ var STATS = {
     size: { label: "Longueur", cm: [18, 25] },
     diet: "Granivore", activity: "Diurne",
     young: "3 à 5 jeunes", gestation: "≈ 38 jours de gestation"
-  },
-  "lievre": {
-    weight: [3, 5], weightNote: "",
-    lifeWild: [1, 5], lifeCaptive: [8, 12],
-    size: { label: "Longueur", cm: [50, 70] },
-    diet: "Herbivore", activity: "Crépusculaire",
-    young: "1 à 4 levrauts", gestation: "≈ 42 jours de gestation"
   },
   "vautour": {
     weight: [6, 11], weightNote: "",
