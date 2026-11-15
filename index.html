@@ -18,12 +18,20 @@ button:focus-visible{outline:3px solid #E8A33D;outline-offset:2px}
 .lg-pop{display:inline-block;animation:lg-pop .45s ease-out both}
 @media (prefers-reduced-motion: reduce){.lg-pop,.lg-confetti span{animation:none !important}}
 details summary{cursor:pointer}
+.lg-tabbar{display:none}
+@media (max-width: 760px){
+  .lg-tabbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:50;background:#111C1C;border-top:1px solid #3A4A4A;padding:6px 6px calc(6px + env(safe-area-inset-bottom));gap:4px}
+  .lg-topnav{display:none !important}
+  .lg-page{padding-bottom:84px}
+  .lg-hide-mobile{display:none !important}
+}
+@keyframes lg-toast{0%{transform:translate(-50%,30px);opacity:0}12%{transform:translate(-50%,0);opacity:1}85%{opacity:1}100%{opacity:0}}
 </style>
 </head>
 <body>
 <div id="app"></div>
 <template id="dc">
-<div style="min-height: 100vh; background: #F6F3EA; color: #101828; font-family: Inter, system-ui, sans-serif; font-size: 16px; line-height: 1.5;">
+<div class="lg-page" style="min-height: 100vh; background: #F6F3EA; color: #101828; font-family: Inter, system-ui, sans-serif; font-size: 16px; line-height: 1.5;">
 
   <!-- Barre du haut -->
   <header style="background: #111C1C; color: #FFFFFF;">
@@ -33,7 +41,7 @@ details summary{cursor:pointer}
         <span style="font-family: 'Lilita One', system-ui, sans-serif; font-size: 24px; letter-spacing: 0.5px;">La Garenne</span>
         <span style="font-size: 13px; color: #B9D3C2; border-left: 1px solid #3A4A4A; padding-left: 10px;">Carnet de faune</span>
       </button>
-      <nav aria-label="Sections" class="lg-nav" style="display: flex; gap: 4px; flex-wrap: nowrap; overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch;">
+      <nav aria-label="Sections" class="lg-nav lg-topnav" style="display: flex; gap: 4px; flex-wrap: nowrap; overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch;">
         <button onClick="{{goHome}}" aria-current="{{navHome}}" style="{{navHomeStyle}}">Les animaux</button>
         <button onClick="{{goMap}}" aria-current="{{navMap}}" style="{{navMapStyle}}">Plan du parc</button>
         <button onClick="{{goIndiv}}" aria-current="{{navIndiv}}" style="{{navIndivStyle}}">Pensionnaires</button>
@@ -91,7 +99,7 @@ details summary{cursor:pointer}
       <div style="background: #FFFFFF; border: 1px solid #E3DFD3; border-radius: 24px; padding: 18px 22px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between;">
         <div style="flex: 1 1 320px; min-width: 0;">
           <h2 style="margin: 0; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 24px; letter-spacing: 0.4px; color: #202020;">Préparer ma visite</h2>
-          <p style="margin: 4px 0 0; font-size: 15px; color: #364153;">Horaires, tarifs, accès et parking sont sur le site du parc. Sur place, ouvre « Mon carnet » et coche chaque animal que tu vois !</p>
+          <p style="margin: 4px 0 0; font-size: 15px; color: #364153;"><strong>Ouvert de 9h30 à 17h, fermé le lundi</strong> (sauf vacances et jours fériés), selon le site du parc : vérifie avant de partir. Sur place, ouvre « Carnet » en bas de l'écran et coche chaque animal que tu vois !</p>
         </div>
         <div style="display: flex; flex-wrap: wrap; gap: 10px;">
           <a href="https://www.lagarenne.ch/visiter-le-parc/preparez-votre-visite/" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; background: #111C1C; color: #FFFFFF; border: 2px solid #111C1C; border-radius: 999px; padding: 10px 18px; min-height: 44px; font-size: 15px; font-weight: 700; text-decoration: none;">Horaires et accès</a>
@@ -106,7 +114,7 @@ details summary{cursor:pointer}
       <div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
       <div style="flex: 999 1 720px; min-width: 0;">
         <div style="overflow-x: auto; border-radius: 28px; border: 2px solid #111C1C; background: #EEF3E8;">
-        <div style="position: relative; min-width: 680px; aspect-ratio: 1500 / 770;">
+        <div style="position: relative; min-width: 560px; aspect-ratio: 1500 / 770;">
           <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" style="position: absolute; inset: 0;">
             <polygon points="16.7,0.6 23.7,11 22,26 40,33 60.7,45.5 70,16.2 82.7,42.9 86.7,61 84,81.8 72,87 58.7,94.8 42.7,88.3 33.3,79.2 28,68.8 20,55.8 12.7,40.3 7.3,20.8" fill="#CFE0C8" stroke="#3F7D58" stroke-width="2" stroke-linejoin="round" vector-effect="non-scaling-stroke"></polygon>
             <path d="M41 82 C38 72 34 62 30 50 C27 40 24 30 21 14" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="4 4" stroke-linecap="round" vector-effect="non-scaling-stroke"></path>
@@ -119,10 +127,10 @@ details summary{cursor:pointer}
           <div style="position: absolute; left: 3%; bottom: 4%; font-size: 12px; color: #364153; background: #FFFFFF; padding: 4px 10px; border-radius: 999px; border: 1px solid #D9D3C3;">Centre de soins · fermé au public</div>
         </div>
         </div>
-        <p style="margin: 10px 0 0; font-size: 13px; color: #5B6472;">Plan simplifié d'après le plan du parc de 2023 ; les numéros sont ceux du plan officiel.</p>
+        <p style="margin: 10px 0 0; font-size: 13px; color: #5B6472;">Plan simplifié d'après le plan du parc de 2023 ; les numéros sont ceux du plan officiel. Une pastille cochée = animaux déjà vus. Sur téléphone, fais glisser le plan sur le côté.</p>
         <div style="margin-top: 18px; background: #FFFFFF; border-radius: 20px; border: 1px solid #E3DFD3; padding: 16px 18px;">
-          <h3 style="margin: 0 0 4px; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 20px; letter-spacing: 0.4px; color: #202020;">Pas encore sur le plan</h3>
-          <p style="margin: 0 0 10px; font-size: 14px; color: #5B6472;">Ces pensionnaires ne figurent pas sur le plan 2023. Demande à l'accueil ou ouvre l'œil !</p>
+          <h3 style="margin: 0 0 4px; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 20px; letter-spacing: 0.4px; color: #202020;">Ailleurs dans le parc</h3>
+          <p style="margin: 0 0 10px; font-size: 14px; color: #5B6472;">Ces pensionnaires n'ont pas de numéro sur le plan : ouvre l'œil en te promenant !</p>
           <div style="display: flex; flex-wrap: wrap; gap: 8px;">
             <sc-for list="{{unplaced}}" as="u" hint-placeholder-count="8">
               <button onClick="{{u.open}}" style="font-size: 14px; font-weight: 600; background: #F1EEE4; color: #111C1C; border: 1px solid #D9D3C3; padding: 6px 12px; min-height: 36px; border-radius: 999px;">{{u.name}}</button>
@@ -225,7 +233,7 @@ details summary{cursor:pointer}
         <sc-for list="{{indivs}}" as="i" hint-placeholder-count="9">
           <article style="background: #FFFFFF; border: 2px solid #111C1C; border-radius: 22px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 4px 4px 0 #3F7D58;">
             <div style="aspect-ratio: 398 / 286; background: #DDE9E0; position: relative; overflow: hidden;">
-              <img src="{{i.img}}" alt="{{i.speciesName}}" style="width: 100%; height: 100%; object-fit: cover; object-position: {{i.pos}}; display: block;">
+              <img src="{{i.img}}" alt="{{i.speciesName}}" style="width: 100%; height: 100%; object-fit: cover; object-position: {{i.pos}}; display: block; {{i.crop}}">
               <span style="position: absolute; top: 10px; left: 10px; font-size: 12px; font-weight: 600; color: #364153; background: #FFFFFF; padding: 3px 10px; border-radius: 999px;">{{i.speciesName}}</span>
             </div>
             <div style="padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 6px; flex: 1;">
@@ -267,7 +275,7 @@ details summary{cursor:pointer}
             <div role="columnheader" style="padding: 12px; font-size: 13px; font-weight: 700; color: #364153;">Espèce</div>
             <div role="columnheader" style="padding: 12px; font-size: 13px; font-weight: 700; color: #364153;">Poids adulte</div>
             <div role="columnheader" style="padding: 12px; font-size: 13px; font-weight: 700; color: #364153;">Taille</div>
-            <div role="columnheader" style="padding: 12px; font-size: 13px; font-weight: 700; color: #364153;">Vie dans la nature</div>
+            <div role="columnheader" style="padding: 12px; font-size: 13px; font-weight: 700; color: #364153;">Vie dans la nature (typique)</div>
             <div role="columnheader" style="padding: 12px; font-size: 13px; font-weight: 700; color: #364153;">Vie en captivité / élevage</div>
             <div role="columnheader" style="padding: 12px; font-size: 13px; font-weight: 700; color: #364153;">Régime</div>
             <div role="columnheader" style="padding: 12px; font-size: 13px; font-weight: 700; color: #364153;">Actif</div>
@@ -311,9 +319,8 @@ details summary{cursor:pointer}
       </div>
     </section>
     <main style="max-width: 860px; margin: 0 auto; padding: 28px 20px 64px; display: flex; flex-direction: column; gap: 18px;">
-      <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
-        <span style="font-size: 14px; font-weight: 600; color: #364153; margin-right: 4px;">Questions sur :</span>
-        <sc-for list="{{qModes}}" as="m" hint-placeholder-count="3">
+      <div class="lg-nav" style="display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 8px; align-items: center;">
+        <sc-for list="{{qModes}}" as="m" hint-placeholder-count="4">
           <button onClick="{{m.pick}}" aria-pressed="{{m.active}}" style="{{m.style}}">{{m.label}}</button>
         </sc-for>
       </div>
@@ -345,7 +352,7 @@ details summary{cursor:pointer}
           </sc-if>
           <div style="display: flex; flex-direction: column; gap: 10px;">
             <sc-for list="{{qz.options}}" as="o" hint-placeholder-count="4">
-              <button onClick="{{o.pick}}" aria-pressed="{{o.pressed}}" style="{{o.style}}">{{o.label}}</button>
+              <button onClick="{{o.pick}}" aria-pressed="{{o.pressed}}" style="{{o.style}}"><span aria-hidden="true" style="{{o.boxStyle}}">{{o.boxMark}}</span>{{o.label}}</button>
             </sc-for>
           </div>
           <sc-if value="{{qz.answered}}" hint-placeholder-val="{{false}}">
@@ -393,7 +400,7 @@ details summary{cursor:pointer}
         <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 10px;">
           <sc-for list="{{badges}}" as="b" hint-placeholder-count="8">
             <div style="{{b.style}}">
-              <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="6"></circle><path d="M8.5 14 7 22l5-3 5 3-1.5-8"></path></svg>
+              <svg width="44" height="44" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 14 7 22l5-3 5 3-1.5-8" fill="{{b.ribbon}}" stroke="#111C1C" stroke-width="1.2" stroke-linejoin="round"></path><circle cx="12" cy="9" r="6.5" fill="{{b.medal}}" stroke="#111C1C" stroke-width="1.2"></circle><path d="M12 5.6l1 2.1 2.3.3-1.7 1.6.4 2.3-2-1.1-2 1.1.4-2.3-1.7-1.6 2.3-.3z" fill="{{b.star}}"></path></svg>
               <div>
                 <div style="font-weight: 700; font-size: 15px;">{{b.label}}</div>
                 <div style="font-size: 13px; opacity: 0.85;">{{b.desc}}</div>
@@ -403,16 +410,17 @@ details summary{cursor:pointer}
         </div>
       </section>
       <section>
-        <h2 style="margin: 0 0 6px; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 30px; letter-spacing: 0.6px; color: #202020;">Mes tampons</h2>
-        <p style="margin: 0 0 14px; font-size: 15px; color: #364153;">Touche « J'ai vu ! » quand tu as repéré l'animal.</p>
-        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px;">
+        <h2 style="margin: 0 0 6px; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 30px; letter-spacing: 0.6px; color: #202020;">Mon parcours</h2>
+        <p style="margin: 0 0 14px; font-size: 15px; color: #364153;">Dans l'ordre des numéros du plan. Touche « J'ai vu ! » quand tu as repéré l'animal.</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px;">
           <sc-for list="{{stamps}}" as="t" hint-placeholder-count="12">
             <div style="{{t.boxStyle}}">
               <button onClick="{{t.open}}" style="display: block; width: 100%; padding: 0; border: 0; background: none; text-align: left; color: #111C1C;">
                 <div style="aspect-ratio: 1 / 1; border-radius: 14px; overflow: hidden; background: #DDE9E0;">
                   <img src="{{t.img}}" alt="" style="{{t.imgStyle}}">
                 </div>
-                <div style="font-weight: 700; font-size: 14px; margin-top: 8px; line-height: 1.25;">{{t.name}}</div>
+                <div style="font-weight: 700; font-size: 14px; margin-top: 8px; line-height: 1.25;"><span style="{{t.numStyle}}">{{t.num}}</span> {{t.name}}</div>
+                <div style="font-size: 13px; color: #364153; margin-top: 4px; line-height: 1.35;">{{t.observe}}</div>
               </button>
               <button onClick="{{t.toggle}}" aria-pressed="{{t.seen}}" style="{{t.btnStyle}}">{{t.btnLabel}}</button>
             </div>
@@ -469,6 +477,16 @@ details summary{cursor:pointer}
         <button onClick="{{f.jumpMore}}" style="background: #FFFFFF; color: #111C1C; border: 2px solid #111C1C; border-radius: 999px; padding: 8px 16px; min-height: 44px; font-size: 14px; font-weight: 700;">{{f.moreLabel}}</button>
         <button onClick="{{f.jumpQuiz}}" style="background: #3F7D58; color: #FFFFFF; border: 2px solid #3F7D58; border-radius: 999px; padding: 8px 16px; min-height: 44px; font-size: 14px; font-weight: 700;">Mini-quiz</button>
       </nav>
+
+      <sc-if value="{{f.hasObserve}}" hint-placeholder-val="{{true}}">
+      <section style="background: #3F7D58; color: #FFFFFF; border-radius: 24px; padding: 16px 20px; display: flex; gap: 14px; align-items: flex-start;">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#E8A33D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none;"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+        <div>
+          <div style="font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 22px; letter-spacing: 0.4px;">À observer devant l'enclos</div>
+          <p style="margin: 4px 0 0; font-size: 17px; color: #F1F6F3;">{{f.observe}}</p>
+        </div>
+      </section>
+      </sc-if>
 
       <!-- Carte d'identité -->
       <section>
@@ -547,7 +565,7 @@ details summary{cursor:pointer}
           <sc-if value="{{f.hasSizes}}" hint-placeholder-val="{{true}}">
           <section style="flex: 1 1 300px; min-width: 0; background: #FFFFFF; border-radius: 24px; padding: 20px; border: 1px solid #E3DFD3;">
             <h2 style="margin: 0 0 4px; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 24px; letter-spacing: 0.5px; color: #202020;">À côté de toi</h2>
-            <p style="margin: 0 0 16px; font-size: 14px; color: #5B6472;">Sa taille debout (au garrot pour les mammifères), comparée à un enfant de 6 ans.</p>
+            <p style="margin: 0 0 16px; font-size: 14px; color: #5B6472;">Sa taille debout (au garrot pour les mammifères), comparée à un enfant de 8 ans.</p>
             <div style="height: 200px; display: flex; align-items: flex-end; justify-content: space-around; gap: 12px; border-bottom: 2px solid #111C1C;">
               <sc-for list="{{f.sizes}}" as="z" hint-placeholder-count="2">
                 <div style="display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1 1 0;">
@@ -630,6 +648,19 @@ details summary{cursor:pointer}
             <a href="{{l.url}}" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; min-height: 40px; padding: 6px 14px; border-radius: 999px; border: 2px solid #3F7D58; color: #2F6446; font-weight: 700; font-size: 14px; text-decoration: none; background: #FFFFFF;">{{l.label}} ↗</a>
           </sc-for>
         </div>
+        <section style="background: #FFFFFF; border: 1px solid #E3DFD3; border-radius: 24px; padding: 18px 20px;">
+          <h2 style="margin: 0 0 8px; font-family: 'Lilita One', system-ui, sans-serif; font-weight: 400; font-size: 24px; letter-spacing: 0.5px; color: #202020;">Observer et signaler</h2>
+          <ul style="margin: 0; padding-left: 20px; font-size: 15px; color: #364153; display: flex; flex-direction: column; gap: 4px;">
+            <li>Garde tes distances et ne nourris pas les animaux sauvages ; en période de nidification ou de mise bas, évite de t'approcher des sites.</li>
+            <li>Amphibiens : ne les manipule pas sans raison, et nettoie bottes et matériel entre deux étangs (chytride, Bsal).</li>
+            <li>Une observation intéressante ? Signale-la : chaque donnée aide le suivi de la faune suisse.</li>
+            <li>Animal blessé ou en détresse : contacte un centre de soins (comme celui de La Garenne) ou le garde-faune avant d'intervenir.</li>
+          </ul>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px;">
+            <a href="https://www.infofauna.ch" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; min-height: 40px; padding: 6px 14px; border-radius: 999px; border: 2px solid #3F7D58; color: #2F6446; font-weight: 700; font-size: 14px; text-decoration: none;">Signaler un mammifère, reptile ou amphibien (info fauna) ↗</a>
+            <a href="https://www.ornitho.ch" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; min-height: 40px; padding: 6px 14px; border-radius: 999px; border: 2px solid #3F7D58; color: #2F6446; font-weight: 700; font-size: 14px; text-decoration: none;">Signaler un oiseau (ornitho.ch) ↗</a>
+          </div>
+        </section>
         <p style="margin: -16px 0 0; font-size: 13px; color: #5B6472;">Statuts d'après les Listes rouges de l'OFEV : mammifères 2022, oiseaux nicheurs 2021, reptiles et amphibiens 2023.</p>
       </sc-if>
 
@@ -660,6 +691,24 @@ details summary{cursor:pointer}
         </div>
       </section>
     </main>
+  </sc-if>
+
+  <nav class="lg-tabbar" aria-label="Navigation principale">
+    <sc-for list="{{tabs}}" as="t" hint-placeholder-count="5">
+      <button onClick="{{t.go}}" aria-current="{{t.current}}" style="{{t.style}}">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{t.icon}}"></path></svg>
+        <span style="font-size: 11px; font-weight: 700; line-height: 1.1;">{{t.label}}</span>
+      </button>
+    </sc-for>
+  </nav>
+
+  <sc-if value="{{hasToast}}" hint-placeholder-val="{{false}}">
+    <div role="status" style="position: fixed; left: 50%; bottom: 96px; z-index: 60; transform: translateX(-50%); animation: lg-toast 3.2s ease-out both; background: #E8A33D; color: #111C1C; border: 2px solid #111C1C; box-shadow: 4px 4px 0 #111C1C; border-radius: 20px; padding: 12px 18px; font-weight: 700; max-width: 90vw; text-align: center;">
+      <div class="lg-confetti" aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 0; height: 0; pointer-events: none;">
+        <sc-for list="{{confetti}}" as="c" hint-placeholder-count="14"><span style="{{c.style}}"></span></sc-for>
+      </div>
+      Nouveau badge : {{toast}} !
+    </div>
   </sc-if>
 
   <footer style="background: #111C1C; color: #B9C6C0; font-size: 14px;">
@@ -857,7 +906,7 @@ var FICHES = {
     nat: [
       { t: "Écologie", d: "Actif surtout la nuit, en partie à cause de la pression de chasse. Très adaptable : forêts de feuillus, lisières, zones agricoles. Les années de forte fructification (glands, faînes) favorisent la reproduction." },
       { t: "Reproduction", d: "Rut de novembre à janvier, gestation d'environ 115 jours (« 3 mois, 3 semaines, 3 jours »). Portées de 2 à 10 marcassins (4 à 6 le plus souvent), surtout au printemps." },
-      { t: "Vocabulaire des âges", d: "Marcassin (rayé, jusqu'à ~6 mois), bête rousse (jusqu'à 1 an), bête de compagnie, ragot (2–3 ans), tiers-an, quartenier, puis solitaire ou vieux sanglier." },
+      { t: "Vocabulaire des âges", d: "Marcassin (rayé, jusqu'à ~6 mois), bête rousse (jusqu'à 1 an), bête de compagnie (1–2 ans), ragot (2–3 ans), tiers-an, quartanier, puis solitaire ou vieux sanglier." },
       { t: "Enjeux de gestion", d: "Population en hausse et dégâts aux cultures. Vigilance face à la peste porcine africaine présente dans des pays voisins : tout cadavre de sanglier trouvé doit être signalé au garde-faune." }
     ],
     cal: [
@@ -1256,7 +1305,7 @@ Object.assign(FICHES, {
     taxo: [
       { k: "Classe", v: "Mammifères" }, { k: "Ordre", v: "Eulipotyphles" }, { k: "Famille", v: "Érinacéidés" },
       { k: "Espèce", v: "Erinaceus europaeus L., 1758" },
-      { k: "UICN mondiale", v: "Potentiellement menacé" }, { k: "Liste rouge CH", v: "Potentiellement menacé (NT)" }
+      { k: "UICN mondiale", v: "Quasi menacé (NT)" }, { k: "Liste rouge CH", v: "Potentiellement menacé (NT)" }
     ],
     nat: [
       { t: "Écologie", d: "Nocturne et solitaire, il fréquente lisières, haies, prairies et surtout jardins et parcs des zones habitées. Il se nourrit d'invertébrés du sol (coléoptères, larves, vers de terre, chenilles, limaces). Hibernation vraie de novembre à mars environ, dans un nid de feuilles." },
@@ -1394,7 +1443,7 @@ Object.assign(FICHES, {
     taxo: [
       { k: "Classe", v: "Oiseaux" }, { k: "Ordre", v: "Accipitriformes" }, { k: "Famille", v: "Accipitridés" },
       { k: "Espèce", v: "Gypaetus barbatus (L., 1758)" }, { k: "Sous-espèce", v: "G. b. barbatus" },
-      { k: "UICN mondiale", v: "Potentiellement menacé" }, { k: "Liste rouge CH", v: "Vulnérable (VU)" }
+      { k: "UICN mondiale", v: "Quasi menacé (NT)" }, { k: "Liste rouge CH", v: "Vulnérable (VU)" }
     ],
     nat: [
       { t: "Écologie", d: "Hôte des massifs montagneux riches en ongulés et en falaises, il exploite surtout les restes de carcasses délaissés par les autres charognards. Il patrouille les versants à basse altitude en vol plané, sur des domaines vitaux de plusieurs centaines de km²." },
@@ -2194,7 +2243,7 @@ Object.assign(FICHES, {
     ],
     facts: [
       { t: "Des plumes pour écrire", d: "Avant le stylo à bille, on taillait les grandes plumes d'oie pour en faire des plumes à écrire." },
-      { t: "Des yeux bleus", d: "L'oie de Diepholz a des yeux bleu clair, ce qui est rare chez les oiseaux de la ferme." },
+      { t: "Des yeux bleus", d: "L'oie de Diepholz a des yeux bleu clair, une marque de la race, comme chez beaucoup d'oies domestiques blanches." },
       { t: "Une alarme vivante", d: "Les oies cacardent bruyamment à l'arrivée d'un inconnu : on les utilisait comme gardiennes de la ferme." },
       { t: "Une cousine sauvage", d: "Toutes nos oies domestiques européennes descendent de l'oie cendrée, qui vit encore à l'état sauvage." }
     ],
@@ -2833,7 +2882,7 @@ var STATS = {
   },
   "raton": {
     weight: [4, 9], weightNote: "mâles plus lourds, plus gras en automne",
-    lifeWild: [3, 5], lifeCaptive: [16, 21],
+    lifeWild: [3, 5], lifeCaptive: [10, 15],
     size: { label: "Longueur", cm: [40, 70] },
     diet: "Omnivore", activity: "Nocturne",
     young: "2 à 5 jeunes", gestation: "≈ 63 jours de gestation"
@@ -2871,17 +2920,17 @@ var STATS = {
     lifeWild: [25, 30], lifeCaptive: [35, 40],
     size: { label: "Envergure", cm: [230, 280] },
     diet: "Charognard", activity: "Diurne",
-    young: "1 œuf", gestation: "48 à 55 jours d'incubation"
+    young: "1 œuf", gestation: "52 à 58 jours d'incubation"
   },
   "gypaete": {
     weight: [4.5, 7], weightNote: "femelle un peu plus lourde",
     lifeWild: [20, 30], lifeCaptive: [40, 45],
     size: { label: "Envergure", cm: [260, 290] },
     diet: "Charognard", activity: "Diurne",
-    young: "1 à 2 œufs (1 jeune élevé)", gestation: "≈ 53 jours d'incubation"
+    young: "1 à 2 œufs (1 jeune élevé)", gestation: "53 à 58 jours d'incubation"
   },
   "bouquetin": {
-    weight: [35, 100], weightNote: "étagnes 35–60 kg, boucs 65–100 kg",
+    weight: [35, 110], weightNote: "étagnes 35–60 kg, boucs 65–100 kg",
     lifeWild: [15, 20], lifeCaptive: [20, 24],
     size: { label: "Hauteur au garrot", cm: [65, 95] },
     diet: "Herbivore", activity: "Diurne",
@@ -2966,7 +3015,7 @@ var STATS = {
   },
   "tortue": {
     weight: [0.5, 1.5], weightNote: "femelles plus grandes",
-    lifeWild: [50, 80], lifeCaptive: [60, 100],
+    lifeWild: [30, 50], lifeCaptive: [60, 100],
     size: { label: "Longueur", cm: [12, 20] },
     diet: "Herbivore", activity: "Diurne",
     young: "2 à 6 œufs", gestation: "≈ 2 à 3 mois d'incubation"
@@ -3050,6 +3099,48 @@ var STATS = {
   }
 };
 
+// « À observer » : une consigne courte à lire aux enfants devant l'enclos.
+var OBSERVE = {
+  "sanglier": "Cherche son groin qui fouille la terre, et regarde s'il y a une flaque de boue où il se roule.",
+  "lynx": "Cherche les pinceaux noirs au bout de ses oreilles et sa queue toute courte, au bout noir.",
+  "loup": "Observe comment les deux louves se suivent et se saluent : queue, oreilles, museau.",
+  "renard": "Repère sa queue touffue au bout blanc. Dort-il roulé en boule, la queue sur le nez ?",
+  "fouine": "Cherche sa bavette blanche qui descend sur les pattes de devant. Elle se cache souvent : sois patient !",
+  "loutre": "Regarde-la nager : seuls ses yeux, ses oreilles et son nez dépassent de l'eau.",
+  "castor": "Cherche sa queue plate comme une raquette, et les branches rongées en pointe près de la hutte.",
+  "raton": "Regarde ses mains : il tâte tout, comme s'il jouait du piano. Et son masque noir de bandit !",
+  "chat-forestier": "Compare-le à un chat de maison : sa queue est épaisse, avec des anneaux noirs et un bout noir arrondi.",
+  "cerf": "Cherche les bois du mâle. Combien de pointes vois-tu sur chaque bois ?",
+  "herisson": "Il dort souvent la journée : cherche une boule de piquants cachée sous les feuilles.",
+  "ecureuil": "Cherche sa queue en panache et ses oreilles. Cache-t-il une noisette quelque part ?",
+  "vautour": "Regarde son cou presque sans plumes et sa collerette blanche, comme une écharpe.",
+  "gypaete": "Cherche sa « barbe » noire sous le bec et ses yeux cerclés de rouge. Héra est la plus orange !",
+  "bouquetin": "Compte les bourrelets sur les cornes d'Arthur : chaque gros bourrelet, c'est environ une année.",
+  "marmotte": "Écoute : entends-tu un sifflement ? Cherche-la debout sur ses pattes arrière, qui fait le guet.",
+  "ibis": "Regarde sa tête chauve et rouge, et sa crinière de plumes en bataille.",
+  "effraie": "Cherche son visage blanc en forme de cœur. Ses yeux noirs regardent droit devant.",
+  "buse": "Compare les buses entre elles : leurs plumes vont du presque blanc au brun foncé.",
+  "milan-royal": "Cherche sa longue queue rousse, échancrée comme une fourche.",
+  "milan-noir": "Compare-le au milan royal : sa queue est plus sombre et moins fourchue.",
+  "grand-duc": "Cherche ses grands yeux orange et ses deux aigrettes de plumes, comme des oreilles.",
+  "pigeon": "Repère la tache blanche sur son cou et les bandes blanches sur ses ailes.",
+  "etourneau": "Regarde ses plumes de près : elles brillent de vert et de violet, avec de petites étoiles.",
+  "merle": "Le mâle est tout noir avec un bec jaune. La femelle est brune : arrives-tu à les distinguer ?",
+  "cigogne": "Écoute : entends-tu le claquement de son bec ? Cherche ses longues pattes rouges.",
+  "tortue": "Regarde les plaques de sa carapace et cherche le petit ongle au bout de sa queue.",
+  "cistude": "Cherche-la au soleil sur un tronc : sa carapace sombre est piquetée de points jaunes.",
+  "salamandre": "Compte ses taches jaunes : aucune salamandre n'a exactement le même dessin.",
+  "sonneur": "Il est tout petit et gris dessus. Son ventre est jaune vif, mais il le cache souvent !",
+  "crapaud": "Regarde sa peau pleine de pustules et ses yeux dorés aux pupilles horizontales.",
+  "oie": "Observe la famille : qui reste ensemble, et qui se dispute ?",
+  "poule-appenzelloise": "Cherche sa huppe pointue penchée vers l'avant, comme un petit chapeau.",
+  "poule-suisse": "Blanche avec une crête rouge, comme le drapeau suisse à l'envers ! Où est Marcel, le coq ?",
+  "chevre-appenzell": "Cracotte et Biscotte n'ont pas de cornes : regarde leur longue barbiche blanche.",
+  "cochon-laineux": "Regarde ses poils frisés comme ceux d'un mouton. Lequel est Mélissandre, la plus grosse ?",
+  "mouton-saas": "Cherche ses grandes oreilles tombantes. Tache et Blanche échangent-elles leurs gamelles ?",
+  "chevre-grigia": "Regarde les grandes cornes de Skip. Gare aux coups de cornes à l'heure du repas !"
+};
+
 var QUIZ_BADGES = [
   { label: "Série de 5", desc: "5 bonnes réponses d'affilée", streak: 5 },
   { label: "Série de 10", desc: "10 bonnes réponses d'affilée", streak: 10 },
@@ -3060,6 +3151,17 @@ var QUIZ_BADGES = [
 function earnedQuizBadges(best, total) {
   return QUIZ_BADGES.filter(function (b) { return (b.streak && best >= b.streak) || (b.total && total >= b.total); }).map(function (b) { return b.label; });
 }
+var SEEN_BADGES = [
+  { label: "Premier tampon", desc: "Voir 1 animal", test: function (seen) { return seen.length >= 1; } },
+  { label: "Explorateur", desc: "Voir 10 animaux", test: function (seen) { return seen.length >= 10; } },
+  { label: "Grand explorateur", desc: "Voir 25 animaux", test: function (seen) { return seen.length >= 25; } },
+  { label: "Carnet complet", desc: "Voir tous les animaux", test: function (seen) { return ANIMALS.every(function (a) { return seen.indexOf(a.id) >= 0; }); } },
+  { label: "Ami des loups et des lynx", desc: "Tout voir chez les loups, lynx et sangliers", test: function (seen) { return zoneSeen(seen, "lynx"); } },
+  { label: "Fermier en herbe", desc: "Tout voir à la fermette", test: function (seen) { return zoneSeen(seen, "ferme"); } },
+  { label: "Seigneur des airs", desc: "Tout voir dans la grande volière", test: function (seen) { return zoneSeen(seen, "voliere"); } }
+];
+function zoneSeen(seen, key) { var z = ANIMALS.filter(function (a) { return a.sector === key; }); return z.length > 0 && z.every(function (a) { return seen.indexOf(a.id) >= 0; }); }
+function earnedSeenBadges(seen) { return SEEN_BADGES.filter(function (b) { return b.test(seen); }).map(function (b) { return b.label; }); }
 var CONFETTI = [];
 (function () {
   var colors = ["#E8A33D", "#3F7D58", "#111C1C", "#9FCCB0", "#C9483A", "#F3C46B"];
@@ -3174,7 +3276,7 @@ var GEN_ESPECES = [
     var ids = pickDistinct(wildIds(), function (id) { return mid(STATS[id].lifeWild); }, 4, 1.25, 4);
     if (!ids) return null;
     var best = ids.slice().sort(function (x, y) { return mid(STATS[y].lifeWild) - mid(STATS[x].lifeWild); })[0];
-    return single("Espèces · longévité", "Lequel vit le plus longtemps dans la nature ?", spName(best), ids.filter(function (i) { return i !== best; }).map(spName),
+    return single("Espèces · longévité", "Lequel vit en général le plus longtemps dans la nature ?", spName(best), ids.filter(function (i) { return i !== best; }).map(spName),
       ids.map(function (i) { return spName(i) + " : " + fmtYears(STATS[i].lifeWild); }).join(" · "), null);
   },
   function weightOf() {
@@ -3202,22 +3304,25 @@ var GEN_ESPECES = [
     var id = pick(wildIds()), s = STATS[id];
     if (s.lifeCaptive[1] <= s.lifeWild[1]) return null;
     var gapPct = Math.round((mid(s.lifeCaptive) / mid(s.lifeWild) - 1) * 100);
-    var opts = ["Environ deux fois plus longtemps en captivité", "Un peu plus longtemps en captivité", "Plus longtemps dans la nature", "Autant dans les deux cas"];
-    var correct = gapPct >= 70 ? opts[0] : opts[1];
+    var ratio = mid(s.lifeCaptive) / mid(s.lifeWild);
+    var opts = ["Au moins trois fois plus longtemps en captivité", "Environ deux fois plus longtemps en captivité", "Un peu plus longtemps en captivité", "Plus longtemps dans la nature"];
+    var correct = ratio >= 2.6 ? opts[0] : ratio >= 1.6 ? opts[1] : opts[2];
     return single("Espèces · longévité", "Nature ou captivité : où " + the(id) + " vit-" + pron(id) + " le plus longtemps ?", correct, opts.filter(function (o) { return o !== correct; }),
       "Dans la nature : " + fmtYears(s.lifeWild) + ". En captivité : " + fmtYears(s.lifeCaptive) + " (soins, nourriture régulière, pas de prédateurs).", id);
   },
   function diet() {
     var id = pick(statIds()), d = STATS[id].diet;
     var all = Object.keys(DIET_KID);
-    var conflicts = { "Carnivore": ["Charognard", "Piscivore", "Insectivore"], "Charognard": ["Carnivore"], "Piscivore": ["Carnivore"], "Omnivore": [], "Insectivore": ["Carnivore"], "Herbivore": ["Granivore"], "Granivore": ["Herbivore"] };
+    var conflicts = { "Carnivore": ["Charognard", "Piscivore", "Insectivore", "Omnivore"], "Charognard": ["Carnivore"], "Piscivore": ["Carnivore"], "Omnivore": ["Carnivore", "Insectivore", "Granivore"], "Insectivore": ["Carnivore", "Omnivore"], "Herbivore": ["Granivore"], "Granivore": ["Herbivore", "Omnivore"] };
     var wrong = shuffle(all.filter(function (x) { return x !== d && (conflicts[d] || []).indexOf(x) < 0; })).slice(0, 3).map(function (x) { return DIET_KID[x]; });
     return single("Espèces · régime", "Que mange " + the(id) + " ?", DIET_KID[d], wrong, The(id) + " est " + d.toLowerCase() + ".", id);
   },
   function activity() {
     var id = pick(statIds()), act = STATS[id].activity;
     var map = { "Diurne": "Surtout le jour", "Nocturne": "Surtout la nuit", "Crépusculaire": "À l'aube et au crépuscule", "Jour et nuit": "Aussi bien le jour que la nuit" };
-    var wrong = Object.keys(map).filter(function (k) { return k !== act; }).map(function (k) { return map[k]; });
+    var clash = { "Nocturne": ["Crépusculaire", "Jour et nuit"], "Crépusculaire": ["Nocturne", "Jour et nuit"], "Diurne": [], "Jour et nuit": ["Nocturne", "Crépusculaire", "Diurne"] };
+    var wrong = Object.keys(map).filter(function (k) { return k !== act && (clash[act] || []).indexOf(k) < 0; }).map(function (k) { return map[k]; });
+    if (wrong.length < 1) return null;
     return single("Espèces · mode de vie", "Quand " + the(id) + " est-" + pron(id) + " le plus actif" + (isFem(id) ? "ve" : "") + " ?", map[act], wrong, The(id) + " est " + act.toLowerCase() + ".", id);
   },
   function ficheQuiz() {
@@ -3239,14 +3344,6 @@ var GEN_ESPECES = [
     if (yes.length < 2 || no.length < 2) return null;
     return multi("Espèces · poids", "Lesquels pèsent plus de " + fmtKg(t) + " à l'âge adulte ?", yes.map(spName), no.map(spName),
       yes.concat(no).map(function (i) { return spName(i) + " : " + fmtWeight(STATS[i].weight); }).join(" · "), null);
-  },
-  function mLongLife() {
-    var t = pick([10, 15, 20, 30]);
-    var yes = shuffle(wildIds().filter(function (x) { return STATS[x].lifeWild[0] >= t; })).slice(0, 2 + rnd(2));
-    var no = shuffle(wildIds().filter(function (x) { return STATS[x].lifeWild[1] < t && STATS[x].lifeWild[1] >= t / 3; })).slice(0, 5 - yes.length);
-    if (yes.length < 2 || no.length < 2) return null;
-    return multi("Espèces · longévité", "Lesquels peuvent vivre plus de " + t + " ans dans la nature ?", yes.map(spName), no.map(spName),
-      yes.concat(no).map(function (i) { return spName(i) + " : " + fmtYears(STATS[i].lifeWild); }).join(" · "), null);
   },
   function mDiet() {
     var d = pick(["Carnivore", "Herbivore", "Omnivore"]);
@@ -3335,7 +3432,7 @@ var GEN_PETITS = [
     var ids = pickDistinct(wildIds(), function (id) { return mid(STATS[id].lifeWild); }, 2, 1.6, 10);
     if (!ids) return null;
     var best = mid(STATS[ids[0]].lifeWild) > mid(STATS[ids[1]].lifeWild) ? ids[0] : ids[1];
-    return single("Duel · longévité", "Duel ! Qui vit le plus longtemps dans la nature ?", spName(best), [spName(ids[0] === best ? ids[1] : ids[0])],
+    return single("Duel · longévité", "Duel ! Qui vit en général le plus longtemps dans la nature ?", spName(best), [spName(ids[0] === best ? ids[1] : ids[0])],
       spName(ids[0]) + " : " + fmtYears(STATS[ids[0]].lifeWild) + " · " + spName(ids[1]) + " : " + fmtYears(STATS[ids[1]].lifeWild), best);
   },
   function duelBig() {
@@ -3352,10 +3449,11 @@ var GEN_PETITS = [
   function whatDoesItEat() {
     var id = pick(statIds()), d = STATS[id].diet;
     var simple = { "Carnivore": "De la viande", "Charognard": "Des animaux morts", "Piscivore": "Des poissons", "Herbivore": "Des plantes", "Granivore": "Des graines", "Omnivore": "Un peu de tout", "Insectivore": "Des insectes" };
-    var opts = ["De la viande", "Des plantes", "Un peu de tout"];
+    var animalFood = ["Carnivore", "Charognard", "Piscivore", "Insectivore"];
     var correct = simple[d];
-    var wrong = shuffle(opts.filter(function (o) { return o !== correct; })).slice(0, 2);
-    if (opts.indexOf(correct) < 0) wrong = shuffle(opts).slice(0, 2);
+    var wrong = animalFood.indexOf(d) >= 0 ? ["Des plantes", "Des graines"]
+      : d === "Omnivore" ? ["Seulement des graines", "Seulement des poissons"]
+      : d === "Herbivore" ? ["De la viande", "Des poissons"] : ["De la viande", "Des poissons"];
     return single("Petits explorateurs", "Que mange " + the(id) + " ?", correct, wrong, The(id) + " mange : " + correct.toLowerCase() + ".", id);
   },
   function whoIsKid() {
@@ -3385,7 +3483,7 @@ class Component extends DCLogic {
     var saved = {};
     try { saved = JSON.parse(window.localStorage.getItem("garenne-carnet") || "{}") || {}; } catch (e) { saved = {}; }
     this.state = { view: r.view, seen: saved.seen || [], qGoodAll: saved.goodAll || 0, qNewBadge: "", mode: "public", sector: "all", spot: 24, answers: {}, funIdx: Math.floor(Math.random() * FUN_LIST.length),
-      statSort: "name", qMode: "all", qq: makeQuestion("all"), qGood: 0, qTotal: 0, qStreak: 0, qBest: saved.best || 0 };
+      statSort: "name", qMode: "petits", qq: makeQuestion("petits"), qGood: 0, qTotal: 0, qStreak: 0, qBest: saved.best || 0 };
   }
   // Adresses : #lynx (fiche), #pensionnaires, #chiffres, #quiz, #plan ; ?mode=nat pour le mode naturaliste.
   readRoute() {
@@ -3401,8 +3499,12 @@ class Component extends DCLogic {
     try { window.localStorage.setItem("garenne-carnet", JSON.stringify({ seen: st.seen, best: st.qBest, goodAll: st.qGoodAll })); } catch (e) {}
   }
   toggleSeen(id) {
+    var self = this;
     var seen = this.state.seen.indexOf(id) >= 0 ? this.state.seen.filter(function (x) { return x !== id; }) : this.state.seen.concat([id]);
-    this.save({ seen: seen });
+    var before = earnedSeenBadges(this.state.seen), after = earnedSeenBadges(seen);
+    var fresh = after.filter(function (b) { return before.indexOf(b) < 0; });
+    this.save({ seen: seen, toast: fresh.length ? fresh[fresh.length - 1] : "" });
+    if (fresh.length) setTimeout(function () { self.setState({ toast: "" }); }, 3300);
   }
   componentDidMount() {
     var self = this, r = this.readRoute();
@@ -3458,17 +3560,18 @@ class Component extends DCLogic {
       var has = !!FICHES[a.id];
       return {
         name: a.name, latin: a.latin, cls: a.cls, nick: a.nick || "", img: a.img, pos: POS[a.id] || "50% 50%",
-        zone: SPOT_OF[a.name] ? "n° " + SPOT_OF[a.name] + " sur le plan · " + sectorLabel(a.sector) : sectorLabel(a.sector) + " (emplacement à préciser)",
+        zone: SPOT_OF[a.name] ? "n° " + SPOT_OF[a.name] + " sur le plan · " + sectorLabel(a.sector) : sectorLabel(a.sector),
         hasFiche: has, noFiche: !has, seen: st.seen.indexOf(a.id) >= 0,
         open: function () { self.go(a.id); }
       };
     };
 
+    var allSeenAt = function (n) { var at = ANIMALS.filter(function (a) { return SPOT_OF[a.name] === n; }); return at.length > 0 && at.every(function (a) { return st.seen.indexOf(a.id) >= 0; }); };
     var spots = SPOTS.map(function (p) {
       var on = st.spot === p.n;
       return {
-        n: p.n, label: p.label, active: on, aria: "N° " + p.n + " : " + p.label,
-        style: "position: absolute; left: " + p.x + "%; top: " + p.y + "%; transform: translate(-50%, -50%); width: 34px; height: 34px; border-radius: 999px; padding: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; " +
+        n: allSeenAt(p.n) ? "✓" : p.n, label: p.label, active: on, aria: "N° " + p.n + " : " + p.label + (allSeenAt(p.n) ? " (déjà vu)" : ""),
+        style: "position: absolute; left: " + p.x + "%; top: " + p.y + "%; transform: translate(-50%, -50%); width: 30px; height: 30px; border-radius: 999px; padding: 0; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; " +
           (on ? "background: #E8A33D; color: #111C1C; border: 3px solid #111C1C; z-index: 2; box-shadow: 0 0 0 5px rgba(232,163,61,0.35);" : "background: #3F7D58; color: #FFFFFF; border: 2px solid #FFFFFF; box-shadow: 0 2px 0 #1E4530;"),
         pick: function () {
           self.setState({ spot: p.n });
@@ -3509,14 +3612,14 @@ class Component extends DCLogic {
     var animal = animalById(fid) || {};
     var spotN = raw.spot || SPOT_OF[animal.name] || 0;
     var spotInfo = spotByN(spotN);
-    var maxCm = 120;
     var sizes = (raw.sizes || []).map(function (z) {
-      return { label: z.label, cm: z.cm + " cm", style: "width: 100%; max-width: 72px; border-radius: 12px 12px 0 0; background: " + z.color + "; height: " + Math.round(Math.min(z.cm, maxCm) / maxCm * 160) + "px;" };
+      if (/^Enfant/.test(z.label)) z = { label: "Un enfant de 8 ans", cm: 128, color: z.color };
+      return { label: z.label, cm: z.cm + " cm", style: "width: 100%; max-width: 72px; border-radius: 12px 12px 0 0; background: " + z.color + "; height: " + Math.round(Math.min(z.cm, 140) / 140 * 160) + "px;" };
     });
     var f = {
       name: raw.name, latin: raw.latin, tagline: raw.tagline,
       sector: raw.sector || sectorLabel(animal.sector),
-      meet: raw.meet || ("À La Garenne : " + (animal.nick ? animal.nick + ", " : "") + (spotInfo ? "n° " + spotN + " sur le plan (" + spotInfo.label + ")" : "emplacement à préciser")),
+      meet: raw.meet || ("À La Garenne : " + (animal.nick ? animal.nick + ", " : "") + (spotInfo ? "n° " + spotN + " sur le plan (" + spotInfo.label + ")" : sectorLabel(animal.sector).toLowerCase())),
       img: raw.img || animal.img, imgAlt: raw.imgAlt || (animal.name + " à La Garenne"), pos: POS[fid] || "50% 50%",
       fun: FUN[fid] || [], hasFun: !!(FUN[fid] && FUN[fid].length),
       indiv: INDIVIDUS.filter(function (i) { return i.species === fid; }).map(function (ind) {
@@ -3541,6 +3644,7 @@ class Component extends DCLogic {
         return r;
       }),
       seen: st.seen.indexOf(fid) >= 0,
+      observe: OBSERVE[fid] || "", hasObserve: !!OBSERVE[fid],
       seenLabel: st.seen.indexOf(fid) >= 0 ? "✓ Vu ! (dans mon carnet)" : "J'ai vu cet animal !",
       seenStyle: st.seen.indexOf(fid) >= 0
         ? "background: #3F7D58; color: #FFFFFF; border: 2px solid #9FCCB0; border-radius: 999px; padding: 10px 18px; min-height: 44px; font-size: 15px; font-weight: 700;"
@@ -3633,7 +3737,14 @@ class Component extends DCLogic {
       };
     };
     var order = ANIMALS.map(function (a) { return a.id; });
-    var indivs = INDIVIDUS.slice().sort(function (x, y) { return order.indexOf(x.species) - order.indexOf(y.species); }).map(indivItem);
+    var CROPS = ["", "transform: scale(1.4); transform-origin: 25% 40%;", "transform: scale(1.4); transform-origin: 75% 55%;", "transform: scale(1.5); transform-origin: 50% 80%;", "transform: scale(1.5); transform-origin: 20% 75%;", "transform: scale(1.5); transform-origin: 80% 25%;"];
+    var seenSp = {};
+    var indivs = INDIVIDUS.slice().sort(function (x, y) { return order.indexOf(x.species) - order.indexOf(y.species); }).map(function (ind) {
+      var it = indivItem(ind), k = seenSp[ind.species] || 0;
+      seenSp[ind.species] = k + 1;
+      it.crop = CROPS[k % CROPS.length];
+      return it;
+    });
 
     // ----- espèces en chiffres -----
     var maxLife = 0;
@@ -3720,7 +3831,11 @@ class Component extends DCLogic {
         else if (isSel) look = "background: #FBE3E0; color: #8A1C12; border: 2px solid #C9483A; text-decoration: line-through;";
         else look = "background: #FFFFFF; color: #5B6472; border: 2px solid #E3DFD3;";
         return {
-          label: (qq.multi && !qAnswered ? (isSel ? "☑  " : "☐  ") : "") + label + suffix,
+          label: label + suffix,
+          boxMark: isSel ? "✓" : "",
+          boxStyle: qq.multi && !qAnswered
+            ? "display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; margin-right: 10px; vertical-align: -6px; border-radius: 7px; font-size: 16px; font-weight: 800; " + (isSel ? "background: #E8A33D; border: 2px solid #111C1C; color: #111C1C;" : "background: #FFFFFF; border: 2px solid #8A929E; color: transparent;")
+            : "display: none;",
           pressed: qq.multi ? String(isSel) : "false", style: base + look,
           pick: function () {
             var cur = self.state.qq;
@@ -3738,24 +3853,25 @@ class Component extends DCLogic {
     var seenPct = Math.round(seenCount / ANIMALS.length * 100);
     var zoneDone = function (key) { var z = ANIMALS.filter(function (a) { return a.sector === key; }); return z.length > 0 && z.every(function (a) { return st.seen.indexOf(a.id) >= 0; }); };
     var quizEarned = earnedQuizBadges(st.qBest, st.qGoodAll);
-    var badgeDefs = [
-      { label: "Premier tampon", desc: "Voir 1 animal", ok: seenCount >= 1 },
-      { label: "Explorateur", desc: "Voir 10 animaux", ok: seenCount >= 10 },
-      { label: "Grand explorateur", desc: "Voir 25 animaux", ok: seenCount >= 25 },
-      { label: "Carnet complet", desc: "Voir tous les animaux", ok: seenCount === ANIMALS.length },
-      { label: "Ami des loups et des lynx", desc: "Tout voir chez les loups, lynx et sangliers", ok: zoneDone("lynx") },
-      { label: "Fermier en herbe", desc: "Tout voir à la fermette", ok: zoneDone("ferme") },
-      { label: "Seigneur des airs", desc: "Tout voir dans la grande volière", ok: zoneDone("voliere") }
-    ].concat(QUIZ_BADGES.map(function (b) { return { label: b.label, desc: b.desc, ok: quizEarned.indexOf(b.label) >= 0 }; }));
-    var badges = badgeDefs.map(function (b) {
-      return { label: b.label, desc: b.desc, style: "display: flex; gap: 12px; align-items: center; border-radius: 18px; padding: 14px; " +
-        (b.ok ? "background: #E8A33D; color: #111C1C; border: 2px solid #111C1C; box-shadow: 3px 3px 0 #111C1C;" : "background: #FFFFFF; color: #8A929E; border: 2px dashed #D9D3C3;") };
+    var seenEarned = earnedSeenBadges(st.seen);
+    var badgeDefs = SEEN_BADGES.map(function (b) { return { label: b.label, desc: b.desc, ok: seenEarned.indexOf(b.label) >= 0 }; })
+      .concat(QUIZ_BADGES.map(function (b) { return { label: b.label, desc: b.desc, ok: quizEarned.indexOf(b.label) >= 0 }; }));
+    var MEDALS = ["#E8A33D", "#9FCCB0", "#F3C46B", "#C9A27A", "#7FB3D5", "#E38B7A"];
+    var badges = badgeDefs.map(function (b, i) {
+      return { label: b.label, desc: b.desc,
+        medal: b.ok ? MEDALS[i % MEDALS.length] : "#EFEBE0", ribbon: b.ok ? "#3F7D58" : "#E3DFD3", star: b.ok ? "#FFFFFF" : "#D9D3C3",
+        style: "display: flex; gap: 12px; align-items: center; border-radius: 18px; padding: 12px; " +
+        (b.ok ? "background: #FFFFFF; color: #111C1C; border: 2px solid #111C1C; box-shadow: 3px 3px 0 #E8A33D;" : "background: #FFFFFF; color: #8A929E; border: 2px dashed #D9D3C3;") };
     });
-    var stamps = ANIMALS.map(function (a) {
+    var route = ANIMALS.slice().sort(function (x, y) { return (SPOT_OF[x.name] || 99) - (SPOT_OF[y.name] || 99); });
+    var stamps = route.map(function (a) {
       var on = st.seen.indexOf(a.id) >= 0;
+      var n = SPOT_OF[a.name];
       return {
-        name: a.name, img: a.img, seen: on,
-        imgStyle: "width: 100%; height: 100%; object-fit: cover; object-position: " + (POS[a.id] || "50% 50%") + "; display: block; " + (on ? "" : "filter: grayscale(1); opacity: 0.55;"),
+        name: a.name, img: a.img, seen: on, observe: OBSERVE[a.id] || "",
+        num: n ? String(n) : "·",
+        numStyle: "display: inline-flex; align-items: center; justify-content: center; min-width: 24px; height: 24px; border-radius: 999px; font-size: 12px; margin-right: 4px; " + (on ? "background: #E8A33D; color: #111C1C;" : "background: #3F7D58; color: #FFFFFF;"),
+        imgStyle: "width: 100%; height: 100%; object-fit: cover; object-position: " + (POS[a.id] || "50% 50%") + "; display: block; " + (on ? "" : "filter: saturate(0.55) brightness(1.05);"),
         boxStyle: "background: #FFFFFF; border-radius: 18px; padding: 10px; display: flex; flex-direction: column; gap: 8px; " + (on ? "border: 2px solid #3F7D58; box-shadow: 3px 3px 0 #3F7D58;" : "border: 1px solid #E3DFD3;"),
         btnLabel: on ? "✓ Vu" : "J'ai vu !",
         btnStyle: "border-radius: 999px; padding: 8px 12px; min-height: 40px; font-size: 14px; font-weight: 700; " + (on ? "background: #3F7D58; color: #FFFFFF; border: 2px solid #3F7D58;" : "background: #F6F3EA; color: #111C1C; border: 2px solid #D9D3C3;"),
@@ -3764,7 +3880,30 @@ class Component extends DCLogic {
       };
     });
 
+    // ----- barre d'onglets mobile -----
+    var ICONS = {
+      animaux: "M4 20c1.5-4 4.5-6 8-6s6.5 2 8 6M9 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm6 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM6 12a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm12 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z",
+      plan: "M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2zm0 0v14m6-12v14",
+      quiz: "M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2.5-3 4.5M12 18h.01M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z",
+      carnet: "M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4zm0 13a3 3 0 0 1 3-3h11M9 8h6",
+      plus: "M12 5v14M5 12h14"
+    };
+    var tabDefs = [
+      { key: "home", label: "Animaux", icon: ICONS.animaux, go: function () { self.go("home", "animaux"); } },
+      { key: "plan", label: "Plan", icon: ICONS.plan, go: function () { self.go("home", "plan"); } },
+      { key: "quiz", label: "Quiz", icon: ICONS.quiz, go: function () { self.go("quiz"); } },
+      { key: "carnet", label: "Carnet " + st.seen.length + "/" + ANIMALS.length, icon: ICONS.carnet, go: function () { self.go("carnet"); } },
+      { key: "more", label: "Plus", icon: ICONS.plus, go: function () { self.go(st.view === "indiv" ? "stats" : "indiv"); } }
+    ];
+    var activeTab = st.view === "quiz" ? "quiz" : st.view === "carnet" ? "carnet" : (st.view === "indiv" || st.view === "stats") ? "more" : "home";
+    var tabs = tabDefs.map(function (t) {
+      var on = t.key === activeTab;
+      return { label: t.key === "more" ? (st.view === "indiv" ? "Chiffres" : "Pensionnaires") : t.label, icon: t.icon, go: t.go, current: on ? "page" : "false",
+        style: "flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 6px 2px; min-height: 52px; border: 0; border-radius: 14px; " + (on ? "background: #3F7D58; color: #FFFFFF;" : "background: transparent; color: #D5E0DA;") };
+    });
+
     return {
+      tabs: tabs, hasToast: !!st.toast, toast: st.toast || "", confetti: CONFETTI,
       seenCount: seenCount, seenPct: seenPct, seenBar: "height: 100%; background: #E8A33D; border-radius: 999px; width: " + seenPct + "%;",
       badges: badges, badgeCount: badgeDefs.filter(function (b) { return b.ok; }).length, badgeTotal: badgeDefs.length, stamps: stamps,
       resetCarnet: function () { var ok = true; try { ok = window.confirm("Effacer les animaux vus et les badges ?"); } catch (e) {} if (ok) self.save({ seen: [], qBest: 0, qGoodAll: 0 }); },
